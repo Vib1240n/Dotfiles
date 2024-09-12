@@ -1,0 +1,235 @@
+# This is a demo config to showcase some of the most important commands.
+# It is meant to be changed and configured, as it is intentionally kept sparse.
+# For a (much) more advanced configuration example see my dotfiles:
+# https://github.com/FelixKratz/dotfiles
+
+source "$CONFIG_DIR/colors.sh"
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+ITEM_DIR="$CONFIG_DIR/items"
+
+##### Bar Appearance #####
+# Configuring the general appearance of the bar.
+# These are only some of the options available. For all options see:
+# https://felixkratz.github.io/SketchyBar/config/bar
+# If you are looking for other colors, see the color picker:
+# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+
+sketchybar --bar position=top height=45 blur_radius=20 color=0x4d2c2e34 font_smoothing=on
+
+##### Changing Defaults #####
+# We now change some default values, which are applied to all further items.
+# For a full list of all available item properties see:
+# https://felixkratz.github.io/SketchyBar/config/items
+
+default=(
+  padding_left=5
+  padding_right=5
+  icon.font="SF Pro:Semibold:15.0"
+  label.font="SF Pro:Semibold:15.0"
+  icon.color=$BLACK
+  label.color=$BLACK
+  icon.padding_left=4
+  icon.padding_right=4
+  label.padding_left=4
+  label.padding_right=4
+  background.color=$GREY
+  background.corner_radius=10
+  background.height=24
+)
+sketchybar --default "${default[@]}"
+
+##### Adding a Clock and Calendar#####
+
+source $ITEM_DIR/calendar.sh
+source $ITEM_DIR/volume.sh
+source $ITEM_DIR/battery.sh
+##### Adding Mission Control Space Indicators #####
+# Let's add some mission control spaces:
+# https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
+# to indicate active and available mission control spaces.
+
+##### Adding Left Items #####
+# We add some regular items to the left side of the bar, where
+# only the properties deviating from the current defaults need to be set
+
+
+##### Adding Right Items #####
+# In the same way as the left items we can add items to the right side.
+# Additional position (e.g. center) are available, see:
+# https://felixkratz.github.io/SketchyBar/config/items#adding-items-to-sketchybar
+# sketchybar 	--add event hide_stats \
+#            	--add event show_stats \
+#            	--add event toggle_stats \
+#            	--add item animator right  \
+#            	--set animator drawing=off \
+#                            updates=on \
+#                            script="$PLUGIN_DIR/toggle_stats.sh" \
+#            	--subscribe animator hide_stats show_stats toggle_stats
+
+# cpu_percent=(
+# 	label.font="SF Pro:Semibold:15.0"
+# 	label=CPU%
+# 	label.color="$WHITE"
+# 	icon="􀫥"
+# 	icon.color="$WHITE"
+# 	update_freq=2
+# 	mach_helper="$HELPER"
+# 	script="$PLUGIN_DIR/stats/scripts/cpu.sh"
+# )
+
+# # sketchybar 	--add item cpu.percent right \
+# # 			--set cpu.percent "${cpu_percent[@]}"
+
+
+# memory=(
+#     label.font="SF Pro:Semibold:15.0"
+# 	label.color="$WHITE"
+# 	icon="􀫦"
+# 	icon.font="SF Pro:Medium:16.0"
+# 	icon.color="$WHITE"
+# 	update_freq=15
+# 	script="$PLUGIN_DIR/stats/scripts/ram.sh"
+# )
+
+# # sketchybar 	--add item memory right \
+# # 			--set memory "${memory[@]}"
+
+# disk=(
+# 	label.font="SF Pro:Semibold:15.0"
+# 	label.color=0xff008f0a
+# 	icon="􀧘"
+# 	icon.color="$WHITE"
+# 	update_freq=60
+# 	script="$PLUGIN_DIR/stats/scripts/disk.sh"
+# )
+
+# sketchybar --add item disk right \
+# 		   --set disk "${disk[@]}"
+
+# network_down=(
+# 	# y_offset=-5
+# 	label.font="SF Pro:Light:10.0"
+# 	label.color=$BLUE
+# 	icon="􁾭"
+# 	icon.font="SF Pro:Light:10.0"
+# 	icon.color=$WHITE
+# 	icon.highlight_color=$ITEM_BG_COLOR
+# 	update_freq=1
+# )
+
+# network_up=(
+# 	# background.padding_right=-70
+# 	# y_offset=5
+# 	label.font="SF Pro:Light:10.0"
+# 	label.color=$GREEN
+# 	icon="􁾩"
+# 	icon.font="SF Pro:Light:10.0"
+# 	icon.color=$WHITE
+# 	icon.highlight_color=$ITEM_BG_COLOR
+# 	update_freq=1
+# 	script="$PLUGIN_DIR/stats/scripts/network.sh"
+# )
+
+# sketchybar 	--add item network.down right \
+# 			--set network.down "${network_down[@]}" \
+# 			--add item network.up right \
+# 			--set network.up "${network_up[@]}"
+
+
+# separator_right=(
+# 	icon=􀆉
+# 	icon.font="SF Pro:Semibold:15.0"
+# 	background.padding_left=10
+# 	background.padding_right=15
+# 	label.drawing=off
+# 	click_script='sketchybar --trigger toggle_stats'
+# 	icon.color=$WHITE
+# )
+
+# sketchybar  --add item separator_right right \
+# 	        --set separator_right "${separator_right[@]}"
+
+# statsMenu=(
+#       icon=􀆈
+#       icon.font="SF Pro:Bold:16.0"
+#       label.drawing=on
+#       popup.background.border_width=2
+#       popup.background.corner_radius=3
+#       popup.background.border_color=$BAR_COLOR
+#       popup.height=200
+#       script="$PLUGIN_DIR/stats/stats_popup.sh"
+# )
+# sketchybar  --add item stats.menu right \
+#             --set stats.menu "${statsMenu[@]}" \
+#                   click_script="sketchybar -m --set stats.menu popup.drawing=toggle" \
+#             --subscribe stats.menu system_woke mouse.clicked mouse.entered mouse.exited mouse.exited.global\
+
+# taskwarrior=(
+#   script="$PLUGIN_DIR/taskwarrior.sh"
+#   update_freq=120
+#   icon=󱃔
+#   icon.color=$ORANGE
+#   label.color=$ORANGE
+# )
+# task_template=(
+#   drawing=off
+#   background.corner_radius=12
+#   padding_left=7
+#   padding_right=7
+# )
+# events=(
+#   mouse.entered
+#   mouse.exited
+# )
+# sketchybar --add item taskwarrior right \
+#   --set taskwarrior "${taskwarrior[@]}" \
+#   --subscribe taskwarrior "${events[@]}" \
+#   --add item task.template popup.taskwarrior \
+#   --set task.template "${task_template[@]}"
+
+
+
+sketchybar -m --add item apple.logo left \
+              --set apple.logo icon=􀣺 \
+                               icon.font="SF Pro:Bold:16.0" \
+                               label.drawing=on \
+                               click_script="sketchybar -m --set \$NAME popup.drawing=toggle" \
+                               popup.background.border_width=12 \
+                               popup.background.corner_radius=0 \
+                               popup.background.border_color=$GREY \
+              --default background.padding_left=5 \
+                        background.padding_right=5 \
+                        icon.padding_right=5 \
+                        icon.font="SF Pro:Bold:16.0" \
+                        label.font="SF Pro:Semibold:13.0" \
+              --add item apple.preferences popup.apple.logo \
+              --set apple.preferences icon=􀺽 \
+                               label="Preferences" \
+                               click_script="open -a 'System Preferences';
+                                             sketchybar -m --set apple.logo popup.drawing=off" \
+              --add item apple.activity popup.apple.logo \
+              --set apple.activity icon=􀒓 \
+                               label="Activity" \
+                               click_script="open -a 'Activity Monitor'; sketchybar -m --set apple.logo popup.drawing=off" \
+              --add item apple.lock popup.apple.logo \
+              --set apple.lock icon=􀒳 \
+                               label="Lock Screen" \
+                               click_script="pmset displaysleepnow; sketchybar -m --set apple.logo popup.drawing=off"
+source $ITEM_DIR/front_app.sh
+source $ITEM_DIR/spaces.sh
+
+# sketchybar -m --add item net right                  \
+#            --set -x net script="$PLUGIN_DIR/stats/net.sh" \
+#                      updates=on                  \
+#                      label.drawing=off           \
+#                      click_script="sketchybar --trigger wifi_change" \
+#            --subscribe net wifi_change
+
+# Some items refresh on a fixed cycle, e.g. the clock runs its script once
+# every 10s. Other items respond to events they subscribe to, e.g. the
+# volume.sh script is only executed once an actual change in system audio
+# volume is registered. More info about the event system can be found here:
+# https://felixkratz.github.io/SketchyBar/config/events
+
+##### Force all scripts to run the first time (never do this in a script) #####
+sketchybar --update

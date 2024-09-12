@@ -1,0 +1,65 @@
+#!/usr/bin/env sh
+
+#
+# for this to work you must configure sudo such that
+# it will be able to run the command without password
+#
+# see this wiki page for information:
+#  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#configure-scripting-addition
+#
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+#
+
+# global settings
+yabai -m config focus_follows_mouse autofocus
+
+echo "yabai configuration loaded.."
+
+# bsp, stack, float
+yabai -m config layout bsp
+yabai -m config window_placement second_child
+
+yabai -m config mouse_follows_focus on # focus follows mouse
+yabai -m config mouse_modifier alt # mouse modifier
+yabai -m config mouse_action1 move # mouse action 1
+yabai -m config mouse_action2 resize # mouse action 2
+
+
+yabai -m config window_opacity on
+yabai -m config normal_window_opacity 0.85 # normal window opacity
+yabai -m config active_window_opacity 1 # active window opacity
+
+# apps to ignore or not manage, ignore system settings, finder, colors slurp, Font book, JetBrains Toolbox, Home Assistant,
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Finder$" manage=off
+yabai -m rule --add app="^ColorSlurp$" manage=off
+yabai -m rule --add app="^Font Book$" manage=off
+yabai -m rule --add app="^JetBrains Toolbox$" manage=off
+yabai -m rule --add app="^Home Assistant$" manage=off
+yabai -m rule --add app="^zoom.us$" manage=off
+yabai -m rule --add app="^zoom$" manage=off
+yabai -m rule --add app="^Alfred 5$" manage=off
+yabai -m rule --add app="^iStats Menus$" manage=off
+yabai -m rule --add app="^balenaEtcher$" manage=off
+yabai -m rule --add app="^Home$" manage=off
+yabai -m rule --add app="^Alfred Preferences$" manage=off
+yabai -m rule --add app="^Messages$" manage=off
+yabai -m rule --add app="^Keychain Access$" manage=off
+yabai -m rule --add app="^Preview$" manage=off
+yabai -m rule --add app="^SF Symbols$" manage=off
+yabai -m rule --add app="^TickTick$" manage=off
+
+# set up space for external bar - sketchybar
+# yabai -m config external_bar all:45:0
+
+yabai -m config top_padding 2
+yabai -m config window_topmost off
+yabai -m rule --add app="^Fusion$" title!=".*\[(.*)\].*" manage=off
+yabai -m rule --add app="^Autodesk Fusion 360$" manage=off
+
+yabai -m rule --add label="Fusion" app="^Fusion$" title="(Autodesk Fusion (Education License)|)" manage=off
+yabai -m rule --add label="Fusion" app="^Autodesk Fusion 360$" title="^$"  manage=off
+yabai -m rule --add label="TickTick" app="^Ticktick$" title="^$" manage=off
+yabai -m rule --add label="TickTick" app=^TickTick$" title="^$" manage=off
+yabai -m rule --add label="TickTick" app=^Tick Tick$" title="^$" manage=off
