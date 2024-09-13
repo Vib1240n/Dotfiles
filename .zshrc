@@ -33,7 +33,6 @@ alias phpnod="opt/homebrew/opt/php/sbin/php-fpm --nodaemonize"
 alias zen_update="xattr -c '/Applications/Zen Browser.app/'"
 
 
-
 source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 source $ZSH/oh-my-zsh.sh
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -77,3 +76,4 @@ export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
 export PATH="/opt/homebrew/opt/whois/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+alias ls="lsd -l"
