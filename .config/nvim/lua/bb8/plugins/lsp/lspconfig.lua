@@ -84,6 +84,9 @@ return {
 					capabilities = capabilities,
 				})
 			end,
+			tsserver = function()
+				lspconfig.ts_ls.setup({})
+			end,
 			["svelte"] = function()
 				-- configure svelte server
 				lspconfig["svelte"].setup({
