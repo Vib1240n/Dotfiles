@@ -2,8 +2,7 @@
 export ZSH="$HOME/.oh-my-zsh"
 plugins=(git macos)
 # neofetch
-fastfetch
-
+clear;fastfetch -c ~/.config/fastfetch/left.jsonc; print -n "\e[H"; fastfetch -c ~/.config/fastfetch/right.jsonc
 #custom aliases
 alias mcos="source /Users/bb8/Development/Bash\ Scriptss/mcos.sh"
 alias dev="cd /Users/bb8/Development"
@@ -77,3 +76,5 @@ export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
 export PATH="/opt/homebrew/opt/whois/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
 alias ls="lsd -l"
+alias csr='clear && sr'
+alias ai='cursor'
