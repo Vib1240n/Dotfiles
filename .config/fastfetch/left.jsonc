@@ -8,14 +8,14 @@
     ],
     "key": {
       "type": "icon",
-      "paddingLeft": 2
+      "paddingLeft": 64
     }
   },
   "modules": [
     {
       "type": "custom", // HardwareStart
       // {#1} is equivalent to `\u001b[1m`. {#} is equivalent to `\u001b[m`
-      "format": "┌{$1} {#1}Hardware Information{#} {$1}┐"
+      "format": "┌{$2} {#1}Hardware Information{#} {$2}┐"
     },
     "break",
     "host",
@@ -35,7 +35,7 @@
     "break",
     {
       "type": "custom", // InformationEnd
-      "format": "└{$1}──────────────────────{$1}┘"
+      "format": "└{$2}──────────────────────{$2}┘"
     }
   ]
 }

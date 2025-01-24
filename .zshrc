@@ -2,7 +2,6 @@
 export ZSH="$HOME/.oh-my-zsh"
 plugins=(git macos)
 # neofetch
-clear;fastfetch -c ~/.config/fastfetch/left.jsonc; print -n "\e[H"; fastfetch -c ~/.config/fastfetch/right.jsonc
 #custom aliases
 alias mcos="source /Users/bb8/Development/Bash\ Scriptss/mcos.sh"
 alias dev="cd /Users/bb8/Development"
@@ -36,6 +35,7 @@ source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 source $ZSH/oh-my-zsh.sh
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /Users/bb8/.config/functions/functions.sh
 
 # homebrew exports for formulas
 export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
@@ -58,15 +58,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
-function suyabai () {
-    SHA256=$(shasum -a 256 $(which yabai) | awk "{print \$1;}")
-    if [ -f "/private/etc/sudoers.d/yabai" ]; then
-        sudo sed -i '' -e 's/sha256:[[:alnum:]]*/sha256:'${SHA256}'/' /private/etc/sudoers.d/yabai
-        echo "sudoers > yabai > sha256 hash update complete"
-    else
-        echo "sudoers file does not exist yet. Please create one before running this script."
-    fi
-}
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 PRELINE="\r\033[A"
 
@@ -78,3 +69,12 @@ export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
 alias ls="lsd -l"
 alias csr='clear && sr'
 alias ai='cursor'
+
+alias vidconvert="source ~/Development/Bash\ Scriptss/vidconvert.sh"
+alias haos="ssh -i ~/.ssh/id_rsa root@192.168.5.38 -p 22"
+alias finderNotifOn="sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.DiskArbitration.diskarbitrationd.plist DADisableEjectNotification -bool YES && sudo pkill diskarbitrationd"
+alias finderNotifOff="sudo defaults delete Library/Preferences/SystemConfiguration/com.apple.DiskArbitration.diskarbitrationd.plist DADisableEjectNotification && sudo pkill diskarbitrationd"
+# Function to sleep MacBook with optional delay in seconds
+clear;fastfetch -c ~/.config/fastfetch/left.jsonc -l none; print -n "\e[H"; fastfetch -c ~/.config/fastfetch/right.jsonc -l none
+#
+
