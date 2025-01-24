@@ -6,7 +6,7 @@ local act = wezterm.action
 local config = wezterm.config_builder()
 
 -- This is where you actually apply your config choices
-config.font = wezterm.font("Geist Mono")
+config.font = wezterm.font("GeistMono Nerd Font")
 config.font = wezterm.font_with_fallback({
 	"Fira Code",
 	"Jetbrains Nerd Font Mono",
@@ -17,7 +17,6 @@ config.window_background_opacity = 0.75
 config.macos_window_background_blur = 30
 
 -- For example, changing the color scheme:
-config.color_scheme = "Aci (Gogh)"
 config.window_frame = {
 	-- The font used in the tab bar.
 	-- Roboto Bold is the default; this font is bundled
@@ -70,6 +69,11 @@ config.keys = {
 	-- 	mods='ALT',
 	-- 	action = act.SendString("∂")
 	-- }
+	{
+		key = "r",
+		mods = "CMD|SHIFT|ALT",
+		action = wezterm.action.ReloadConfiguration,
+	},
 }
 config.tab_bar_at_bottom = true
 config.send_composed_key_when_left_alt_is_pressed = false
