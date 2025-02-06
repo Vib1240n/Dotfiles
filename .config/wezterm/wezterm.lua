@@ -28,7 +28,7 @@ config.window_frame = {
 
 	-- The size of the font in the tab bar.
 	-- Default to 10.0 on Windows but 12.0 on other systems
-	font_size = 15.0,
+	font_size = 20.0,
 
 	-- The overall background color of the tab bar when
 	-- the window is focused
@@ -38,7 +38,7 @@ config.window_frame = {
 	-- the window is not focused
 	inactive_titlebar_bg = "#333333",
 }
-
+config.font_size = 18
 config.window_decorations = "RESIZE"
 
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
