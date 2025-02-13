@@ -1,7 +1,9 @@
-./config/github-copilot
-./config/wireguard
-./config/zed
-./config/autodesk
-./config/configstore
-./config/flutter
+./config/github-copilot/*
+./config/wireguard/*
+./config/zed/*
+./config/autodesk/*
+./config/configstore/*
+./config/flutter/*
 ./.DS_Store
+./.config/iterm2/*
+

@@ -13,8 +13,8 @@ config.font = wezterm.font_with_fallback({
 })
 
 harfbuzz_features = { "zero", "ss01", "cv05" }
-config.window_background_opacity = 0.75
-config.macos_window_background_blur = 30
+config.window_background_opacity = 0.35
+config.macos_window_background_blur = 50
 
 -- For example, changing the color scheme:
 config.window_frame = {

@@ -36,8 +36,10 @@ source $ZSH/oh-my-zsh.sh
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /Users/bb8/.config/functions/functions.sh
-
-# homebrew exports for formulas
+# source /Users/bb8/Development/git-sync/git-sync
+# source /Users/bb8/Development/git-sync/contrib/git-sync-on-inotify
+ # for f in ~/Development/git-sync/*; do source $f; done
+# # homebrew exports for formulas
 export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
 export CPPFLAGS="-I/opt/homebrew/opt/openjdk@11/include"
