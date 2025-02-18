@@ -24,4 +24,4 @@ alias phpstop="brew services stop php"
 alias phprestart="brew services restart php"
 alias phpnod="opt/homebrew/opt/php/sbin/php-fpm --nodaemonize"
 alias zen_update="xattr -c '/Applications/Zen Browser.app/'"
-
+alias dotfiles="cd ~/Development/dotfiles"
