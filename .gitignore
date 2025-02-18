@@ -6,4 +6,4 @@
 ./config/flutter/*
 ./.DS_Store
 ./.config/iterm2/*
-
+./config/.fastfetch
