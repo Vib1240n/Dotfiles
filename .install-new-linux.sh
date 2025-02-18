@@ -32,3 +32,12 @@ echo "Installing oh my zsh plugins..."
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
+
+
+# Setting up environment
+echo "Configuring Neovim"
+git clone git@github.com:Vib1240n/Dotfiles.git
+cd ./Dotfiles/.config
+mv ./nvim ~/.config/nvim
+cd
+rm -rf ./Dotfiles
