@@ -23,6 +23,7 @@ sleep_mac() {
 }
 
 update_yabai (){
+  brew unpin yabai
   export YABAI_CERT=
   echo "Stopping yabai launchd service"
   yabai --stop-service
@@ -38,6 +39,7 @@ update_yabai (){
   yabai --start-service
   echo "configuring scripting addition"
   sudo yabai --load-sa
+  brew pin yabai
 }
 
 brewd (){

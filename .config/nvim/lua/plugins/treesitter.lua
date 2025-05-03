@@ -1,3 +1,4 @@
+
 -- Customize Treesitter
 
 ---@type LazySpec

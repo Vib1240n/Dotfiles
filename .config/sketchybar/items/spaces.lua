@@ -13,12 +13,12 @@ for i = 1, 10, 1 do
       string = i,
       padding_left = 15,
       padding_right = 8,
-      color = colors.black,
+      color = colors.white,
       highlight_color = colors.red,
     },
     label = {
       padding_right = 20,
-      color = colors.black,
+      color = colors.grey,
       highlight_color = colors.white,
       font = "sketchybar-app-font:Regular:16.0",
       y_offset = -1,
@@ -27,11 +27,11 @@ for i = 1, 10, 1 do
     padding_left = 1,
     background = {
       color = colors.bg1,
-      border_width = 0,
+      border_width = 1,
       height = 26,
       border_color = colors.black,
     },
-    popup = { background = { border_width = 0, border_color = colors.black } }
+    popup = { background = { border_width = 5, border_color = colors.black } }
   })
 
   spaces[i] = space
@@ -42,7 +42,7 @@ for i = 1, 10, 1 do
       color = colors.transparent,
       border_color = colors.bg2,
       height = 28,
-      border_width = 0
+      border_width = 2
     }
   })
 
@@ -127,8 +127,8 @@ space_window_observer:subscribe("space_windows_change", function(env)
   for app, count in pairs(env.INFO.apps) do
     no_app = false
     local lookup = app_icons[app]
-    local icon = ((lookup == nil) and app_icons["default"] or lookup)
-    icon_line = icon_line .. " " .. icon
+    local icon = ((lookup == nil) and app_icons["Default"] or lookup)
+    icon_line = icon_line .. icon
   end
 
   if (no_app) then

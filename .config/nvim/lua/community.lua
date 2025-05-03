@@ -13,5 +13,8 @@ return {
   { import = "astrocommunity.colorscheme.cyberdream-nvim" },
   { import = "astrocommunity.colorscheme.monokai-pro-nvim" },
   { import = "astrocommunity.recipes.telescope-lsp-mappings" },
-  --i iiiimport/override with your folder
+  { import = "astrocommunity.code-runner.compiler-nvim" },
+  { import = "astrocommunity.syntax.hlargs-nvim" },
+  { import = "astrocommunity.editing-support.comment-box-nvim" },
+  -- import/override with your plugins folder
 }

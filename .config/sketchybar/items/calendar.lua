@@ -10,13 +10,13 @@ local cal = sbar.add("item", {
     padding_left = 8,
     font = {
       style = settings.font.style_map["Black"],
-      size = 15.0,
+      size = 12.0,
     },
   },
   label = {
     color = colors.white,
     padding_right = 8,
-    width = 79,
+    width = 49,
     align = "right",
     font = { family = settings.font.numbers },
   },
@@ -25,18 +25,19 @@ local cal = sbar.add("item", {
   padding_left = 1,
   padding_right = 1,
   background = {
-    color = colors.bg1,
-    border_color = colors.transparent,
-    border_width = 0
+    color = colors.bg2,
+    border_color = colors.black,
+    border_width = 1
   },
+  click_script = "open -a 'Calendar'"
 })
 
 -- Double border for calendar using a single item bracket
 sbar.add("bracket", { cal.name }, {
   background = {
     color = colors.transparent,
-    height = 50,
-    border_color = colors.transparent,
+    height = 30,
+    border_color = colors.grey,
   }
 })
 
@@ -44,5 +45,5 @@ sbar.add("bracket", { cal.name }, {
 sbar.add("item", { position = "right", width = settings.group_paddings })
 
 cal:subscribe({ "forced", "routine", "system_woke" }, function(env)
-  cal:set({ icon = os.date("%a. %d %b."), label = os.date("%I:%M %p") })
+  cal:set({ icon = os.date("%a. %d %b."), label = os.date("%H:%M") })
 end)

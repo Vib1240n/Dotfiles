@@ -8,7 +8,7 @@ sbar.exec("killall cpu_load >/dev/null; $CONFIG_DIR/helpers/event_providers/cpu_
 
 local cpu = sbar.add("graph", "widgets.cpu" , 42, {
   position = "right",
-  graph = { color = colors.yellow },
+  graph = { color = colors.blue },
   background = {
     height = 22,
     color = { alpha = 0 },
@@ -54,7 +54,7 @@ cpu:subscribe("cpu_update", function(env)
 end)
 
 cpu:subscribe("mouse.clicked", function(env)
-  sbar.exec("open -a 'iterm'")
+  sbar.exec("open -a 'Activity Monitor'")
 end)
 
 -- Background around the cpu item

@@ -28,7 +28,7 @@ if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-eval "$(oh-my-posh init zsh --config '~/.config/oh-my-posh/customomp.omp.json')"
+eval "$(oh-my-posh init zsh --config '~/.config/oh-my-posh/chips.omp.json')"
 # EXPORTS
 export ANDROID_SDK_ROOT="/opt/homebrew/share/android-commandlinetools"
 export PATH="/opt/homebrew/bin/pandoc:$PATH"

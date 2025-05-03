@@ -4,13 +4,13 @@ local act = wezterm.action
 
 local config = wezterm.config_builder()
 
-config.font = wezterm.font("GeistMono Nerd Font")
+config.font = wezterm.font("Maple Mono Normal")
 config.font = wezterm.font_with_fallback({
 	"Fira Code",
 	"Jetbrains Nerd Font Mono",
 })
 
-harfbuzz_features = { "zero", "ss01", "cv05" }
+local harfbuzz_features = { "zero", "ss01", "cv05" }
 config.window_background_opacity = 0.65
 config.macos_window_background_blur = 50
 config.window_frame = {
@@ -18,6 +18,7 @@ config.window_frame = {
 	active_titlebar_bg = "none",
 	inactive_titlebar_bg = "#333333",
 }
+config.front_end = "WebGpu"
 config.font_size = 18
 config.window_decorations = "RESIZE"
 

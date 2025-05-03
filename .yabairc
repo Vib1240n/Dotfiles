@@ -41,7 +41,7 @@ sudo yabai --load-sa
 # yabai -m config window_topmost off
 # yabai -m rule --add app="^Fusion$" title!=".*\[(.*)\].*" manage=off space=3D-Printing
 # yabai -m rule --add app="^Autodesk Fusion 360$" manage=off space=3D-Printing
-# yabai -m rule --add label="VLC" app="^VLC$" manage=off 
+# yabai -m rule --add label="VLC" app="^VLC$" manage=off
 # yabai -m rule --add app="^VLC$" manage=off
 #
 # yabai -m rule --add app="Fusion" title="*" manage=off space=3D-Printing
@@ -75,9 +75,11 @@ sudo yabai --load-sa
 # yabai -m space 8 --label Empty8
 #
 
-
 #
 
+yabai -m rule --add app="^iStatistica Pro$" manage=off
+yabai -m rule --add app="^Ice$" manage=off
+yabai -m rule --add app="^PDFgear$" manage=off
 # global settings
 # yabai -m config focus_follows_mouse autofocus
 
@@ -90,10 +92,15 @@ echo "yabai configuration loaded.."
 
 yabai -m config mouse_follows_focus on # focus follows mouse
 yabai -m config focus_follows_mouse autofocus
-yabai -m config mouse_modifier alt # mouse modifier
-yabai -m config mouse_action1 move # mouse action 1
+yabai -m config mouse_modifier alt   # mouse modifier
+yabai -m config mouse_action1 move   # mouse action 1
 yabai -m config mouse_action2 resize # mouse action 2
-
+# yabai -m rule --add app="^Fusion$" manage=off
+# yabai -m rule --add app="^Autodesk Fusion 360$" manage=off
+#
+# yabai -m rule --add label="Fusion" app="^Fusion$" title="(Autodesk Fusion (Education License)|)" manage=off
+# yabai -m rule --add label="Fusion" app="^Autodesk Fusion 360$" title="*"  manage=off
+#
 
 # yabai -m config window_opacity on
 # yabai -m config normal_window_opacity 0.95 # normal window opacity
