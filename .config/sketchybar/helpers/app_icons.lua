@@ -306,6 +306,7 @@ return {
 	["语雀"] = ":yuque:",
 	["Zed"] = ":zed:",
 	["Zen Browser"] = ":zen_browser:",
+	["Zen"] = ":zen_browser:",
 	["Zeplin"] = ":zeplin:",
 	["zoom.us"] = ":zoom:",
 	["Zotero"] = ":zotero:",

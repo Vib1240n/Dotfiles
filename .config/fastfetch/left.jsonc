@@ -1,23 +1,23 @@
 // left.jsonc
+// left.jsonc
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
   "display": {
-    "separator": " ------>",
+    "separator": "  ",
     "constants": [
       "─────────────────", // {$1}, used in Custom module
     ],
     "key": {
       "type": "icon",
-      "paddingLeft": 50,
+      "paddingLeft": 5,
     },
   },
   "modules": [
     {
       "type": "custom", // HardwareStart
       // {#1} is equivalent to `\u001b[1m`. {#} is equivalent to `\u001b[m`
-      "format": "┌{$2} {#1}Hardware Information{#} {$2}┐",
+      "format": "┌{$1} {#1}Hardware Information{#} {$1}┐",
     },
-    "break",
     "host",
     "cpu",
     "gpu",
@@ -33,9 +33,18 @@
     "gamepad",
     "break",
     "break",
+    "break",
+    "break",
+    "break",
+    "break",
     {
       "type": "custom", // InformationEnd
-      "format": "└{$2}──────────────────────{$2}┘",
+      "format": "└{$1}──────────────────────{$1}┘",
+    },
+    {
+      "type": "colors",
+      "paddingLeft": 2,
+      "symbol": "circle",
     },
   ],
 }

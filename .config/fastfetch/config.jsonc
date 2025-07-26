@@ -5,6 +5,7 @@
     "separator",
     "os",
     "host",
+    "separator",
     // "kernel",
     "uptime",
     "packages",
@@ -31,4 +32,7 @@
     "break",
     // "colors"
   ],
+  "logo": {
+    "type": "small",
+  },
 }

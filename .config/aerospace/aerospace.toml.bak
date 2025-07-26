@@ -1,0 +1,483 @@
+#   .d8888b.  888          888               888        .d8888b.           888    888    d8b                            
+#  d88P  Y88b 888          888               888       d88P  Y88b          888    888    Y8P                            
+#  888    888 888          888               888       Y88b.               888    888                                   
+#  888        888  .d88b.  88888b.   8888b.  888        "Y888b.    .d88b.  888888 888888 888 88888b.   .d88b.  .d8888b  
+#  888  88888 888 d88""88b 888 "88b     "88b 888           "Y88b. d8P  Y8b 888    888    888 888 "88b d88P"88b 88K      
+#  888    888 888 888  888 888  888 .d888888 888             "888 88888888 888    888    888 888  888 888  888 "Y8888b. 
+#  Y88b  d88P 888 Y88..88P 888 d88P 888  888 888       Y88b  d88P Y8b.     Y88b.  Y88b.  888 888  888 Y88b 888      X88 
+#   "Y8888P88 888  "Y88P"  88888P"  "Y888888 888        "Y8888P"   "Y8888   "Y888  "Y888 888 888  888  "Y88888  88888P' 
+#                                                                                                          888          
+#                                                                                                     Y8b d88P          
+#                                                      r                                               "Y88P"           
+
+after-login-command = []
+after-startup-command = [
+    'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"',
+    'exec-and-forget yabai --start-service',
+    'exec-and-forget yabai --restart-service',
+]
+exec-on-workspace-change = ['/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+on-focus-changed = [
+'exec-and-forget sketchybar --trigger aerospace_workspac_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+# Start AeroSpace at login
+start-at-login = true
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+
+# Possible values: tiles|accordion
+default-root-container-layout = 'tiles'
+
+# Possible values: horizontal|vertical|auto
+# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
+#               tall monitor (anything higher than wide) gets vertical orientation
+default-root-container-orientation = 'auto'
+
+# on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+# on-focus-changed = ['move-mouse window-lazy-center']
+automatically-unhide-macos-hidden-apps = false
+
+# Possible values: (qwerty|dvorak)
+[key-mapping]
+preset = 'qwerty'
+
+# Gaps between windows (inner-*) and between monitor edges (outer-*).
+# Possible values:
+# - Constant:     gaps.outer.top = 8
+# - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
+#                 In this example, 24 is a default value when there is no match.
+#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
+#                 See:
+#                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+[gaps]
+inner.horizontal = 15
+inner.vertical = 20
+outer.left = 7
+outer.bottom = 5
+outer.top = [{monitor.'^built-in retina display$' = 10}, 65]
+outer.right = 7
+
+# 'main' binding mode declaration
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+# 'main' binding mode must be always presented
+#######################################################################################################################
+#  888b     d888               888               888b     d888          d8b          
+#  8888b   d8888               888               8888b   d8888          Y8P          
+#  88888b.d88888               888               88888b.d88888                       
+#  888Y88888P888  .d88b.   .d88888  .d88b.       888Y88888P888  8888b.  888 88888b.  
+#  888 Y888P 888 d88""88b d88" 888 d8P  Y8b      888 Y888P 888     "88b 888 888 "88b 
+#  888  Y8P  888 888  888 888  888 88888888      888  Y8P  888 .d888888 888 888  888 
+#  888   "   888 Y88..88P Y88b 888 Y8b.          888   "   888 888  888 888 888  888 
+#  888       888  "Y88P"   "Y88888  "Y8888       888       888 "Y888888 888 888  888 
+#######################################################################################################################
+[mode.main.binding]
+
+# All possible keys:
+# - Letters.        a, b, c, ..., z
+# - Numbers.        0, 1, 2, ..., 9
+# - Keypad numbers. keypad0, keypad1, keypad2, ..., keypad9
+# - F-keys.         f1, f2, ..., f20
+# - Special keys.   minus, equal, period, comma, slash, backslash, quote, semicolon,
+#                   backtick, leftSquareBracket, rightSquareBracket, space, enter, esc,
+#                   backspace, tab
+# - Keypad special. keypadClear, keypadDecimalMark, keypadDivide, keypadEnter, keypadEqual,
+#                   keypadMinus, keypadMultiply, keypadPlus
+# - Arrows.         left, down, up, right
+
+# All possible modifiers: cmd, alt, ctrl, shift
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#layout
+alt-shift-slash = 'layout tiles horizontal vertical'
+alt-shift-comma = 'layout accordion horizontal vertical'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#focus
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+alt-1 = ['workspace 1','exec-and-forget sketchybar --trigger space_windows_change' ]
+alt-2 = ['workspace 2','exec-and-forget sketchybar --trigger space_windows_change']
+alt-3 = ['workspace 3','exec-and-forget sketchybar --trigger space_windows_change']
+alt-4 = ['workspace 4','exec-and-forget sketchybar --trigger space_windows_change']
+alt-5 = ['workspace 5','exec-and-forget sketchybar --trigger space_windows_change']
+alt-6 = ['workspace 6','exec-and-forget sketchybar --trigger space_windows_change']
+alt-7 = ['workspace 7','exec-and-forget sketchybar --trigger space_windows_change']
+alt-8 = ['workspace 8','exec-and-forget sketchybar --trigger space_windows_change']
+alt-9 = ['workspace 9','exec-and-forget sketchybar --trigger space_windows_change']
+
+alt-a = ['workspace A', 'exec-and-forget sketchybar --trigger space_windows_change'] # Arc Browser workspace
+alt-z = ['workspace Z', 'exec-and-forget sketchybar --trigger space_windows_change'] # Zen browser workspace
+alt-d = ['workspace D', 'exec-and-forget sketchybar --trigger space_windows_change'] # Discord workspace
+alt-x = ['workspace X', 'exec-and-forget sketchybar --trigger space_windows_change'] # Terminal/Xterm workspace
+alt-f = ['workspace F', 'exec-and-forget sketchybar --trigger space_windows_change'] # Fusion 360 workspace
+alt-b = ['workspace B', 'exec-and-forget sketchybar --trigger space_windows_change'] # bambu-studio workspace
+alt-w = ['workspace W', 'exec-and-forget sketchybar --trigger space_windows_change'] # Wootility
+alt-e = ['workspace E', 'exec-and-forget sketchybar --trigger space_windows_change'] # Utility workspace
+alt-c = ['workspace C', 'exec-and-forget sketchybar --trigger space_windows_change'] #
+alt-o = ['workspace O', 'exec-and-forget sketchybar --trigger space_windows_change'] # Obsidian workspace
+alt-s = ['workspace S', 'exec-and-forget sketchybar --trigger space_windows_change'] # Spotify/Apple music workspace
+#######################################################################################################################
+alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-3 = ['move-node-to-workspace 3', 'workspace 3', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-4 = ['move-node-to-workspace 4', 'workspace 4', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-5 = ['move-node-to-workspace 5', 'workspace 5', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-6 = ['move-node-to-workspace 6', 'workspace 6', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-7 = ['move-node-to-workspace 7', 'workspace 7', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-8 = ['move-node-to-workspace 8', 'workspace 8', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-9 = ['move-node-to-workspace 9', 'workspace 9', 'exec-and-forget sketchybar --trigger space_windows_change']
+
+
+alt-shift-a = ['move-node-to-workspace A', 'workspace A', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-z = ['move-node-to-workspace Z', 'workspace Z', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-d = ['move-node-to-workspace D', 'workspace D', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-x = ['move-node-to-workspace X', 'workspace X', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-f = ['move-node-to-workspace F', 'workspace F', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-b = ['move-node-to-workspace B', 'workspace B', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-w = ['move-node-to-workspace W', 'workspace W', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-e = ['move-node-to-workspace E', 'workspace E', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-c = ['move-node-to-workspace C', 'workspace C', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-o = ['move-node-to-workspace O', 'workspace O', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-s = ['move-node-to-workspace S', 'workspace S', 'exec-and-forget sketchybar --trigger space_windows_change']
+#######################################################################################################################
+alt-tab = 'workspace-back-and-forth'
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+alt-shift-space = 'focus-monitor prev'
+alt-space = 'focus-monitor next'
+f20 = 'exec-and-forget open -a /Applications/TickTick.app'
+#
+#
+#
+#
+alt-shift-semicolon = ['mode service', 'exec-and-forget borders active_color=0xFFFF0000 inactive_color=0xFFFF0000 width=5 hidpi=on blacklist="Discord"']
+alt-shift-leftSquareBracket = ['mode resize', 'exec-and-forget borders active_color=0xFF6803F5 inactive_color=0xFF6803F5 width=5 hidpi=on blacklist="Discord"']
+alt-shift-period = ['mode open', 'exec-and-forget borders active_color=0xFFDC143C inactive_color=0xFFDC143C width=5 hidpi=on blacklist="Discord"']
+alt-shift-backspace = ['mode pass', 'exec-and-forget borders active_color=0xFF3CE33C inactive_color=0xFF3CE33C width=5 hidpi=on blacklist="Discord"']
+#######################################################################################################################
+#  888b     d888               888                .d8888b.                            d8b                  
+#  8888b   d8888               888               d88P  Y88b                           Y8P                  
+#  88888b.d88888               888               Y88b.                                                     
+#  888Y88888P888  .d88b.   .d88888  .d88b.        "Y888b.    .d88b.  888d888 888  888 888  .d8888b .d88b.  
+#  888 Y888P 888 d88""88b d88" 888 d8P  Y8b          "Y88b. d8P  Y8b 888P"   888  888 888 d88P"   d8P  Y8b 
+#  888  Y8P  888 888  888 888  888 88888888            "888 88888888 888     Y88  88P 888 888     88888888 
+#  888   "   888 Y88..88P Y88b 888 Y8b.          Y88b  d88P Y8b.     888      Y8bd8P  888 Y88b.   Y8b.     
+#  888       888  "Y88P"   "Y88888  "Y8888        "Y8888P"   "Y8888  888       Y88P   888  "Y8888P "Y8888  
+#######################################################################################################################
+#mode service settings
+[mode.service.binding]
+esc = ['reload-config', 'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"','exec-and-forget sketchybar --trigger space_windows_change' ]
+r = ['flatten-workspace-tree', 'mode main','exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=4 hidpi=on blacklist="Discord"' ]                                      # reset layout
+f = ['layout floating tiling', 'mode main','exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=4 hidpi=on blacklist="Discord"' ]
+backspace = ['close-all-windows-but-current --quit-if-last-window', 'mode main','exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=4 hidpi=on blacklist="Discord"' ]
+alt-shift-h = ['join-with left', 'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"','exec-and-forget sketchybar --trigger space_windows_change', "exec-and-forget sketchybar --reload" ]
+alt-shift-j = ['join-with down', 'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"','exec-and-forget sketchybar --trigger space_windows_change', "exec-and-forget sketchybar --reload" ]
+alt-shift-k = ['join-with up', 'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"','exec-and-forget sketchybar --trigger space_windows_change', "exec-and-forget sketchybar --reload" ]
+alt-shift-l = ['join-with right', 'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"','exec-and-forget sketchybar --trigger space_windows_change', "exec-and-forget sketchybar --reload" ]
+alt-shift-r = ['exec-and-forget yabai --restart-service', 'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"','exec-and-forget sketchybar --trigger space_windows_change', "exec-and-forget sketchybar --reload" ]
+down = 'volume down'
+up = 'volume up'
+# enter = ['enable toggle', 'mode main']
+enter = ['reload-config', 'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"','exec-and-forget sketchybar --trigger space_windows_change', "exec-and-forget sketchybar --reload" ]
+#######################################################################################################################
+#  888b     d888               888                8888888b.                    d8b                   
+#  8888b   d8888               888                888   Y88b                   Y8P                   
+#  88888b.d88888               888                888    888                                         
+#  888Y88888P888  .d88b.   .d88888  .d88b.        888   d88P  .d88b.  .d8888b  888 88888888  .d88b.  
+#  888 Y888P 888 d88""88b d88" 888 d8P  Y8b       8888888P"  d8P  Y8b 88K      888    d88P  d8P  Y8b 
+#  888  Y8P  888 888  888 888  888 88888888       888 T88b   88888888 "Y8888b. 888   d88P   88888888 
+#  888   "   888 Y88..88P Y88b 888 Y8b.           888  T88b  Y8b.          X88 888  d88P    Y8b.     
+#  888       888  "Y88P"   "Y88888  "Y8888        888   T88b  "Y8888   88888P' 888 88888888  "Y8888
+#######################################################################################################################
+#mode resize settings
+[mode.resize.binding]
+h = ['resize width +50']
+l = ['resize width -50']
+f = ['fullscreen', 'mode main']
+j = ['resize height -50']
+k = ['resize height +50']
+esc = ['mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=4 hidpi=on blacklist="Discord"']
+b = ['balance-sizes', 'mode main','exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=4 hidpi=on blacklist="Discord"' ]
+enter = ['mode main','exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=4 hidpi=on blacklist="Discord"']
+#######################################################################################################################
+#  888b     d888               888                 .d88888b.                             
+#  8888b   d8888               888                d88P" "Y88b                            
+#  88888b.d88888               888                888     888                            
+#  888Y88888P888  .d88b.   .d88888  .d88b.        888     888 88888b.   .d88b.  88888b.  
+#  888 Y888P 888 d88""88b d88" 888 d8P  Y8b       888     888 888 "88b d8P  Y8b 888 "88b 
+#  888  Y8P  888 888  888 888  888 88888888       888     888 888  888 88888888 888  888 
+#  888   "   888 Y88..88P Y88b 888 Y8b.           Y88b. .d88P 888 d88P Y8b.     888  888 
+#  888       888  "Y88P"   "Y88888  "Y8888         "Y88888P"  88888P"   "Y8888  888  888 
+#                                                             888                        
+#                                                             888                        
+#                                                             888                        
+#######################################################################################################################
+#mode open settings
+[mode.open.binding]
+t = ['exec-and-forget open -a /Applications/Alacritty.app',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+alt-t = ['exec-and-forget open -n /Applications/Alacritty.app',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_0xff373737 width=7 hidpi=on blacklist="Discord"']
+w = ['exec-and-forget open -a /Applications/Wootility.app',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+o = ['exec-and-forget open -a /Applications/Obsidian.app',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+d = ['exec-and-forget open -a /Applications/Discord.app/',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+z = ['exec-and-forget open -a /Applications/Safari.app',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+s = ['exec-and-forget open -a /Applications/Spotify.app',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+f = ['exec-and-forget open -a ~/Applications/Autodesk\ Fusion.app',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+a = ['exec-and-forget open -a /Applications/Arc.app',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+alt-b = ['exec-and-forget open -a /Applications/BambuStudio.app',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+b = ['exec-and-forget open -a /Applications/Vivaldi.app/',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+p = ['exec-and-forget open -a /Applications/PDFgear.app',  'mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+esc = ['mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=7 hidpi=on blacklist="Discord"']
+#######################################################################################################################
+#  888b     d888               888                8888888b.                             
+#  8888b   d8888               888                888   Y88b                            
+#  88888b.d88888               888                888    888                            
+#  888Y88888P888  .d88b.   .d88888  .d88b.        888   d88P  8888b.  .d8888b  .d8888b  
+#  888 Y888P 888 d88""88b d88" 888 d8P  Y8b       8888888P"      "88b 88K      88K      
+#  888  Y8P  888 888  888 888  888 88888888       888        .d888888 "Y8888b. "Y8888b. 
+#  888   "   888 Y88..88P Y88b 888 Y8b.           888        888  888      X88      X88 
+#  888       888  "Y88P"   "Y88888  "Y8888        888        "Y888888  88888P'  88888P' 
+#######################################################################################################################
+# mode pass settings
+[mode.pass.binding]
+esc = ['mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=4 hidpi=on blacklist="Discord"']
+enter = ['mode main', 'exec-and-forget borders active_color=0xFF277888 inactive_color=0xff373737 width=4 hidpi=on blacklist="Discord"']
+# o = 'exec-and-forget yabai -m config mouse_follows_focus off'
+# n = 'exec-and-forget yabai -m config mouse_follows_focus on'
+#######################################################################################################################
+#  888b     d888                   d8b 888                            .d8888b.           888    888    d8b                            
+#  8888b   d8888                   Y8P 888                           d88P  Y88b          888    888    Y8P                            
+#  88888b.d88888                       888                           Y88b.               888    888                                   
+#  888Y88888P888  .d88b.  88888b.  888 888888  .d88b.  888d888        "Y888b.    .d88b.  888888 888888 888 88888b.   .d88b.  .d8888b  
+#  888 Y888P 888 d88""88b 888 "88b 888 888    d88""88b 888P"             "Y88b. d8P  Y8b 888    888    888 888 "88b d88P"88b 88K      
+#  888  Y8P  888 888  888 888  888 888 888    888  888 888                 "888 88888888 888    888    888 888  888 888  888 "Y8888b. 
+#  888   "   888 Y88..88P 888  888 888 Y88b.  Y88..88P 888           Y88b  d88P Y8b.     Y88b.  Y88b.  888 888  888 Y88b 888      X88 
+#  888       888  "Y88P"  888  888 888  "Y888  "Y88P"  888            "Y8888P"   "Y8888   "Y888  "Y888 888 888  888  "Y88888  88888P' 
+#                                                                                                                        888          
+#                                                                                                                   Y8b d88P          
+#                                                                                                                    "Y88P"           #######################################################################################################################
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+3 = 'main'
+5 = 'main'
+7 = 'main'
+2 = 'secondary'
+4 = 'secondary'
+6 = 'secondary'
+8 = 'secondary'
+#######################################################################################################################
+#  888       888 d8b               888                               .d8888b.           888    888    d8b                            
+#  888   o   888 Y8P               888                              d88P  Y88b          888    888    Y8P                            
+#  888  d8b  888                   888                              Y88b.               888    888                                   
+#  888 d888b 888 888 88888b.   .d88888  .d88b.  888  888  888        "Y888b.    .d88b.  888888 888888 888 88888b.   .d88b.  .d8888b  
+#  888d88888b888 888 888 "88b d88" 888 d88""88b 888  888  888           "Y88b. d8P  Y8b 888    888    888 888 "88b d88P"88b 88K      
+#  88888P Y88888 888 888  888 888  888 888  888 888  888  888             "888 88888888 888    888    888 888  888 888  888 "Y8888b. 
+#  8888P   Y8888 888 888  888 Y88b 888 Y88..88P Y88b 888 d88P       Y88b  d88P Y8b.     Y88b.  Y88b.  888 888  888 Y88b 888      X88 
+#  888P     Y888 888 888  888  "Y88888  "Y88P"   "Y8888888P"         "Y8888P"   "Y8888   "Y888  "Y888 888 888  888  "Y88888  88888P' 
+#                                                                                                                       888          
+#                                                                                                                  Y8b d88P          
+#                                                                                                                   "Y88P"           
+#######################################################################################################################
+[[on-window-detected]]
+if.app-id = 'com.bambulab.bambu-studio'
+run = ['layout tiling', 'move-node-to-workspace B']
+
+# Finder window setting
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = ['layout floating']
+
+
+# Raycast window setting
+
+[[on-window-detected]]
+if.app-id = 'com.raycast.macos'
+run = ['layout floating']
+
+
+# Zoom window setting
+
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
+run = ['layout floating']
+
+
+# Messages window setting
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = ['layout floating']
+
+
+# Preview window setting
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Preview'
+run = ['layout floating']
+
+
+# Fusion360 window setting
+
+[[on-window-detected]]
+if.app-id = 'com.autodesk.fusion360'
+run = ['layout floating', 'move-node-to-workspace F']
+
+
+# System Preferences window setting
+
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+run = ['layout floating']
+
+
+# TickTick window setting
+
+[[on-window-detected]]
+if.app-id = 'com.TickTick.task.mac'
+run = ['layout floating', 'move-node-to-workspace E']
+
+
+# Apple Home window setting
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Home'
+run = ['layout floating']
+
+
+# Apple Mail window setting
+
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'
+run = ['layout floating', 'move-node-to-workspace 1']
+
+
+# istatmenus-setapp window setting
+
+[[on-window-detected]]
+if.app-id = 'com.bjango.istatmenus-setapp'
+run = ['layout floating']
+
+
+# Obsidian window setting
+
+
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = ['move-node-to-workspace O']
+
+
+# Discord Settings
+
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = ['move-node-to-workspace D']
+
+
+# Zen browser Setting
+
+
+[[on-window-detected]]
+if.app-id = 'app.zen-browser.zen'
+if.window-title-regex-substring = 'Picture-in-Picture'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'app.zen-browser.zen'
+run = ['move-node-to-workspace Z']
+# check-further-callback = true
+
+
+# Wezterm Settings
+
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+run = ['move-node-to-workspace X']
+
+
+# Color Slurp Settings
+
+[[on-window-detected]]
+if.app-id = 'com.IdeaPunch.ColorSlurp'
+run = ['layout floating']
+
+
+# Tinker Tool Settings
+
+[[on-window-detected]]
+if.app-id = 'com.bresink.system.tinkertool'
+run = ['layout floating']
+
+
+# ghostty settings
+
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = ['layout tiling', 'move-node-to-workspace W']
+
+
+# Ice App Settings                                            
+
+[[on-window-detected]]
+if.app-id = 'com.jordanbaird.Ice'
+run = ['layout floating', 'move-node-to-workspace 1']
+# Ice App Settings                                            
+
+[[on-window-detected]]
+if.app-id = 'com.electron.wootility-lekker'
+run = ['layout floating', 'move-node-to-workspace W']
+
+
+# Spotify Window settings
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = ['move-node-to-workspace S']
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = ['move-node-to-workspace C']
+
+[[on-window-detected]]
+if.app-id = 'company.thebrowser.Browser'
+run = ['layout tiling', 'move-node-to-workspace A']
+
+[[on-window-detected]]
+if.app-id = 'com.pdfeditor.pdfeditormac'
+run = ['layout tiling', 'move-node-to-workspace E']
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'Tools'
+if.app-id = 'com.pdfeditor.pdfeditormac'
+run = ['layout floating']
+
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'org.alacritty'
+run = ['layout tiling', 'move-node-to-workspace X']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Safari'
+run = ['layout tiling', 'move-node-to-workspace B']
+
+[[on-window-detected]]
+if.app-id = 'com.vivaldi.Vivaldi'
+run = ['layout tiling', 'move-node-to-workspace B']
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'Bitwarden'
+run = ['layout floating']

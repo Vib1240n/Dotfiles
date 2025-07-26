@@ -1,0 +1,118 @@
+# This is a demo config to showcase some of the most important commands.
+# It is meant to be changed and configured, as it is intentionally kept sparse.
+# For a (much) more advanced configuration example see my dotfiles:
+# https://github.com/FelixKratz/dotfiles
+
+ITEM_DIR="./items" # Directory where the items are configured
+PLUGIN_DIR="./plugins"
+
+source "$CONFIG_DIR/colors.sh" # Loads all defined colors
+source "$CONFIG_DIR/icons.sh" # Loads all defined icons
+##### Bar Appearance #####
+# Configuring the general appearance of the bar.
+# These are only some of the options available. For all options see:
+# https://felixkratz.github.io/SketchyBar/config/bar
+# If you are looking for other colors, see the color picker:
+# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+
+AEROSPACE_FOCUSED_MONITOR_NO=$(aerospace list-workspaces --focused)
+AEROSPACE_LIST_OF_WINDOWS_IN_FOCUSED_MONITOR=$(aerospace list-windows --workspace $AEROSPACE_FOCUSED_MONITOR_NO | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
+
+# Setting up and starting the helper process
+HELPER=git.felix.helper
+killall helper
+(cd $CONFIG_DIR/helper && make)
+$CONFIG_DIR/helper/helper $HELPER > /dev/null 2>&1 &
+
+# Unload the macOS on screen indicator overlay for volume change
+launchctl unload -F /System/Library/LaunchAgents/com.apple.OSDUIHelper.plist > /dev/null 2>&1 &
+
+bar=(
+  position=top
+  height=40
+  blur_radius=30
+  color=0x14CAECE6
+  margin=10
+  y_offset=10
+  border_width=1
+  border_color=0x20ffffff
+  shadow=on
+  corner_radius=20
+)
+# bar2=(
+# position=top
+#   height=40
+#   blur_radius=30
+#   color=0xFFDC143C
+#   margin=10
+#   y_offset=-25
+#   corner_radius=20
+#  hidden=true
+# )
+sketchybar --bar "${bar[@]}"
+# sketchybar --bottom-bar "${bar2[@]}"
+sketchybar --hotload true
+
+##### Changing Defaults #####
+# We now change some default values, which are applied to all further items.
+# For a full list of all available item properties see:
+# https://felixkratz.github.io/SketchyBar/config/items
+
+
+defaults=(
+  updates=when_shown
+  icon.font="$FONT:Regular:14.0"
+  icon.color=$ICON_COLOR
+  icon.padding_left=$PADDINS
+  icon.padding_right=$PADDINGS
+  label.font="$FONT:Semibold:13.0"
+  label.color=$LABEL_COLOR
+  label.padding_left=$PADDINGS
+  label.padding_right=$PADDINGS
+  label.shadow.drawing=on
+  label.shadow.distance=2
+  label.shadow.color=0xff000000
+  padding_right=$PADDINGS
+  padding_left=$PADDINGS
+  background.height=26
+  background.corner_radius=9
+  background.border_width=2
+  popup.background.border_width=2
+  popup.background.corner_radius=9
+  popup.background.border_color=$POPUP_BORDER_COLOR
+  popup.background.color=$POPUP_BACKGROUND_COLOR
+  popup.blur_radius=20
+  popup.background.shadow.drawing=on
+  scroll_texts=on
+
+)
+sketchybar --default "${default[@]}"
+
+
+# Left
+source "$ITEM_DIR/apple.sh"
+source "$ITEM_DIR/aerospace.sh"
+source "$ITEM_DIR/front_app.sh"
+#source "$ITEM_DIR/yabai.sh"
+
+# Center
+# source "$ITEM_DIR/spotify.sh"
+# source "$ITEM_DIR/media.sh"
+
+# Right
+source "$ITEM_DIR/calendar.sh"
+source "$ITEM_DIR/input_source.sh"
+source "$ITEM_DIR/battery.sh"
+#source "$ITEM_DIR/brew.sh"
+#source "$ITEM_DIR/github.sh"
+source "$ITEM_DIR/wifi.sh"
+source "$ITEM_DIR/volume.sh"
+source "$ITEM_DIR/svim.sh"
+
+source "$ITEM_DIR/cpu.sh"
+source "$ITEM_DIR/weather.sh"
+
+
+
+
+sketchybar --update

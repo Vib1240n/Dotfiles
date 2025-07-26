@@ -9,9 +9,17 @@ return {
   magenta = 0xffb39df3,
   grey = 0xff7f8490,
   transparent = 0x00000000,
+  teal = 0xFF51E1E9,
+  purple = 0xffc952ed,
 
   bar = {
-    bg = 0xf02c2e34,
+    bg = 0xE7000000, --dark
+    -- bg = 0x18FFFFFF,
+    bg_dark = 0xE7000000,
+    icon_dark = 0xff181819,
+    icon_light = 0xFFe2e2e3,
+    label_dark = 0xff181919,
+    label_light = 0xffe2e2e3,
     border = 0xff2c2e34,
   },
   popup = {

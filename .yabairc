@@ -7,11 +7,39 @@
 # see this wiki page for information:
 #  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#configure-scripting-addition
 #
-#yabai -m rule --add app="^System Settings$" manage=off
 
-yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+# yabai -m signal --add event=space_changed action="nohup open -g raycast://extensions/krzysztoff1/yabai/screens-menu-bar?launchType=background > /dev/null 2>&1 &"
 
+# yabai -m signal --add event=space_created action="if \$(yabai -m query --spaces | jq -r \"map(select(.\"index\")) | last > 8\"); then yabai -m space --destroy \$(yabai -m query --spaces | jq -r .[-1]); fi"
+
+# source /Users/bb8/.config/functions/create_spaces.sh
+# bsp, stack, float
+# yabai -m config layout bsp
+#
+# yabai -m config window_placement second_child
+
+yabai -m config mouse_follows_focus on # focus follows mouse
+yabai -m config focus_follows_mouse autofocus
+yabai -m config mouse_modifier alt   # mouse modifier
+yabai -m config mouse_action1 move   # mouse action 1
+# yabai -m config mouse_action2 mouse_follows_focus off # mouse action 2
+# yabai -m config window_opacity off
+# yabai -m config normal_window_opacity 0.95 # normal window opacity
+# yabai -m config active_window_opacity 1 # active window opacity
+#
+# yabai -m config top_padding    10
+# yabai -m config bottom_padding 10
+# yabai -m config left_padding   10
+# yabai -m config right_padding  10
+# yabai -m config window_gap     10
+# yabai -m config window_border on
+# yabai -m config window_topmost off
+# yabai -m config external_bar all:55:0
+#
+# yabai -m config menubar_opacity 0.1
+#
 # yabai -m rule --add app="^Finder$" manage=off
 # yabai -m rule --add app="^ColorSlurp$" manage=off
 # yabai -m rule --add app="^Font Book$" manage=off
@@ -34,77 +62,71 @@ sudo yabai --load-sa
 # yabai -m rule --add app="^TickTick$" manage=off space=Productivity
 # yabai -m rule --add app="^Bartender$" manage=off
 # yabai -m rule --add app="^System Settings$" manage=off
-# # set up space for external bar - sketchybar
-# yabai -m config external_bar all:45:0
-
-# yabai -m config top_padding 2
-# yabai -m config window_topmost off
-# yabai -m rule --add app="^Fusion$" title!=".*\[(.*)\].*" manage=off space=3D-Printing
-# yabai -m rule --add app="^Autodesk Fusion 360$" manage=off space=3D-Printing
 # yabai -m rule --add label="VLC" app="^VLC$" manage=off
 # yabai -m rule --add app="^VLC$" manage=off
-#
-# yabai -m rule --add app="Fusion" title="*" manage=off space=3D-Printing
-# yabai -m rule --add app="^Autodesk Fusion 360$" title="*" manage=off space=3D-Printing
+# yabai -m rule --add app="^Autodesk Fusion 360$" title="*" manage=off 
 # yabai -m rule --add label="TickTick" app="^Ticktick$" manage=off
-# yabai -m rule --add label="TickTick" app="^TickTick$" manage=off
-# yabai -m rule --add label="TickTick" app="^Tick Tick$" manage=off
 # yabai -m rule --add label="BetterDisplay" manage=off
 # yabai -m rule --add app="^BetterDisplay$" manage=off
-#
 # yabai -m rule --add app="^Raycast$" manage=off
-#
-#
 # yabai -m rule --add app="^Setapp$" manage=off
 # yabai -m rule --add app="^NotchNook$" manage=off
+# yabai -m rule --add app="^iStatistica Pro$" manage=off
+# yabai -m rule --add app="^Ice$" manage=off
+# yabai -m rule --add app="^PDFgear$" manage=off
+yabai -m rule --add app="^Fusion$" subrole="^AXDialog$" mouse_follows_focus=off
+yabai -m rule --add app="^Fusion$" subrole="^AXDialog$" manage=off
+yabai -m rule --add app="^Fusion$" subrole ="^AXStandardWindow$" manage=off
+yabai -m rule --add app="^Fusion$" subrole="^AXDialog$" focus_follows_mouse=off
+yabai -m rule --add app="^Fusion$" mouse_follows_focus=off
+yabai -m rule --add app="^Fusion$" manage=off
+yabai -m rule --add app="^Autodesk Fusion$" manage=off
+yabai -m rule --add app="^Fusion$" focus_follows_mouse=off
+
+# # yabai -m rule --add app="^Arc$" subrole="^AXSystemDialog$" layer=3 manage=off
+# # yabai -m rule --add app="^Arc$" subrole="^AXSystemDialog$" layer=3 mouse_follows_focus=off
+# # yabai -m rule --add app="^Arc$" subrole="^AXSystemDialog$" layer=3 focus_follows_mouse=off
+# # yabai -m rule --add app="^Arc$" title="^Vibhore$" manage=off
 #
-#
-# yabai -m config top_padding    10
-# yabai -m config bottom_padding 10
-# yabai -m config left_padding   10
-# yabai -m config right_padding  10
-# yabai -m config window_gap     10
-#
-# yabai -m space 1 --label code
-# yabai -m space 2 --label Browser
-# yabai -m space 3 --label 3D-Printing
-# yabai -m space 4 --label notes
-# yabai -m space 5 --label Productivity
-# yabai -m space 6 --label Obsidian
+# ## 
+# # yabai -m signal --add event=
+# yabai -m space 1 --label Browser #Finder, settings
+# yabai -m space 2 --label Terminal #Terminal, dev
+# yabai -m space 3 --label Spotify #PDFgear, BambuStudio 
+# yabai -m space 4 --label Fusion #3d-printing only
+# yabai -m space 5 --label Productivity #Obsidian, notes
+# yabai -m space 6 --label Coms #Discord, teams, slack
 # yabai -m space 7 --label Empty7
 # yabai -m space 8 --label Empty8
 #
-
+# # yabai -m signal --add event=space_created action="if [[$(yabai -m query --displays | jq '.[].spaces | length > 8')]]; then ~/.config/functions/only_8.sh; fi;"
 #
-
-yabai -m rule --add app="^iStatistica Pro$" manage=off
-yabai -m rule --add app="^Ice$" manage=off
-yabai -m rule --add app="^PDFgear$" manage=off
-# global settings
-# yabai -m config focus_follows_mouse autofocus
-
-echo "yabai configuration loaded.."
-
-# bsp, stack, float
-# yabai -m config layout bsp
-
-# yabai -m config window_placement second_child
-
-yabai -m config mouse_follows_focus on # focus follows mouse
-yabai -m config focus_follows_mouse autofocus
-yabai -m config mouse_modifier alt   # mouse modifier
-yabai -m config mouse_action1 move   # mouse action 1
-yabai -m config mouse_action2 resize # mouse action 2
-# yabai -m rule --add app="^Fusion$" manage=off
-# yabai -m rule --add app="^Autodesk Fusion 360$" manage=off
+# # yabai -m config normal_window_border_color 0x01000000
+# #
+# #App specific space rules
+# yabai -m rule --add app="^Finder" space=1; yabai -m space --focus 1
+# yabai -m rule --add app="^System Settings$" space=1
+# yabai -m rule --add app="^Arc$" space=1
+# yabai -m rule --add app="^Alacritty$" space=2
+# yabai -m rule --add app="^WezTerm$" space=2
+# yabai -m rule --add app="^Bambu Studio$" space=5
+# yabai -m rule --add app="^Spotify" space=3
+# yabai -m rule --add app="^Fusion$" space=4
+# yabai -m rule --add app="^Obsidian$" space=5
+# yabai -m rule --add app="^Discord$" space=6
+# # ######################################################
+# # ## Yabai Signals
+# # yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
+# # yabai -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
+# # yabai -m signal --add event=space_changed action="if [[ $(yabai -m query --spaces --space $YABAI_RECENT_SPACE_ID | jq -re '.windows') = \"[]\" ]]; then yabai -m space $YABAI_RECENT_SPACE_ID --destroy ; fi"
+# # # yabai -m signal --add event=space_created action="if [[ $(yabai -m query --spaces --space $YABAI_RECENT_SPACE_ID | jq -re '.windows') = \"[]\" ]]; then yabai -m space $YABAI_RECENT_SPACE_ID --destroy ; fi"
+# # # 
+# # #
+# # # yabai -m signal --add event=window_focused active=yes app="^Spotify$" action="if \$(yabai -m query --spaces | jq -r 'map(select(.'index')) | last < 5'); then yabai -m space --create && yabai -m window --space \$(yabai -m query --windows --space | jq .[-1].id) && yabai -m space --focus \$(yabai -m query --space | jq .[-1].id); fi"
+# # # yabai -m query --spaces | jq -r 'map(select(."index")) | last > 2'); then yabai -m space --focus prev ; fi
+# # yabai -m signal --add event=space_created action="if [[ $(yabai -m query --displays | jq '.[].spaces | length > 8')]]; then for ((i = 9; i< $(yabai -m query --displays | jq '.[].spaces | length'); i++)); do yabai -m space --destroy '$i'; done; fi;"
+# #
 #
-# yabai -m rule --add label="Fusion" app="^Fusion$" title="(Autodesk Fusion (Education License)|)" manage=off
-# yabai -m rule --add label="Fusion" app="^Autodesk Fusion 360$" title="*"  manage=off
-#
-
-# yabai -m config window_opacity on
-# yabai -m config normal_window_opacity 0.95 # normal window opacity
-# yabai -m config active_window_opacity 1 # active window opacity
-
-# apps to ignore or not manage, ignore system settings, finder, colors slurp, Font book, JetBrains Toolbox, Home Assistant,
-yabai -m rule --apply
+# ######################################################
+# yabai -m rule --apply
+# echo "Configuration loaded..."

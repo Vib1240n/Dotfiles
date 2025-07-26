@@ -1,0 +1,38 @@
+[general]
+live_config_reload = true
+#######################################################################
+[window]
+decorations = "Transparent"
+blur = true
+# startup_mode = "Buttonless"
+dynamic_title = true
+opacity = 0.7
+padding.x = 20
+padding.y = 20
+option_as_alt = "OnlyRight"
+#######################################################################
+[env]
+TERM = "xterm-256color"
+#######################################################################
+[font]
+size = 18
+normal.family = "JetbrainsMono Nerd Font"
+normal.style = "Medium"
+builtin_box_drawing = true
+#######################################################################
+[scrolling]
+history = 100000
+#######################################################################
+[cursor]
+style.shape = "Underline"
+style.blinking = "On"
+blink_interval = 500
+#######################################################################
+[terminal]
+osc52 = "CopyPaste"
+#######################################################################
+[mouse]
+hide_when_typing = true
+#######################################################################
+[colors]
+selection = { text = "CellForeground", background = "#43cfea" }

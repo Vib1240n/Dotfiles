@@ -1,112 +1,197 @@
 # changing window focus
-alt + shift - w : yabai -m window --focus north
-alt + shift - s : yabai -m window --focus south
-alt + shift - a : yabai -m window --focus west
-alt + shift - d : yabai -m window --focus east
+# alt + shift - w : yabai -m window --focus north
+# alt + shift - s : yabai -m window --focus south
+# alt + shift - a : yabai -m window --focus west
+# alt + shift - d : yabai -m window --focus east
+# add an on_enter command to the default mode
+:: resize : borders active_color=0xff23e9a4 inactive_color=0xff23e9a4 width=8.0 hidpi=on
+:: default : borders active_color=0xffe2e2e3 inactive_color=0xff494d64 width=4.0 hidpi=on
+:: service : borders active_color=0xffff710d inactive_color=0xffff710d width=8.0 hidpi=on style=round
+:: launch : borders active_color=0xffe22c3c inactive_color=0xffe22c3c width=8.0 hidpi=on
+:: pass : borders active_color=0xff9446f8 inactive_color=0xff9446f8 width=8.0 hidpi=on
+
+# :: resize @ alt + shift - h : yabai -m window --resize left:20:0
+# :: resize @ alt + shift - j : yabai -m window --resize left:20:-20
+# :: resize @ alt + shift - k : yabai -m window --resize left:-20:20
+#
+# defines a new mode 'test' with an on_enter command, that captures keypresses
+# :: test @ : yabai -m config active_window_border_color 0xff24ccaa
+#
+# from 'default' mode, activate mode 'resize'
+# alt + shift - r ; resize
+#
+# from 'resize' mode, activate mode 'default'
+# resize < alt + esc ; default
+######
+#Change modes
+#Mode default
+default < alt - r; resize
+default < alt - s ; service
+default < alt - return; launch
+default < alt + shift - backspace; pass
+
+# Mode Resize
+resize < alt - d ; default
+resize < alt - s ; service
+resize < alt - return; launch
+resize < escape ; default
+resize < alt + shift - backspace; pass
+
+#Mode Service
+service < alt - d ; default
+service < alt - r ; resize
+service < alt - return; launch
+service < escape ; default
+service < alt + shift - backspace; pass
+
+#Mode Launch
+launch < alt - d; default
+launch < alt - s; service
+launch < alt - r; resize
+launch < alt + shift - backspace; pass
+
+pass < escape; default
+pass < return; default
+
+
+
+
 
 # controlling display focus
-alt + shift + ctrl - a : yabai -m display --focus west
-alt + shift + ctrl - d : yabai -m display --focus east
-alt + shift + ctrl - w : yabai -m display --focus north
-alt + shift + ctrl - s : yabai -m display --focus south
+default < alt + shift + ctrl - a : yabai -m display --focus west
+default < alt + shift + ctrl - d : yabai -m display --focus east
+default < alt + shift + ctrl - w : yabai -m display --focus north
+default < alt + shift + ctrl - s : yabai -m display --focus south
+
+default < alt + shift - space : yabai -m display --focus next
+default < alt - space : yabai -m display --focus prev
 
 # # Rotate on X and Y Axis
-alt + shift - x : yabai -m space --mirror x-axis
-alt + shift - y : yabai -m space --mirror y-axis
+default < alt + shift - x : yabai -m space --mirror x-axis
+default < alt + shift - y : yabai -m space --mirror y-axis
 
 # controlling window size and split
-shift + alt - m : yabai -m window --toggle zoom-fullscreen
-shift + alt + ctrl - space : yabai -m window --toggle split
 
 # swapping
-alt + shift - k : yabai -m window --swap north && yabai -m window --focus south
-alt + shift - j : yabai -m window --swap south && yabai -m window --focus north
-alt + shift - h : yabai -m window --swap west && yabai -m window --focus east
-alt + shift - l : yabai -m window --swap east && yabai -m window --focus west
-
+default < alt + shift - k : yabai -m window --swap north && yabai -m window --focus north
+default < alt + shift - j : yabai -m window --swap south && yabai -m window --focus south
+default < alt + shift - h : yabai -m window --swap west && yabai -m window --focus west
+default < alt + shift - l : yabai -m window --swap east && yabai -m window --focus east
+# alt + shift : if [[ $(yabai -m query --spaces --display | jq '.[-1]."has-focus"') == "false" ]]; then yabai -m space --focus next; fi
 # Warping windows
-ctrl + shift + alt - k : yabai -m window --warp north
-ctrl + shift + alt - h : yabai -m window --warp west 
-ctrl + shift + alt - l : yabai -m window --warp east
-ctrl + shift + alt - j : yabai -m window --warp south 
+default < ctrl + shift + alt - k : yabai -m window --warp north
+default < ctrl + shift + alt - h : yabai -m window --warp west 
+default < ctrl + shift + alt - l : yabai -m window --warp east
+default < ctrl + shift + alt - j : yabai -m window --warp south 
 
 # moving windows to different spaces
-alt + shift - 1 : yabai -m window --space 1; yabai -m space --focus 1;
-alt + shift - 2 : yabai -m window --space 2; yabai -m space --focus 2;
-alt + shift - 3 : yabai -m window --space 3; yabai -m space --focus 3;
-alt + shift - 4 : yabai -m window --space 4; yabai -m space --focus 4;
-alt + shift - 5 : yabai -m window --space 5; yabai -m space --focus 5;
-alt + shift - 6 : yabai -m window --space 6; yabai -m space --focus 6;
-alt + shift - 7 : yabai -m window --space 7; yabai -m space --focus 7;
-alt + shift - f : yabai -m space --create && yabai -m space --focus next
-alt + shift - g : yabai -m space --destroy && yabai -m space --focus last
+default < alt + shift - 1 : yabai -m window --space 1; yabai -m space --focus 1;
+default < alt + shift - 2 : yabai -m window --space 2; yabai -m space --focus 2;
+default < alt + shift - 3 : yabai -m window --space 3; yabai -m space --focus 3;
+default < alt + shift - 4 : yabai -m window --space 4; yabai -m space --focus 4;
+default < alt + shift - 5 : yabai -m window --space 5; yabai -m space --focus 5;
+default < alt + shift - 6 : yabai -m window --space 6; yabai -m space --focus 6;
+default < alt + shift - 7 : yabai -m window --space 7; yabai -m space --focus 7;
+default < alt + shift - f : yabai -m space --create && yabai -m space --focus next
+default < alt + shift - g : yabai -m space --destroy && yabai -m space --focus last
 
+#moving windows to different displays
+default < alt + shift - q : yabai -m window --display 1 
+default < alt + shift - e : yabai -m window --display 2 
 # starting and stopping yabai
-ctrl + alt + cmd - i : yabai --start-service
-ctrl + alt + cmd - o : yabai --stop-service
-ctrl + alt + cmd - p : yabai --restart-service
+service < alt + shift - 1 : yabai --start-service
+service < alt + shift - 2 : yabai --stop-service
+service < alt + shift - 3 : yabai --restart-service
 
 # restarting skhd
-ctrl + alt + cmd - j : skhd --start-service
-ctrl + alt + cmd - k : skhd --stop-service
-ctrl + alt + cmd - l : skhd --restart-service
+service < alt + shift - 4 : skhd --start-service
+service < alt + shift - 5 : skhd --stop-service
+service < alt + shift - 6 : skhd --restart-service
+
+# restarting border
+service < alt + shift - 7 : brew services restart borders
 
 # moving windows to different displays
-alt + ctrl + shift - 1 : yabai -m window --display 1
-alt + ctrl + shift - 2 : yabai -m window --display 2
-alt + ctrl + shift - 3 : yabai -m window --display 3
-alt + ctrl + shift - 4 : yabai -m window --display 4
+default < alt + ctrl + shift - 1 : yabai -m window --display 1
+default < alt + ctrl + shift - 2 : yabai -m window --display 2
+default < alt + ctrl + shift - 3 : yabai -m window --display 3
+default < alt + ctrl + shift - 4 : yabai -m window --display 4
 
 #balance windows
-ctrl + alt + cmd - b : yabai -m space --balance
 
 # move focused window to different areas warp
-alt + ctrl + shift - j : yabai -m window --warp north
-alt + ctrl + shift - k : yabai -m window --warp south
-alt + ctrl + shift - l : yabai -m window --warp east
-alt + ctrl + shift - h : yabai -m window --warp west
-# Rotate on X and Y Axis
+# default < alt + ctrl + shift - j : yabai -m window --warp north
+# default < alt + ctrl + shift - k : yabai -m window --warp south
+# default < alt + ctrl + shift - l : yabai -m window --warp east
+# default < alt + ctrl + shift - h : yabai -m window --warp west
+# # Rotate on X and Y Axis
 
 # Rotatiing windoes on Display
-shift + alt - t : yabai -m window --toggle float
-shift + alt - r : yabai -m space --rotate 90
+default < shift + alt - t : yabai -m window --toggle float
+default < shift + alt - r : yabai -m space --rotate 90
 
 # Moving to space index
-alt - 1 : yabai -m space focus 1
-alt - 2 : yabai -m space focus 2
-alt - 3 : yabai -m space focus 3
-alt - 4 : yabai -m space focus 4 
-alt - 5 : yabai -m space focus 5 
-alt - 6 : yabai -m space focus 6
-alt - 7 : yabai -m space focus 7
-alt - 8 : yabai -m space focus 8
+default < alt - 1 : yabai -m config --space focus 1
+default < alt - 2 : yabai -m space focus 2
+default < alt - 3 : yabai -m space focus 3
+default < alt - 4 : yabai -m space focus 4 
+default < alt - 5 : yabai -m space focus 5 
+default < alt - 6 : yabai -m space focus 6
+default < alt - 7 : yabai -m space focus 7
+default < alt - 8 : yabai -m space focus 8
 
+default < alt - h : yabai -m window --focus west
+default < alt - j : yabai -m window --focus south
+default < alt - k : yabai -m window --focus north
+default < alt - l : yabai -m window --focus east
+
+# :: resize t : yabai -m config active_window_border_color 0xff775759 
+# alt - r; resize
+# resize < alt - r ; default
 # Creating and Destroying spaces
-alt + shift - f : yabai -m space --create
-alt + shift - g : yabai -m space --destroy
+# alt + shift - f : yabai -m space --create
+# alt + shift - g : yabai -m space --destroy
 
 
 
 # Resizing Windows
-# alt + shift - h : yabai -m window --resize left:-20:0
-# alt + shift - e : yabai -m window --resize left:20:0
-# alt + shift - c : yabai -m window --resize right:20:-20
-# alt + shift - z : yabai -m window --resize right:-20:20
-#
-# shift + alt - h : yabai -m window --move rel:-20:0
-# shift + alt - j : yabai -m window --move rel:0:20
-# shift + alt - k : yabai -m window --move rel:0:-20
-# shift + alt - l : yabai -m window --move rel:20:0o
+resize < alt + shift - a : yabai -m window --resize left:-20:0
+resize < alt + shift - d : yabai -m window --resize left:20:0
+resize < alt + shift - c : yabai -m window --resize right:20:-20
+resize < alt + shift - z : yabai -m window --resize right:-20:20
+
+# resize < shift + alt - h : yabai -m window --move rel:-20:0
+# resize < shift + alt - j : yabai -m window --move rel:0:20
+# resize < shift + alt - k : yabai -m window --move rel:0:-20
+
 ## resize windows
-# ctrl + alt - j : yabai -m window --resize abs:500:800
-# ctrl + alt - k : yabai -m window WINDOW_ID --ratio abs:0.7
-# ctrl + alt - l : yabai -m window WINDOW_ID --ratio abs:0.5
-# ctrl + alt - h : yabai -m window WINDOW_ID --ratio abs:0.3
-# ctrl + alt - q : yabai -m window --resize left:-20:0
-# ctrl + alt - e : yabai -m window --resize left:20:0
-# ctrl + alt - c : yabai -m window --resize right:20:-20
-# ctrl + alt - z : yabai -m window --resize right:-20:20
-# ctrl + alt - v : yabai -m window --toggle float
-# ctrl + alt - n : yabai -m window --toggle split
+resize < alt + shift - h : yabai -m window --move abs:500:800
+resize < alt + shift - k : yabai -m window WINDOW_ID --ratio abs:0.7
+resize < alt + shift - l : yabai -m window WINDOW_ID --ratio abs:0.5
+resize < alt + shift - h : yabai -m window WINDOW_ID --ratio abs:0.3
+resize < ctrl + alt - q : yabai -m window --resize left:-20:0
+resize < ctrl + alt - e : yabai -m window --resize left:20:0
+resize < ctrl + alt - c : yabai -m window --resize right:20:-20
+resize < ctrl + alt - z : yabai -m window --resize right:-20:20
+resize < ctrl + alt - n : yabai -m window --toggle split
+resize < alt - space : yabai -m window --toggle zoom-fullscreen
+resize < alt + shift - space: yabai -m window --toggle split
+resize < alt - b: yabai -m space --balance
+resize < alt - f : yabai -m window --toggle float
 
 
+
+
+# Launch applications
+
+launch < alt + shift - t : open -a /Applications/Alacritty.app ; yabai -m space --focus 2
+launch < alt + shift - a : open -a /Applications/Arc.app ; yabai -m space --focus 1
+launch < alt + shift - b : open -a /Applications/BambuStudio.app ; yabai -m space --focus 3
+launch < alt + shift - o : open -a /Applications/Obsidian.app ; yabai -m space --focus 5
+launch < alt + shift - s : open -a /Applications/Spotify.app ; yabai -m space --focus 3
+launch < alt + shift - p : open -a /Applications/PDFgear.app ; yabai -m space --focus 3
+launch < alt + shift - f : open -a ~/Applications/Autodesk Fusion.app ; yabai -m space --focus 4
+launch < alt + shift - d : open -a /Applications/Discord.app ; yabai -m space --focus 6
+launch < alt + shift - escape : open -a /System/Applications/System Settings.app ; yabai -m space --focus 1
+launch < alt + shift - backspace : open -a /System/Library/CoreServices/Finder.app ; yabai -m space --focus 1
+launch < escape; default

@@ -83,6 +83,11 @@ return {
           end,
           desc = "Close buffer from tabline",
         },
+        ["<M-H>"] = { function() require("smart-splits").move_cursor_left() end, desc = "Move to left split" },
+        ["<M-J>"] = { function() require("smart-splits").move_cursor_down() end, desc = "Move to below split" },
+        ["<M-K>"] = { function() require("smart-splits").move_cursor_up() end, desc = "Move to above split" },
+        ["<M-L>"] = { function() require("smart-splits").move_cursor_right() end, desc = "Move to right split" },
+
         ["d"] = { '"_d', noremap = true, silent = true, desc = "blackhole" },
         ["Y"] = { '"+y', noremap = true, silent = true, desc = "copy to clipboard" },
         ["<Leader>cb"] = { "<Cmd>CBccbox<CR>", noremap = true, silent = true, desc = "Title Comment box" },
@@ -90,6 +95,7 @@ return {
         ["<Leader>ct"] = { "<Cmd>CBllline<CR>", noremap = true, silent = true, desc = "Line Comment box" },
         ["<Leader>cl"] = { "<Cmd>CBline<CR>", noremap = true, silent = true, desc = "Simple line comment box" },
         ["<Leader>RR"] = { "<Cmd>AstroReload<CR>", noremap = true, silent = true, desc = "Reload Astronvim" },
+        ["<Leader>sr"] = { ":", noremap = true, silent = true, desc = "search and replace" },
         -- RR"] = { ":RunCode<CR>", noremap = true, silent
         -- false, desc = "Code Runner" },
         --
@@ -113,6 +119,7 @@ return {
         ["<Leader>cb"] = { "<Cmd>CBccbox<CR>", noremap = true, silent = true, desc = "Comment box" },
         ["<Leader>cr"] = { "<Cmd>CBd<CR>", noremap = true, silent = true, desc = "Remove Comment box" },
         ["<Leader>ct"] = { "<Cmd>CBllline<CR>", noremap = true, silent = true, desc = "Line Comment box" },
+        ["<Leader>sr"] = { ".:%s/", noremap = true, silent = true, desc = "search and replace" },
       },
     },
   },
