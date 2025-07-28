@@ -74,3 +74,5 @@ alias aerospacerc='nvim ~/.config/aerospace/aerospace.toml'
 alias sketchybarrc='nvim ~/.config/sketchybar/'
 alias yabairc='nvim ~/.config'
 alias zshrc='nvim ~/.zshrc'
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_BAT=1

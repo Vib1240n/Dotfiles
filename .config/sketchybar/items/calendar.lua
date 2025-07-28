@@ -19,7 +19,7 @@ local cal = sbar.add("item", "cal", {
 	update_freq = 30,
 	popup = {
 		align = "right",
-		horizontal = true,
+		horizontal = false,
 		background = {
 			color = colors.with_alpha(colors.black, settings.alpha - 0.5),
 			border_color = colors.with_alpha(colors.teal, 0.2),
@@ -41,7 +41,7 @@ local cal = sbar.add("item", "cal", {
 -- })
 
 -- Padding item required because of bracket
-sbar.add("item", { position = "right", width = settings.group_paddings })
+-- sbar.add("item", { position = "right", width = settings.group_paddings })
 
 cal:subscribe({ "forced", "routine", "system_woke" }, function(env)
 	cal:set({ icon = os.date("%a, %d %b %Y,"), label = os.date("%I:%M %p") })

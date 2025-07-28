@@ -1,5 +1,5 @@
 local colors = require("colors")
-local settings = require("settings")
+-- local settings = require("settings")
 local icons = require("icons")
 
 local LIST_MODE = "aerospace list-modes --current"
@@ -71,43 +71,45 @@ end
 -- })
 
 mode_item:subscribe("space_windows_change", function()
-	local function execCommand(cmd)
-		local handle = io.popen(cmd)
-		if not handle then
-			return nil
+	-- local function execCommand(cmd)
+	-- 	local handle = io.popen(cmd)
+	-- 	if not handle then
+	-- 		return nil
+	-- 	end
+	-- 	local result = handle:read("*a")
+	-- 	handle:close()
+	-- 	return result
+	-- end
+	--
+	-- local modeOutput = execCommand(LIST_MODE)
+	sbar.exec(LIST_MODE, function(modeOutput)
+		if modeOutput then
+			modeOutput = modeOutput:gsub("%s+$", "") -- trim trailing spaces/newlines
+			modeOutput = modeOutput:lower()
+			local set_mode_icon = mode_icon(modeOutput)
+			mode_item:set({
+				label = {
+					string = modeOutput,
+				},
+				icon = {
+					string = set_mode_icon,
+				},
+			})
+			if string.find(modeOutput, "main") then
+				mode_item:set({ icon = { color = colors.with_alpha(colors.bar.icon_dark, alpha_value) } })
+			elseif string.find(modeOutput, "resize") then
+				mode_item:set({ icon = { color = colors.with_alpha(colors.purple, alpha_value) } })
+			elseif string.find(modeOutput, "service") then
+				mode_item:set({ icon = { color = colors.with_alpha(colors.orange, alpha_value) } })
+			elseif string.find(modeOutput, "open") then
+				mode_item:set({ icon = { color = colors.with_alpha(colors.red, alpha_value) } })
+			elseif string.find(modeOutput, "pass") then
+				mode_item:set({ icon = { color = colors.with_alpha(colors.green, alpha_value) } })
+			else
+				mode_item:set({ icon = { color = colors.with_alpha(colors.magenta, alpha_value) } })
+			end
 		end
-		local result = handle:read("*a")
-		handle:close()
-		return result
-	end
-
-	local modeOutput = execCommand(LIST_MODE)
-	if modeOutput then
-		modeOutput = modeOutput:gsub("%s+$", "") -- trim trailing spaces/newlines
-		modeOutput = modeOutput:lower()
-		local set_mode_icon = mode_icon(modeOutput)
-		mode_item:set({
-			label = {
-				string = modeOutput,
-			},
-			icon = {
-				string = set_mode_icon,
-			},
-		})
-		if string.find(modeOutput, "main") then
-			mode_item:set({ icon = { color = colors.with_alpha(colors.bar.icon_dark, alpha_value) } })
-		elseif string.find(modeOutput, "resize") then
-			mode_item:set({ icon = { color = colors.with_alpha(colors.purple, alpha_value) } })
-		elseif string.find(modeOutput, "service") then
-			mode_item:set({ icon = { color = colors.with_alpha(colors.orange, alpha_value) } })
-		elseif string.find(modeOutput, "open") then
-			mode_item:set({ icon = { color = colors.with_alpha(colors.red, alpha_value) } })
-		elseif string.find(modeOutput, "pass") then
-			mode_item:set({ icon = { color = colors.with_alpha(colors.green, alpha_value) } })
-		else
-			mode_item:set({ icon = { color = colors.with_alpha(colors.magenta, alpha_value) } })
-		end
-	end
+	end)
 end)
 
 -- mode_item:subscribe("space_windows_change", function()

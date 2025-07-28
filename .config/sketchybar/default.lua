@@ -44,8 +44,8 @@ sbar.default({
 		topmost = true,
 		blur_radius = 30,
 		height = 50,
-		padding_right = settings.paddings,
-		padding_left = settings.paddings,
+		-- padding_right = settings.paddings,
+		-- padding_left = settings.paddings,
 		background = {
 			border_width = 2,
 			corner_radius = 9,

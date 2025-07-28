@@ -14,29 +14,29 @@ local cpu = sbar.add("alias", "Control Center,com.bjango.istatmenus.combined", {
 })
 
 -- Background around the cpu item
-sbar.add("bracket", "widgets.cpu.bracket", { cpu.name }, {
-  background = {
-    color = colors.transparent,
-  },
-})
+-- sbar.add("bracket", "widgets.cpu.bracket", { cpu.name }, {
+--   background = {
+--     color = colors.transparent,
+--   },
+-- })
 
 -- Background around the cpu item
-sbar.add("item", "widgets.cpu.padding", {
-  position = "popup.cal",
-  padding_right = 0,
-  padding_left = 0,
-  -- width = settings.group_paddings,
-  icon = {
-    padding_right = 0,
-    padding_left = 0,
-  },
-  label = {
-    padding_right = 0,
-    padding_left = 0,
-  },
-  background = {
-    padding_right = 0,
-    padding_left = 10,
-  },
-  -- space = 1,
-})
+-- sbar.add("item", "widgets.cpu.padding", {
+--   position = "popup.cal",
+--   padding_right = 0,
+--   padding_left = 0,
+--   -- width = settings.group_paddings,
+--   icon = {
+--     padding_right = 0,
+--     padding_left = 0,
+--   },
+--   label = {
+--     padding_right = 0,
+--     padding_left = 0,
+--   },
+--   background = {
+--     padding_right = 0,
+--     padding_left = 10,
+--   },
+--   -- space = 1,
+-- })

@@ -60,6 +60,29 @@ local function update_menus(env)
 		end
 	end)
 end
+-- local function update_menus(env)
+-- 	local handle = io.popen("$CONFIG_DIR/helpers/menus/bin/menus -l")
+-- 	if handle then
+-- 		local menus = handle:read("*a")
+-- 		handle:close()
+--
+-- 		sbar.set("/menu\\..*/", { drawing = false })
+-- 		menu_padding:set({ drawing = true })
+--
+-- 		local id = 1
+-- 		for menu in string.gmatch(menus, "[^\r\n]+") do
+-- 			if id < max_items then
+-- 				menu_items[id]:set({ label = menu, drawing = true })
+-- 			else
+-- 				break
+-- 			end
+-- 			id = id + 1
+-- 		end
+-- 	else
+-- 		-- handle error opening the process
+-- 		print("Failed to run menus command")
+-- 	end
+-- end
 
 menu_watcher:subscribe("front_app_switched", update_menus)
 
@@ -68,11 +91,11 @@ space_menu_swap:subscribe("swap_menus_and_spaces", function(env)
 	if drawing then
 		menu_watcher:set({ updates = false })
 		sbar.set("/menu\\..*/", { drawing = false })
-		sbar.set("/space\\..*/", { drawing = true })
+		-- sbar.set("/spaces\\..*/", { drawing = true })
 		sbar.set("front_app", { drawing = true })
 	else
 		menu_watcher:set({ updates = true })
-		sbar.set("/space\\..*/", { drawing = false })
+		-- sbar.set("/workspace\\..*/", { drawing = false })
 		sbar.set("front_app", { drawing = false })
 		update_menus()
 	end

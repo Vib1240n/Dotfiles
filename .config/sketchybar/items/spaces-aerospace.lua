@@ -15,49 +15,50 @@ local spaces = {}
 local function getIconForApp(appName)
 	return app_icons[appName] or "?"
 end
-local function execCommand(cmd)
-	local handle = io.popen(cmd)
-	if not handle then
-		return nil
-	end
-	local result = handle:read("*a")
-	handle:close()
-	return result
-end
-
+-- local function execCommand(cmd)
+-- 	local handle = io.popen(cmd)
+-- 	if not handle then
+-- 		return nil
+-- 	end
+-- 	local result = handle:read("*a")
+-- 	handle:close()
+-- 	return result
+-- end
+--
 local function updateSpaceIcons(spaceId, workspaceName)
 	local icon_strip = ""
 	local shouldDraw = false
 
-	-- sbar.exec(LIST_APPS:format(workspaceName), function(appsOutput)
-	local appsOutput = execCommand(LIST_APPS:format(workspaceName))
-	if not appsOutput then
-		print("Warning: Failed to execute command for workspace: " .. workspaceName)
-		return
-	end
-	local appFound = false
+	sbar.exec(LIST_APPS:format(workspaceName), function(appsOutput)
+		-- local appsOutput = execCommand(LIST_APPS:format(workspaceName))
+		if not appsOutput then
+			print("Warning: Failed to execute command for workspace: " .. workspaceName)
+			return
+		end
+		local appFound = false
 
-	for app in appsOutput:gmatch("[^\r\n]+") do
-		local appName = app:match("^%s*(.-)%s*$") -- Trim whitespace
-		if appName and appName ~= "" then
-			icon_strip = icon_strip .. " " .. getIconForApp(appName)
-			appFound = true
+		for app in appsOutput:gmatch("[^\r\n]+") do
+			local appName = app:match("^%s*(.-)%s*$") -- Trim whitespace
+			if appName and appName ~= "" then
+				icon_strip = icon_strip .. " " .. getIconForApp(appName)
+				appFound = true
+				shouldDraw = true
+			end
+		end
+
+		if not appFound then
+			icon_strip = " - "
 			shouldDraw = true
 		end
-	end
 
-	if not appFound then
-		icon_strip = " - "
-		shouldDraw = true
-	end
-
-	if spaces[spaceId] then
-		spaces[spaceId].item:set({
-			label = { string = icon_strip, drawing = shouldDraw },
-		})
-	else
-		print("Warning: Space ID '" .. spaceId .. "' not found when updating icons.")
-	end
+		if spaces[spaceId] then
+			spaces[spaceId].item:set({
+				label = { string = icon_strip, drawing = shouldDraw },
+			})
+		else
+			print("Warning: Space ID '" .. spaceId .. "' not found when updating icons.")
+		end
+	end)
 end
 
 local function addWorkspaceItem(workspaceName, monitorId, isSelected)
@@ -144,56 +145,64 @@ local function addWorkspaceItem(workspaceName, monitorId, isSelected)
 	updateSpaceIcons(spaceId, workspaceName)
 end
 
--- local function drawSpaces()
--- 	sbar.exec(LIST_MONITORS, function(monitorsOutput)
--- 		-- Cache the focused workspace to avoid multiple `LIST_CURRENT` queries
--- 		sbar.exec(LIST_CURRENT, function(focusedWorkspaceOutput)
--- 			local focusedWorkspace = focusedWorkspaceOutput:match("[^\r\n]+")
---
--- 			-- Iterate through monitors and workspaces
--- 			for monitorId in monitorsOutput:gmatch("[^\r\n]+") do
--- 				sbar.exec(LIST_WORKSPACES:format(monitorId), function(workspacesOutput)
--- 					for workspaceName in workspacesOutput:gmatch("[^\r\n]+") do
--- 						local isSelected = workspaceName == focusedWorkspace
--- 						addWorkspaceItem(workspaceName, monitorId, isSelected)
--- 					end
--- 				end)
--- 			end
--- 		end)
--- 	end)
+local function drawSpaces(draw)
+	if draw then
+		sbar.exec(LIST_MONITORS, function(monitorsOutput)
+			-- Cache the focused workspace to avoid multiple `LIST_CURRENT` queries
+			sbar.exec(LIST_CURRENT, function(focusedWorkspaceOutput)
+				local focusedWorkspace = focusedWorkspaceOutput:match("[^\r\n]+")
+
+				-- Iterate through monitors and workspaces
+				for monitorId in monitorsOutput:gmatch("[^\r\n]+") do
+					sbar.exec(LIST_WORKSPACES:format(monitorId), function(workspacesOutput)
+						for workspaceName in workspacesOutput:gmatch("[^\r\n]+") do
+							local isSelected = workspaceName == focusedWorkspace
+							addWorkspaceItem(workspaceName, monitorId, isSelected)
+						end
+					end)
+				end
+			end)
+		end)
+	else
+		return
+	end
+end
+-- local function execCommand(cmd)
+-- 	local handle = io.popen(cmd)
+-- 	if not handle then
+-- 		return nil
+-- 	end
+-- 	local result = handle:read("*a")
+-- 	handle:close()
+-- 	return result
 -- end
-local function execCommand(cmd)
-	local handle = io.popen(cmd)
-	if not handle then
-		return nil
-	end
-	local result = handle:read("*a")
-	handle:close()
-	return result
-end
+--
+-- local function drawSpaces(draw)
+-- 	if draw then
+-- 		local monitorsOutput = execCommand(LIST_MONITORS)
+-- 		if not monitorsOutput then
+-- 			return
+-- 		end
+-- 		local focusedWorkspaceOutput = execCommand(LIST_CURRENT)
+-- 		if not focusedWorkspaceOutput then
+-- 			return
+-- 		end
+-- 		local focusedWorkspace = focusedWorkspaceOutput:match("[^\r\n]+")
+-- 		for monitorId in monitorsOutput:gmatch("[^\r\n]+") do
+-- 			local workspacesOutput = execCommand(LIST_WORKSPACES:format(monitorId))
+-- 			if workspacesOutput then
+-- 				for workspaceName in workspacesOutput:gmatch("[^\r\n]+") do
+-- 					local isSelected = workspaceName == focusedWorkspace
+-- 					addWorkspaceItem(workspaceName, monitorId, isSelected)
+-- 				end
+-- 			end
+-- 		end
+-- 	else
+-- 		return
+-- 	end
+-- end
 
-local function drawSpaces()
-	local monitorsOutput = execCommand(LIST_MONITORS)
-	if not monitorsOutput then
-		return
-	end
-	local focusedWorkspaceOutput = execCommand(LIST_CURRENT)
-	if not focusedWorkspaceOutput then
-		return
-	end
-	local focusedWorkspace = focusedWorkspaceOutput:match("[^\r\n]+")
-	for monitorId in monitorsOutput:gmatch("[^\r\n]+") do
-		local workspacesOutput = execCommand(LIST_WORKSPACES:format(monitorId))
-		if workspacesOutput then
-			for workspaceName in workspacesOutput:gmatch("[^\r\n]+") do
-				local isSelected = workspaceName == focusedWorkspace
-				addWorkspaceItem(workspaceName, monitorId, isSelected)
-			end
-		end
-	end
-end
-
-drawSpaces()
+drawSpaces(true)
 
 local space_window_observer = sbar.add("item", {
 	drawing = false,
@@ -201,27 +210,37 @@ local space_window_observer = sbar.add("item", {
 })
 
 local spaces_indicator = sbar.add("item", {
+	padding_left = settings.paddings - 7,
+	padding_right = settings.paddings - 10,
 	icon = {
 		string = icons.switch.on,
+		padding_left = settings.paddings - 2,
+		padding_right = settings.paddings - 1,
+		color = colors.black,
 	},
 	label = {
 		string = "Spaces",
+		width = 0,
+		padding_left = settings.paddings - 10,
+		padding_right = settings.paddings - 2,
+		color = colors.bar.bg,
 	},
 	background = {
-		drawing = false,
+		color = colors.transparent,
+		border_color = colors.bar.bg,
 	},
 })
 
 space_window_observer:subscribe("aerospace_workspace_change", function(env)
-	drawSpaces()
+	drawSpaces(true)
 end)
 
 space_window_observer:subscribe("front_app_switched", function()
-	drawSpaces()
+	drawSpaces(true)
 end)
 
 space_window_observer:subscribe("space_windows_change", function()
-	drawSpaces()
+	drawSpaces(true)
 end)
 
 spaces_indicator:subscribe("swap_menus_and_spaces", function(env)
@@ -229,18 +248,20 @@ spaces_indicator:subscribe("swap_menus_and_spaces", function(env)
 	spaces_indicator:set({
 		icon = currently_on and icons.switch.off or icons.switch.on,
 	})
+	drawSpaces(false)
 end)
 
 spaces_indicator:subscribe("mouse.entered", function(env)
 	sbar.animate("tanh", 30, function()
 		spaces_indicator:set({
 			background = {
-				color = { alpha = 1.0 },
+				color = colors.bar.bg,
 				border_color = { alpha = 1.0 },
 			},
 			icon = { color = colors.bar.icon_light },
-			label = { width = "dynamic" },
+			label = { width = "dynamic", string = "Menu", color = colors.bar.label_light },
 		})
+		drawSpaces(false)
 	end)
 end)
 
@@ -254,9 +275,13 @@ spaces_indicator:subscribe("mouse.exited", function(env)
 			icon = { color = colors.black },
 			label = { width = 0 },
 		})
+
+		drawSpaces(false)
 	end)
 end)
 
 spaces_indicator:subscribe("mouse.clicked", function(env)
 	sbar.trigger("swap_menus_and_spaces")
+
+	drawSpaces(false)
 end)
