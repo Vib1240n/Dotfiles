@@ -6,6 +6,8 @@ local LIST_MODE = "aerospace list-modes --current"
 local alpha_value = 1
 -- local LIST_ALL_MODES = "aerospace list-modes"
 
+sbar.add("event", "mode_changed")
+
 local mode_item = sbar.add("item", {
 	position = "left",
 	icon = {
@@ -70,7 +72,7 @@ end
 -- 	-- drawing = true,
 -- })
 
-mode_item:subscribe("space_windows_change", function()
+mode_item:subscribe("mode_changed", function()
 	-- local function execCommand(cmd)
 	-- 	local handle = io.popen(cmd)
 	-- 	if not handle then

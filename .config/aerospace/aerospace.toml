@@ -107,50 +107,50 @@ alt-shift-j = 'move down'
 alt-shift-k = 'move up'
 alt-shift-l = 'move right'
 
-alt-1 = ['workspace 1','exec-and-forget sketchybar --trigger space_windows_change' ]
-alt-2 = ['workspace 2','exec-and-forget sketchybar --trigger space_windows_change']
-alt-3 = ['workspace 3','exec-and-forget sketchybar --trigger space_windows_change']
-alt-4 = ['workspace 4','exec-and-forget sketchybar --trigger space_windows_change']
-alt-5 = ['workspace 5','exec-and-forget sketchybar --trigger space_windows_change']
-alt-6 = ['workspace 6','exec-and-forget sketchybar --trigger space_windows_change']
-alt-7 = ['workspace 7','exec-and-forget sketchybar --trigger space_windows_change']
-alt-8 = ['workspace 8','exec-and-forget sketchybar --trigger space_windows_change']
-alt-9 = ['workspace 9','exec-and-forget sketchybar --trigger space_windows_change']
+alt-1 = ['workspace 1' ]
+alt-2 = ['workspace 2']
+alt-3 = ['workspace 3']
+alt-4 = ['workspace 4']
+alt-5 = ['workspace 5']
+alt-6 = ['workspace 6']
+alt-7 = ['workspace 7']
+alt-8 = ['workspace 8']
+alt-9 = ['workspace 9']
 
-alt-a = ['workspace A', 'exec-and-forget sketchybar --trigger space_windows_change'] # Arc Browser workspace
-alt-z = ['workspace Z', 'exec-and-forget sketchybar --trigger space_windows_change'] # Zen browser workspace
-alt-d = ['workspace D', 'exec-and-forget sketchybar --trigger space_windows_change'] # Discord workspace
-alt-x = ['workspace X', 'exec-and-forget sketchybar --trigger space_windows_change'] # Terminal/Xterm workspace
-alt-f = ['workspace F', 'exec-and-forget sketchybar --trigger space_windows_change'] # Fusion 360 workspace
-alt-b = ['workspace B', 'exec-and-forget sketchybar --trigger space_windows_change'] # bambu-studio workspace
-alt-w = ['workspace W', 'exec-and-forget sketchybar --trigger space_windows_change'] # Wootility
-alt-e = ['workspace E', 'exec-and-forget sketchybar --trigger space_windows_change'] # Utility workspace
-alt-c = ['workspace C', 'exec-and-forget sketchybar --trigger space_windows_change'] #
-alt-o = ['workspace O', 'exec-and-forget sketchybar --trigger space_windows_change'] # Obsidian workspace
-alt-s = ['workspace S', 'exec-and-forget sketchybar --trigger space_windows_change'] # Spotify/Apple music workspace
+alt-a = ['workspace A'] # Arc Browser workspace
+alt-z = ['workspace Z'] # Zen browser workspace
+alt-d = ['workspace D'] # Discord workspace
+alt-x = ['workspace X'] # Terminal/Xterm workspace
+alt-f = ['workspace F'] # Fusion 360 workspace
+alt-b = ['workspace B'] # bambu-studio workspace
+alt-w = ['workspace W'] # Wootility
+alt-e = ['workspace E'] # Utility workspace
+alt-c = ['workspace C'] #
+alt-o = ['workspace O'] # Obsidian workspace
+alt-s = ['workspace S'] # Spotify/Apple music workspace
 #######################################################################################################################
-alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-3 = ['move-node-to-workspace 3', 'workspace 3', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-4 = ['move-node-to-workspace 4', 'workspace 4', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-5 = ['move-node-to-workspace 5', 'workspace 5', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-6 = ['move-node-to-workspace 6', 'workspace 6', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-7 = ['move-node-to-workspace 7', 'workspace 7', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-8 = ['move-node-to-workspace 8', 'workspace 8', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-9 = ['move-node-to-workspace 9', 'workspace 9', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
+alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
+alt-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
+alt-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
+alt-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
+alt-shift-6 = ['move-node-to-workspace 6', 'workspace 6']
+alt-shift-7 = ['move-node-to-workspace 7', 'workspace 7']
+alt-shift-8 = ['move-node-to-workspace 8', 'workspace 8']
+alt-shift-9 = ['move-node-to-workspace 9', 'workspace 9']
 
 
-alt-shift-a = ['move-node-to-workspace A', 'workspace A', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-z = ['move-node-to-workspace Z', 'workspace Z', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-d = ['move-node-to-workspace D', 'workspace D', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-x = ['move-node-to-workspace X', 'workspace X', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-f = ['move-node-to-workspace F', 'workspace F', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-b = ['move-node-to-workspace B', 'workspace B', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-w = ['move-node-to-workspace W', 'workspace W', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-e = ['move-node-to-workspace E', 'workspace E', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-c = ['move-node-to-workspace C', 'workspace C', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-o = ['move-node-to-workspace O', 'workspace O', 'exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-s = ['move-node-to-workspace S', 'workspace S', 'exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-a = ['move-node-to-workspace A', 'workspace A']
+alt-shift-z = ['move-node-to-workspace Z', 'workspace Z']
+alt-shift-d = ['move-node-to-workspace D', 'workspace D']
+alt-shift-x = ['move-node-to-workspace X', 'workspace X']
+alt-shift-f = ['move-node-to-workspace F', 'workspace F']
+alt-shift-b = ['move-node-to-workspace B', 'workspace B']
+alt-shift-w = ['move-node-to-workspace W', 'workspace W']
+alt-shift-e = ['move-node-to-workspace E', 'workspace E']
+alt-shift-c = ['move-node-to-workspace C', 'workspace C']
+alt-shift-o = ['move-node-to-workspace O', 'workspace O']
+alt-shift-s = ['move-node-to-workspace S', 'workspace S']
 #######################################################################################################################
 alt-tab = 'workspace-back-and-forth'
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
@@ -161,10 +161,10 @@ f20 = 'exec-and-forget open -a /applications/ticktick.app'
 #
 #
 #
-alt-shift-semicolon = ['mode service','exec-and-forget sketchybar --trigger space_windows_change' ]
-alt-shift-rightSquareBracket = ['mode resize','exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-period = ['mode open','exec-and-forget sketchybar --trigger space_windows_change']
-alt-shift-backspace = ['mode pass','exec-and-forget sketchybar --trigger space_windows_change']
+alt-shift-semicolon = ['mode service','exec-and-forget sketchybar --trigger mode_changed' ]
+alt-shift-rightSquareBracket = ['mode resize','exec-and-forget sketchybar --trigger mode_changed']
+alt-shift-period = ['mode open','exec-and-forget sketchybar --trigger mode_changed']
+alt-shift-backspace = ['mode pass','exec-and-forget sketchybar --trigger mode_changed']
 #######################################################################################################################
 #  888b     d888               888                .d8888b.                            d8b                  
 #  8888b   d8888               888               d88p  y88b                           y8p                  
@@ -177,19 +177,19 @@ alt-shift-backspace = ['mode pass','exec-and-forget sketchybar --trigger space_w
 #######################################################################################################################
 #mode service settings
 [mode.service.binding]
-esc = ['reload-config', 'mode main','exec-and-forget sketchybar --trigger space_windows_change' ]
-r = ['flatten-workspace-tree', 'mode main','exec-and-forget sketchybar --trigger space_windows_change' ]                                      # reset layout
-f = ['layout floating tiling', 'mode main','exec-and-forget sketchybar --trigger space_windows_change' ]
-backspace = ['close-all-windows-but-current --quit-if-last-window', 'mode main','exec-and-forget sketchybar --trigger space_windows_change' ]
-alt-shift-h = ['join-with left', 'mode main','exec-and-forget sketchybar --trigger space_windows_change'  ]
-alt-shift-j = ['join-with down', 'mode main','exec-and-forget sketchybar --trigger space_windows_change' ]
-alt-shift-k = ['join-with up', 'mode main','exec-and-forget sketchybar --trigger space_windows_change' ]
-alt-shift-l = ['join-with right', 'mode main','exec-and-forget sketchybar --trigger space_windows_change' ]
-alt-shift-r = ['exec-and-forget yabai --restart-service', 'mode main','exec-and-forget sketchybar --trigger space_windows_change', "exec-and-forget sketchybar --reload" ]
+esc = ['reload-config', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+r = ['flatten-workspace-tree', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]                                      # reset layout
+f = ['layout floating tiling', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+backspace = ['close-all-windows-but-current --quit-if-last-window', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+alt-shift-h = ['join-with left', 'mode main','exec-and-forget sketchybar --trigger mode_changed'  ]
+alt-shift-j = ['join-with down', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+alt-shift-k = ['join-with up', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+alt-shift-l = ['join-with right', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+alt-shift-r = ['exec-and-forget yabai --restart-service', 'mode main','exec-and-forget sketchybar --trigger mode_changed', "exec-and-forget sketchybar --reload" ]
 down = 'volume down'
 up = 'volume up'
 # enter = ['enable toggle', 'mode main']
-enter = ['exec-and-forget sketchybar --trigger space_windows_change', "exec-and-forget sketchybar --reload", "mode main" ]
+enter = ['exec-and-forget sketchybar --trigger mode_changed', "exec-and-forget sketchybar --reload", "mode main" ]
 #######################################################################################################################
 #  888b     d888               888                8888888b.                    d8b                   
 #  8888b   d8888               888                888   Y88b                   Y8P                   
@@ -204,12 +204,12 @@ enter = ['exec-and-forget sketchybar --trigger space_windows_change', "exec-and-
 [mode.resize.binding]
 h = ['resize width +50']
 l = ['resize width -50']
-f = ['fullscreen', 'mode main','exec-and-forget sketchybar --trigger space_windows_change']
+f = ['fullscreen', 'mode main','exec-and-forget sketchybar --trigger mode_changed']
 j = ['resize height -50']
 k = ['resize height +50']
-esc = ['mode main','exec-and-forget sketchybar --trigger space_windows_change']
-b = ['balance-sizes', 'mode main','exec-and-forget sketchybar --trigger space_windows_change' ]
-enter = ['mode main','exec-and-forget sketchybar --trigger space_windows_change']
+esc = ['mode main','exec-and-forget sketchybar --trigger mode_changed']
+b = ['balance-sizes', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+enter = ['mode main','exec-and-forget sketchybar --trigger mode_changed']
 #######################################################################################################################
 #  888b     d888               888                 .d88888b.                             
 #  8888b   d8888               888                d88P" "Y88b                            
@@ -225,20 +225,20 @@ enter = ['mode main','exec-and-forget sketchybar --trigger space_windows_change'
 #######################################################################################################################
 #mode open settings
 [mode.open.binding]
-t = ['exec-and-forget open -a /Applications/Alacritty.app',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-x = ['exec-and-forget open -a /Applications/Alacritty.app',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-alt-t = ['exec-and-forget open -n /Applications/Alacritty.app',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-w = ['exec-and-forget open -a /Applications/Wootility.app',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-o = ['exec-and-forget open -a /Applications/Obsidian.app',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-d = ['exec-and-forget open -a /Applications/Discord.app/',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-z = ['exec-and-forget open -a /Applications/Zen\ Browser.app/',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-s = ['exec-and-forget open -a /Applications/Spotify.app',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-f = ['exec-and-forget open -a ~/Applications/Autodesk\ Fusion.app',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-a = ['exec-and-forget open -a /Applications/Arc.app',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-b = ['exec-and-forget open -a /Applications/BambuStudio.app',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-# b = ['exec-and-forget open -a /Applications/Vivaldi.app/',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-p = ['exec-and-forget open -a /Applications/PDFgear.app',  'mode main','exec-and-forget sketchybar --trigger space_windows_change']
-esc = ['mode main','exec-and-forget sketchybar --trigger space_windows_change']
+t = ['exec-and-forget open -a /Applications/Alacritty.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+x = ['exec-and-forget open -a /Applications/Alacritty.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+alt-t = ['exec-and-forget open -n /Applications/Alacritty.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+w = ['exec-and-forget open -a /Applications/Wootility.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+o = ['exec-and-forget open -a /Applications/Obsidian.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+d = ['exec-and-forget open -a /Applications/Discord.app/',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+z = ['exec-and-forget open -a /Applications/Zen.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+s = ['exec-and-forget open -a /Applications/Spotify.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+f = ['exec-and-forget open -a ~/Applications/Autodesk\ Fusion.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+a = ['exec-and-forget open -a /Applications/Arc.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+b = ['exec-and-forget open -a /Applications/BambuStudio.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+# b = ['exec-and-forget open -a /Applications/Vivaldi.app/',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+p = ['exec-and-forget open -a /Applications/PDFgear.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+esc = ['mode main','exec-and-forget sketchybar --trigger mode_changed']
 #######################################################################################################################
 #  888b     d888               888                8888888b.                             
 #  8888b   d8888               888                888   Y88b                            
@@ -251,8 +251,8 @@ esc = ['mode main','exec-and-forget sketchybar --trigger space_windows_change']
 #######################################################################################################################
 # mode pass settings
 [mode.pass.binding]
-esc = ['mode main','exec-and-forget sketchybar --trigger space_windows_change']
-enter = ['mode main','exec-and-forget sketchybar --trigger space_windows_change']
+esc = ['mode main','exec-and-forget sketchybar --trigger mode_changed']
+enter = ['mode main','exec-and-forget sketchybar --trigger mode_changed']
 # o = 'exec-and-forget yabai -m config mouse_follows_focus off'
 # n = 'exec-and-forget yabai -m config mouse_follows_focus on'
 #######################################################################################################################
