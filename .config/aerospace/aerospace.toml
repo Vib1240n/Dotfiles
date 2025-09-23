@@ -10,17 +10,16 @@
 #               erospace.toml2erospace.tomlerospace.toml.bakerospace.toml                                                                                 Y8b d88P          
 #                                                      r                                               "Y88P"           
 
-# after-login-command = []
-# after-startup-command = [
-#     'exec-and-forget yabai --start-service',
-#     'exec-and-forget yabai --restart-service',
-# ]
 exec-on-workspace-change = ['/bin/bash', '-c',
-    'sketchybar --trigger aerospace_workspace_change focused_workspace=$aerospace_focused_workspace'
+    'sketchybar --trigger aerospace_workspace_change focused_workspace=$aerospace_focused_workspace',
+    'sketchybar --trigger space_windows_change',
+
 ]
 
 on-focus-changed = [
-'exec-and-forget sketchybar --trigger aerospace_workspac_change focused_workspace=$aerospace_focused_workspace'
+'exec-and-forget sketchybar --trigger aerospace_workspac_change focused_workspace=$aerospace_focused_workspace',
+'exec-and-forget sketchybar --trigger space_windows_change',
+    'move-mouse window-lazy-center'
 ]
 
 # start aerospace at login
@@ -28,7 +27,7 @@ start-at-login = true
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
-accordion-padding = 70
+accordion-padding = 20
 
 # possible values: tiles|accordion
 default-root-container-layout = 'tiles'
@@ -38,7 +37,7 @@ default-root-container-layout = 'tiles'
 #               tall monitor (anything higher than wide) gets vertical orientation
 default-root-container-orientation = 'auto'
 
-# on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # on-focus-changed = ['move-mouse window-lazy-center']
 automatically-unhide-macos-hidden-apps = false
 
@@ -59,7 +58,7 @@ inner.horizontal = 15
 inner.vertical = 20
 outer.left = 7
 outer.bottom = 5
-outer.top = [{monitor.'^built-in retina display$' = 30}, 65]
+outer.top = [{monitor.'^built-in retina display$' = 35}, 65]
 outer.right = 7
 
 # 'main' binding mode declaration
@@ -92,114 +91,94 @@ outer.right = 7
 # all possible modifiers: cmd, alt, ctrl, shift
 
 # see: https://nikitabobko.github.io/aerospace/commands#layout
-alt-shift-slash = 'layout tiles horizontal vertical'
-alt-shift-comma = 'layout accordion horizontal vertical'
+ctrl-alt-shift-cmd-slash = 'layout tiles horizontal vertical'
+ctrl-alt-shift-cmd-comma = 'layout accordion horizontal vertical'
 
 # see: https://nikitabobko.github.io/aerospace/commands#focus
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
+ctrl-alt-shift-cmd-h = 'focus left'
+ctrl-alt-shift-cmd-j = 'focus down'
+ctrl-alt-shift-cmd-k = 'focus up'
+ctrl-alt-shift-cmd-l = 'focus right'
 
 # see: https://nikitabobko.github.io/aerospace/commands#move
-alt-shift-h = 'move left'
-alt-shift-j = 'move down'
-alt-shift-k = 'move up'
-alt-shift-l = 'move right'
+alt-ctrl-shift-h = 'move left'
+alt-ctrl-shift-j = 'move down'
+alt-ctrl-shift-k = 'move up'
+alt-ctrl-shift-l = 'move right'
 
-alt-1 = ['workspace 1' ]
-alt-2 = ['workspace 2']
-alt-3 = ['workspace 3']
-alt-4 = ['workspace 4']
-alt-5 = ['workspace 5']
-alt-6 = ['workspace 6']
-alt-7 = ['workspace 7']
-alt-8 = ['workspace 8']
-alt-9 = ['workspace 9']
+ctrl-alt-shift-cmd-1 = ['workspace 1']
+ctrl-alt-shift-cmd-2 = ['workspace 2']
+ctrl-alt-shift-cmd-3 = ['workspace 3']
+ctrl-alt-shift-cmd-4 = ['workspace 4']
+ctrl-alt-shift-cmd-5 = ['workspace 5']
+ctrl-alt-shift-cmd-6 = ['workspace 6']
+ctrl-alt-shift-cmd-7 = ['workspace 7']
+ctrl-alt-shift-cmd-8 = ['workspace 8']
+ctrl-alt-shift-cmd-9 = ['workspace 9']
 
-alt-a = ['workspace A'] # Arc Browser workspace
-alt-z = ['workspace Z'] # Zen browser workspace
-alt-d = ['workspace D'] # Discord workspace
-alt-x = ['workspace X'] # Terminal/Xterm workspace
-alt-f = ['workspace F'] # Fusion 360 workspace
-alt-b = ['workspace B'] # bambu-studio workspace
-alt-w = ['workspace W'] # Wootility
-alt-e = ['workspace E'] # Utility workspace
-alt-c = ['workspace C'] #
-alt-o = ['workspace O'] # Obsidian workspace
-alt-s = ['workspace S'] # Spotify/Apple music workspace
+ctrl-alt-shift-cmd-a = ['workspace A'] # Arc Browser workspace
+ctrl-alt-shift-cmd-z = ['workspace Z'] # Zen browser workspace
+ctrl-alt-shift-cmd-d = ['workspace D'] # Discord workspace
+ctrl-alt-shift-cmd-x = ['workspace X'] # Terminal/Xterm workspace
+ctrl-alt-shift-cmd-f = ['workspace F'] # Fusion 360 workspace
+ctrl-alt-shift-cmd-b = ['workspace B'] # bambu-studio workspace
+ctrl-alt-shift-cmd-w = ['workspace W'] # Wootility
+ctrl-alt-shift-cmd-e = ['workspace E'] # Utility workspace
+ctrl-alt-shift-cmd-c = ['workspace C'] #
+ctrl-alt-shift-cmd-o = ['workspace O'] # Obsidian workspace
+ctrl-alt-shift-cmd-s = ['workspace S'] # Spotify/Apple music workspaceD
 #######################################################################################################################
-alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
-alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
-alt-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
-alt-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
-alt-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
-alt-shift-6 = ['move-node-to-workspace 6', 'workspace 6']
-alt-shift-7 = ['move-node-to-workspace 7', 'workspace 7']
-alt-shift-8 = ['move-node-to-workspace 8', 'workspace 8']
-alt-shift-9 = ['move-node-to-workspace 9', 'workspace 9']
+alt-shift-ctrl-1 = ['move-node-to-workspace 1', 'workspace 1']
+alt-shift-ctrl-2 = ['move-node-to-workspace 2', 'workspace 2']
+alt-shift-ctrl-3 = ['move-node-to-workspace 3', 'workspace 3']
+alt-shift-ctrl-4 = ['move-node-to-workspace 4', 'workspace 4']
+alt-shift-ctrl-5 = ['move-node-to-workspace 5', 'workspace 5']
+alt-shift-ctrl-6 = ['move-node-to-workspace 6', 'workspace 6']
+alt-shift-ctrl-7 = ['move-node-to-workspace 7', 'workspace 7']
+alt-shift-ctrl-8 = ['move-node-to-workspace 8', 'workspace 8']
+alt-shift-ctrl-9 = ['move-node-to-workspace 9', 'workspace 9']
 
 
-alt-shift-a = ['move-node-to-workspace A', 'workspace A']
-alt-shift-z = ['move-node-to-workspace Z', 'workspace Z']
-alt-shift-d = ['move-node-to-workspace D', 'workspace D']
-alt-shift-x = ['move-node-to-workspace X', 'workspace X']
-alt-shift-f = ['move-node-to-workspace F', 'workspace F']
-alt-shift-b = ['move-node-to-workspace B', 'workspace B']
-alt-shift-w = ['move-node-to-workspace W', 'workspace W']
-alt-shift-e = ['move-node-to-workspace E', 'workspace E']
-alt-shift-c = ['move-node-to-workspace C', 'workspace C']
-alt-shift-o = ['move-node-to-workspace O', 'workspace O']
-alt-shift-s = ['move-node-to-workspace S', 'workspace S']
+alt-shift-ctrl-a = ['move-node-to-workspace A', 'workspace A']
+alt-shift-ctrl-z = ['move-node-to-workspace Z', 'workspace Z']
+alt-shift-ctrl-d = ['move-node-to-workspace D', 'workspace D']
+alt-shift-ctrl-x = ['move-node-to-workspace X', 'workspace X']
+alt-shift-ctrl-f = ['move-node-to-workspace F', 'workspace F']
+alt-shift-ctrl-b = ['move-node-to-workspace B', 'workspace B']
+alt-shift-ctrl-w = ['move-node-to-workspace W', 'workspace W']
+alt-shift-ctrl-e = ['move-node-to-workspace E', 'workspace E']
+alt-shift-ctrl-c = ['move-node-to-workspace C', 'workspace C']
+alt-shift-ctrl-o = ['move-node-to-workspace O', 'workspace O']
+alt-shift-ctrl-s = ['move-node-to-workspace S', 'workspace S']
 #######################################################################################################################
 alt-tab = 'workspace-back-and-forth'
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
-alt-shift-space = 'focus-monitor prev'
-alt-space = 'focus-monitor next'
+ctrl-alt-shift-space = 'focus-monitor prev'
+ctrl-alt-shift-cmd-space = 'focus-monitor next'
 f20 = 'exec-and-forget open -a /applications/ticktick.app'
-#
-#
-#
-#
-alt-shift-semicolon = ['mode service','exec-and-forget sketchybar --trigger mode_changed' ]
-alt-shift-rightSquareBracket = ['mode resize','exec-and-forget sketchybar --trigger mode_changed']
-alt-shift-period = ['mode open','exec-and-forget sketchybar --trigger mode_changed']
-alt-shift-backspace = ['mode pass','exec-and-forget sketchybar --trigger mode_changed']
-#######################################################################################################################
-#  888b     d888               888                .d8888b.                            d8b                  
-#  8888b   d8888               888               d88p  y88b                           y8p                  
-#  88888b.d88888               888               y88b.                                                     
-#  888y88888p888  .d88b.   .d88888  .d88b.        "y888b.    .d88b.  888d888 888  888 888  .d8888b .d88b.  
-#  888 y888p 888 d88""88b d88" 888 d8p  y8b          "y88b. d8p  y8b 888p"   888  888 888 d88p"   d8p  y8b 
-#  888  y8p  888 888  888 888  888 88888888            "888 88888888 888     y88  88p 888 888     88888888 
-#  888   "   888 y88..88p y88b 888 y8b.          y88b  d88p y8b.     888      y8bd8p  888 y88b.   y8b.     
-#  888       888  "y88p"   "y88888  "y8888        "y8888p"   "y8888  888       y88p   888  "y8888p "y8888  
-#######################################################################################################################
+ctrl-esc = 'exec-and-forget sketchybar --trigger swap_menus_and_spaces'
+alt-shift-ctrl-cmd-esc = ['mode service','exec-and-forget sketchybar --trigger mode_changed' ]
+alt-shift-ctrl-cmd-rightSquareBracket = ['mode resize','exec-and-forget sketchybar --trigger mode_changed']
+alt-shift-ctrl-cmd-leftSquareBracket = ['mode resize','exec-and-forget sketchybar --trigger mode_changed']
+alt-shift-ctrl-cmd-i = ['mode open','exec-and-forget sketchybar --trigger mode_changed']
+alt-shift-ctrl-cmd-p = ['mode pass','exec-and-forget sketchybar --trigger mode_changed']
+alt-enter = ['exec-and-forget open -a /System/Library/CoreServices/Finder.app']
+
+ctrl-shift-cmd-alt-enter = ['exec-and-forget open -a /Applications/Claude.app']
+
+
+
 #mode service settings
 [mode.service.binding]
-esc = ['reload-config', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
-r = ['flatten-workspace-tree', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]                                      # reset layout
-f = ['layout floating tiling', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
-backspace = ['close-all-windows-but-current --quit-if-last-window', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
-alt-shift-h = ['join-with left', 'mode main','exec-and-forget sketchybar --trigger mode_changed'  ]
-alt-shift-j = ['join-with down', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
-alt-shift-k = ['join-with up', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
-alt-shift-l = ['join-with right', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
-alt-shift-r = ['exec-and-forget yabai --restart-service', 'mode main','exec-and-forget sketchybar --trigger mode_changed', "exec-and-forget sketchybar --reload" ]
+esc = ['reload-config' ,'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
 down = 'volume down'
 up = 'volume up'
 # enter = ['enable toggle', 'mode main']
 enter = ['exec-and-forget sketchybar --trigger mode_changed', "exec-and-forget sketchybar --reload", "mode main" ]
-#######################################################################################################################
-#  888b     d888               888                8888888b.                    d8b                   
-#  8888b   d8888               888                888   Y88b                   Y8P                   
-#  88888b.d88888               888                888    888                                         
-#  888Y88888P888  .d88b.   .d88888  .d88b.        888   d88P  .d88b.  .d8888b  888 88888888  .d88b.  
-#  888 Y888P 888 d88""88b d88" 888 d8P  Y8b       8888888P"  d8P  Y8b 88K      888    d88P  d8P  Y8b 
-#  888  Y8P  888 888  888 888  888 88888888       888 T88b   88888888 "Y8888b. 888   d88P   88888888 
-#  888   "   888 Y88..88P Y88b 888 Y8b.           888  T88b  Y8b.          X88 888  d88P    Y8b.     
-#  888       888  "Y88P"   "Y88888  "Y8888        888   T88b  "Y8888   88888P' 888 88888888  "Y8888
-#######################################################################################################################
+r = ['exec-and-forget aerospace-cleanup']
+
+
+
 #mode resize settings
 [mode.resize.binding]
 h = ['resize width +50']
@@ -210,32 +189,31 @@ k = ['resize height +50']
 esc = ['mode main','exec-and-forget sketchybar --trigger mode_changed']
 b = ['balance-sizes', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
 enter = ['mode main','exec-and-forget sketchybar --trigger mode_changed']
-#######################################################################################################################
-#  888b     d888               888                 .d88888b.                             
-#  8888b   d8888               888                d88P" "Y88b                            
-#  88888b.d88888               888                888     888                            
-#  888Y88888P888  .d88b.   .d88888  .d88b.        888     888 88888b.   .d88b.  88888b.  
-#  888 Y888P 888 d88""88b d88" 888 d8P  Y8b       888     888 888 "88b d8P  Y8b 888 "88b 
-#  888  Y8P  888 888  888 888  888 88888888       888     888 888  888 88888888 888  888 
-#  888   "   888 Y88..88P Y88b 888 Y8b.           Y88b. .d88P 888 d88P Y8b.     888  888 
-#  888       888  "Y88P"   "Y88888  "Y8888         "Y88888P"  88888P"   "Y8888  888  888 
-#                                                             888                        
-#                                                             888                        
-#                                                             888                        
-#######################################################################################################################
+ctrl-shift-alt-cmd-h = ['join-with left', 'mode main','exec-and-forget sketchybar --trigger mode_changed'  ]
+ctrl-shift-alt-cmd-j = ['join-with down', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+ctrl-shift-alt-cmd-k = ['join-with up', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+ctrl-shift-alt-cmd-l = ['join-with right', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+ctrl-shift-alt-cmd-r = ['exec-and-forget yabai --restart-service', 'mode main','exec-and-forget sketchybar --trigger mode_changed', "exec-and-forget sketchybar --reload" ]
+backspace = ['close-all-windows-but-current --quit-if-last-window', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+r = ['flatten-workspace-tree', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]                                      # reset layout
+ctrl-shift-alt-f = ['layout floating tiling', 'mode main','exec-and-forget sketchybar --trigger mode_changed' ]
+
+
+
+
 #mode open settings
 [mode.open.binding]
-t = ['exec-and-forget open -a /Applications/Alacritty.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
-x = ['exec-and-forget open -a /Applications/Alacritty.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+t = ['exec-and-forget open -a /Applications/iTerm.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+x = ['exec-and-forget open -a /Applications/iTerm.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
 alt-t = ['exec-and-forget open -n /Applications/Alacritty.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
 w = ['exec-and-forget open -a /Applications/Wootility.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
 o = ['exec-and-forget open -a /Applications/Obsidian.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
-d = ['exec-and-forget open -a /Applications/Discord.app/',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
-z = ['exec-and-forget open -a /Applications/Zen.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+d = ['exec-and-forget open -a /Applications/Legcord.app/',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+b = ['exec-and-forget open -a /Applications/BambuStudio.app/',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
 s = ['exec-and-forget open -a /Applications/Spotify.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
 f = ['exec-and-forget open -a ~/Applications/Autodesk\ Fusion.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
 a = ['exec-and-forget open -a /Applications/Arc.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
-b = ['exec-and-forget open -a /Applications/BambuStudio.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
+3 = ['exec-and-forget open -a /Applications/BambuStudio.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
 # b = ['exec-and-forget open -a /Applications/Vivaldi.app/',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
 p = ['exec-and-forget open -a /Applications/PDFgear.app',  'mode main','exec-and-forget sketchybar --trigger mode_changed']
 esc = ['mode main','exec-and-forget sketchybar --trigger mode_changed']
@@ -287,18 +265,18 @@ enter = ['mode main','exec-and-forget sketchybar --trigger mode_changed']
 3 = ["Built-in Retina Display","AW3423DWF"]
 5 = ["Built-in Retina Display","AW3423DWF"]
 7 = ["Built-in Retina Display","AW3423DWF"]
-2 = ["OMEN 27qs","AW3423DWF",]
-4 = ["OMEN 27qs","AW3423DWF",]
-6 = ["OMEN 27qs","AW3423DWF",]
-8 = ["OMEN 27qs","AW3423DWF",]
+2 = ["secondary","AW3423DWF",]
+4 = ["secondary","AW3423DWF",]
+6 = ["secondary","AW3423DWF",]
+8 = ["secondary","AW3423DWF",]
 # Alpha workspaces
 
 A = ["Built-in Retina Display","AW3423DWF"] 
-Z = ["Built-in Retina Display","AW3423DWF"]
+B = ["Built-in Retina Display","AW3423DWF"]
 D = ["Built-in Retina Display","AW3423DWF"]
 X = ["Built-in Retina Display","AW3423DWF"]
 F = ["AW3423DWF","OMEN 27qs" ]             
-B = ["AW3423DWF","OMEN 27qs"]              
+Z = ["AW3423DWF","OMEN 27qs"]              
 W = ["AW3423DWF","OMEN 27qs"]              
 E = ["AW3423DWF","OMEN 27qs"]              
 C = ["Built-in Retina Display","AW3423DWF"] 
@@ -324,14 +302,14 @@ S = ["AW3423DWF","OMEN 27qs" ]
 #######################################################################################################################
 [[on-window-detected]]
 if.app-id = 'com.bambulab.bambu-studio'
-run = ['layout tiling', 'move-node-to-workspace B']
+run = ['layout floating', 'move-node-to-workspace 1']
 
 # Finder window setting
-[[on-window-detected]]
-if.app-id = 'com.apple.finder'
-run = ['layout floating']
-
-
+# [[on-window-detected]]
+# if.app-id = 'com.apple.finder'
+# run = ['layout floating']
+#
+#
 # Raycast window setting
 
 [[on-window-detected]]
@@ -419,16 +397,40 @@ run = ['move-node-to-workspace D']
 
 # Zen browser Setting
 
-
 [[on-window-detected]]
 if.app-id = 'app.zen-browser.zen'
 if.window-title-regex-substring = 'Picture-in-Picture'
 run = ['layout floating']
+check-further-callbacks = true
 
 [[on-window-detected]]
 if.app-id = 'app.zen-browser.zen'
-run = ['move-node-to-workspace Z']
-# check-further-callback = true
+if.window-title-regex-substring = 'Extension: (Bitwarden Password Manager) - Bitwarden'
+run = ['layout floating']
+check-further-callbacks = true
+
+[[on-window-detected]]
+if.app-id = 'app.zen-browser.zen'
+run = ['move-node-to-workspace B']
+check-further-callbacks = true
+
+# Opera Browser Settings
+[[on-window-detected]]
+if.app-id = 'com.operasoftware.Opera'
+if.window-title-regex-substring = 'Picture-in-Picture'
+run = ['layout floating']
+check-further-callbacks = true
+
+[[on-window-detected]]
+if.app-id = 'com.operasoftware.Opera'
+if.window-title-regex-substring = 'Extension: (Bitwarden Password Manager) - Bitwarden'
+run = ['layout floating']
+check-further-callbacks = true
+
+[[on-window-detected]]
+if.app-id = 'com.operasoftware.Opera'
+run = ['move-node-to-workspace B']
+check-further-callbacks = true
 
 
 # Wezterm Settings
@@ -447,9 +449,9 @@ run = ['layout floating']
 
 # Tinker Tool Settings
 
-[[on-window-detected]]
-if.app-id = 'com.bresink.system.tinkertool'
-run = ['layout floating']
+# [[on-window-detected]]
+# if.app-id = 'com.bresink.system.tinkertool'
+# run = ['layout floating']
 
 
 # ghostty settings
@@ -464,7 +466,8 @@ run = ['layout tiling', 'move-node-to-workspace W']
 [[on-window-detected]]
 if.app-id = 'com.jordanbaird.Ice'
 run = ['layout floating', 'move-node-to-workspace 1']
-# Ice App Settings                                            
+
+# wootility-lekker Settings                                            
 
 [[on-window-detected]]
 if.app-id = 'com.electron.wootility-lekker'
@@ -476,44 +479,104 @@ run = ['layout floating', 'move-node-to-workspace W']
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
 run = ['move-node-to-workspace S']
+
+# Chrome 
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
 run = ['move-node-to-workspace C']
+
+# Arc
 
 [[on-window-detected]]
 if.app-id = 'company.thebrowser.Browser'
 run = ['layout tiling', 'move-node-to-workspace A']
 
-[[on-window-detected]]
-if.app-id = 'com.pdfeditor.pdfeditormac'
-run = ['layout tiling', 'move-node-to-workspace E']
 
-[[on-window-detected]]
-if.window-title-regex-substring = 'Tools'
-if.app-id = 'com.pdfeditor.pdfeditormac'
-run = ['layout floating']
-
-
-[[on-window-detected]]
-if.app-id = 'com.apple.finder'
-run = ['layout floating']
-
-[[on-window-detected]]
-if.app-id = 'org.alacritty'
-run = ['layout tiling', 'move-node-to-workspace X']
-
+# Safari Settings
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
-run = ['layout tiling', 'move-node-to-workspace B']
+run = ['layout tiling', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id = 'com.vivaldi.Vivaldi'
 run = ['layout tiling', 'move-node-to-workspace B']
 
 [[on-window-detected]]
-if.window-title-regex-substring = 'Bitwarden'
+if.app-id = 'com.bitwarden.desktop'
 run = ['layout floating']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.SFSymbols'
 run = ['layout floating', 'move-node-to-workspace S']
+
+# [[on-window-detected]]
+# PDF Gear
+
+[[on-window-detected]]
+if.app-id = 'com.pdfeditor.pdfeditormac'
+run = ['layout tiling', 'move-node-to-workspace E']
+
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'Tools'
+if.app-id = 'com.pdfeditor.pdfeditormac'
+run = ['layout floating']
+
+# Finder
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = ['layout floating']
+
+# Iterm settings
+
+[[on-window-detected]]
+if.app-id = 'com.googlecode.iterm2'
+run = ['layout tiling', 'move-node-to-workspace X']
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'Settings'
+if.app-id = 'com.googlecode.iterm2'
+run = ['layout floating', 'move-node-to-workspace X']
+
+# Alacritty Settings
+
+[[on-window-detected]]
+if.app-id = 'org.alacritty'
+run = ['layout tiling', 'move-node-to-workspace X']
+
+#claude Settings
+[[on-window-detected]]
+if.window-title-regex-substring = 'Claude'
+if.app-id = 'com.anthropic.claudefordesktop'
+run = ['layout floating']
+
+# Twitter Settings
+
+[[on-window-detected]]
+if.app-id = 'com.atebits.Tweetie2'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+run = ['layout tiling', 'move-node-to-workspace S']
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'MiniPlayer'
+if.app-id = 'com.apple.Music'
+run = ['layout floating']
+[[on-window-detected]]
+if.window-title-regex-substring = 'Equalizer'
+if.app-id = 'com.apple.Music'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'app.legcord.Legcord'
+run = ['layout tiling', 'move-node-to-workspace D']
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'Alfred Preferences'
+if.app-id = 'com.runningwithcrayons.Alfred-Preferences'
+run = ['layout floating']
+
+

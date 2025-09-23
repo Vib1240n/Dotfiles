@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SQLite3_database_folder</key>
+	<string>~/Library/Mobile Documents/com~apple~CloudDocs</string>
+	<key>history_archive_keyword</key>
+	<string>cliparchive</string>
+	<key>history_search_keyword</key>
+	<string>clipsearch</string>
+</dict>
+</plist>

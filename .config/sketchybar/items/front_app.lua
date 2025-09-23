@@ -1,8 +1,9 @@
-local colors = require("colors")
 local settings = require("settings")
+local colors = require("colors")
 local app_icons = require("helpers.app_icons")
 
 local function getIconForApp(appName)
+	print(appName)
 	return app_icons[appName] or "?"
 end
 
@@ -19,6 +20,7 @@ local front_app = sbar.add("item", "front_app", {
 			style = settings.font.style_map["SemiBold"],
 			size = 18.0,
 		},
+		color = colors.label_secondary,
 		padding_left = settings.paddings - 15,
 	},
 	updates = true,

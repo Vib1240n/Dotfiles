@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.may-june-july.ClipboardHistoryArchive</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>0FB5A647-B48B-481B-824F-AAEF148D10EE</key>
+		<array/>
+		<key>1B16D2A2-9F32-4F09-811F-F9626DEAF79D</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0FB5A647-B48B-481B-824F-AAEF148D10EE</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>276FE139-E1CA-4B46-8799-5D5FA4AB0F61</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>58B5B0C5-88FC-4B6E-816F-81488287CA10</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>28D71740-7274-4DA8-816B-1E030E828C44</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>276FE139-E1CA-4B46-8799-5D5FA4AB0F61</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Copy to clipboard</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>DA5F01DA-2650-4417-AAB4-AFFEAD5FE71F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>3EE4B8F3-F771-4959-92EF-B3AC7C33FC06</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>Paste to front-most app</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>45D1ECF6-2130-4939-B840-92C2CE2CD068</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0FB5A647-B48B-481B-824F-AAEF148D10EE</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>64178271-0630-49E3-B996-41E83761CB03</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>28D71740-7274-4DA8-816B-1E030E828C44</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>92FF41DA-CC95-45C0-B725-46EE9FE87430</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>1B16D2A2-9F32-4F09-811F-F9626DEAF79D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>May June July</string>
+	<key>description</key>
+	<string>Backup Alfred’s Clipboard History and search through backups</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Clipboard History Archive</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./notificator --title "✅️ Copied!" --message $1 --sound 'Funk'</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>11</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>58B5B0C5-88FC-4B6E-816F-81488287CA10</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>276FE139-E1CA-4B46-8799-5D5FA4AB0F61</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>behaviour</key>
+				<integer>1</integer>
+				<key>fontmode</key>
+				<integer>0</integer>
+				<key>fontsizing</key>
+				<integer>0</integer>
+				<key>footertext</key>
+				<string>Esc to get back to the search result</string>
+				<key>inputfile</key>
+				<string></string>
+				<key>inputtype</key>
+				<integer>0</integer>
+				<key>loadingtext</key>
+				<string></string>
+				<key>outputmode</key>
+				<integer>0</integer>
+				<key>scriptinput</key>
+				<integer>0</integer>
+				<key>spellchecking</key>
+				<integer>0</integer>
+				<key>stackview</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.userinterface.text</string>
+			<key>uid</key>
+			<string>DA5F01DA-2650-4417-AAB4-AFFEAD5FE71F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:history_search_keyword}</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading backups…</string>
+				<key>script</key>
+				<string>python3 find_in_history_archive.py "$1" "$SQLite3_database_folder/all.sqlite3"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Search through Clipboard History backups created by this workflow</string>
+				<key>title</key>
+				<string>Search Clipboard History</string>
+				<key>type</key>
+				<integer>11</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>28D71740-7274-4DA8-816B-1E030E828C44</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>64178271-0630-49E3-B996-41E83761CB03</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>3EE4B8F3-F771-4959-92EF-B3AC7C33FC06</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./alfred-clipboard.sh "$1" -d "$SQLite3_database_folder"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>11</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>0FB5A647-B48B-481B-824F-AAEF148D10EE</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Show Status","arg":"status","subtitle":"Show numbers of items in both Alfred’s and this workflow’s clipboard history"},{"title":"Create Backup","arg":"backup","subtitle":"Backup Alfred’s Clipboard History"}]</string>
+				<key>keyword</key>
+				<string>{var:history_archive_keyword}</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Backup Alfred’s Clipboard History &amp; Show status of the backup</string>
+				<key>title</key>
+				<string>Archive Clipboard History</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>45D1ECF6-2130-4939-B840-92C2CE2CD068</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>availableviaurlhandler</key>
+				<false/>
+				<key>triggerid</key>
+				<string>backup</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.external</string>
+			<key>uid</key>
+			<string>92FF41DA-CC95-45C0-B725-46EE9FE87430</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>backup</string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>1B16D2A2-9F32-4F09-811F-F9626DEAF79D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string># Clipboard History Archive
+
+Backup Alfred’s clipboard history so it doesn’t expire!
+
+Alfred’s Clipboard History can only keep items copied within 3 months at most. With this workflow you can have unlimited amount of items ready to search for. 
+
+This workflow lets you backup data from Alfred’s Clipboard History (only texts will be backed up). Merge the backed up data to a master database (without duplications). And search in the master database. 
+
+*You will need to specify a directory first. Inside the ‘Configure Workflow…’ button, find ‘Backup to’ option and select a folder you want to backup to.*
+
+## Backup
+
+Invoke the `clipboardarchive` keyword (can be customized inside ‘Configure Workflow…’ button) and choose ‘Backup to …’ option.
+
+All your data will be backed up to the directory you specified inside ‘Configure Workflow…’. A new ‘all.sqlite3’ database will be created to store all backed up items from now on if you have no backups.
+
+![](images/clipboard-history-archive-3.png)
+
+![](images/clipboard-history-archive-6.png)
+
+## Check Status
+
+Shows you how many items are currently in Alfred’s Clipboard History database and your master database (if you have backed up before).
+
+Invoke the `clipboardarchive` keyword (can be customized inside ‘Configure Workflow…’ button) and choose ‘Status of …’ option.
+
+![](images/clipboard-history-archive-4.png)
+
+![](images/clipboard-history-archive-5.png)
+
+## Search
+
+Invoke the `clipboardsearch` keyword (can be customized inside ‘Configure Workflow…’ button) or the hotkey ⌘⌥X (can be customized by editing the Hotkey object) and start typing. 
+
+![](images/clipboard-history-archive-1.png)
+
+Clipboard items matching your query will show in the result. 
+
+You can hit &lt;kbd&gt;↩&lt;/kbd&gt; to view the item in Alfred’s Text View (Alfred 5.5 required), hit &lt;kbd&gt;⌃&lt;/kbd&gt;&lt;kbd&gt;↩&lt;/kbd&gt; to copy the item to clipboard or  hit &lt;kbd&gt;⌘&lt;/kbd&gt;&lt;kbd&gt;↩&lt;/kbd&gt; to paste the item to front-most app. When you are in the preview window, you can get right back to the previous list window by pressing Esc.
+
+![](images/clipboard-history-archive-8.png)
+
+Inspired by a [topic](https://www.alfredforum.com/topic/10969-keep-clipboard-history-forever/?do=findComment&amp;comment=68859) on the Alfred Forum. The backup function is base on a modified version of [theSquashSH](https://www.alfredforum.com/profile/4058-thesquashsh/)’s [script](https://gist.github.com/pirate/6551e1c00a7c4b0c607762930e22804c).</string>
+	<key>uidata</key>
+	<dict>
+		<key>0FB5A647-B48B-481B-824F-AAEF148D10EE</key>
+		<dict>
+			<key>xpos</key>
+			<real>505</real>
+			<key>ypos</key>
+			<real>535</real>
+		</dict>
+		<key>1B16D2A2-9F32-4F09-811F-F9626DEAF79D</key>
+		<dict>
+			<key>xpos</key>
+			<real>325</real>
+			<key>ypos</key>
+			<real>740</real>
+		</dict>
+		<key>276FE139-E1CA-4B46-8799-5D5FA4AB0F61</key>
+		<dict>
+			<key>xpos</key>
+			<real>505</real>
+			<key>ypos</key>
+			<real>95</real>
+		</dict>
+		<key>28D71740-7274-4DA8-816B-1E030E828C44</key>
+		<dict>
+			<key>xpos</key>
+			<real>240</real>
+			<key>ypos</key>
+			<real>245</real>
+		</dict>
+		<key>3EE4B8F3-F771-4959-92EF-B3AC7C33FC06</key>
+		<dict>
+			<key>xpos</key>
+			<real>505</real>
+			<key>ypos</key>
+			<real>390</real>
+		</dict>
+		<key>45D1ECF6-2130-4939-B840-92C2CE2CD068</key>
+		<dict>
+			<key>xpos</key>
+			<real>60</real>
+			<key>ypos</key>
+			<real>535</real>
+		</dict>
+		<key>58B5B0C5-88FC-4B6E-816F-81488287CA10</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>3</integer>
+			<key>note</key>
+			<string>Notificator to post notifications
+https://github.com/vitorgalvao/notificator</string>
+			<key>xpos</key>
+			<real>705</real>
+			<key>ypos</key>
+			<real>95</real>
+		</dict>
+		<key>64178271-0630-49E3-B996-41E83761CB03</key>
+		<dict>
+			<key>xpos</key>
+			<real>60</real>
+			<key>ypos</key>
+			<real>245</real>
+		</dict>
+		<key>92FF41DA-CC95-45C0-B725-46EE9FE87430</key>
+		<dict>
+			<key>xpos</key>
+			<real>60</real>
+			<key>ypos</key>
+			<real>710</real>
+		</dict>
+		<key>DA5F01DA-2650-4417-AAB4-AFFEAD5FE71F</key>
+		<dict>
+			<key>xpos</key>
+			<real>505</real>
+			<key>ypos</key>
+			<real>245</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>~/Library/Application Support/Alfred/Workflow Data/com.may-june-july.ClipboardHistoryArchive</string>
+				<key>filtermode</key>
+				<integer>1</integer>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Defaults to the workflow’s data folder</string>
+			<key>label</key>
+			<string>Backup to</string>
+			<key>type</key>
+			<string>filepicker</string>
+			<key>variable</key>
+			<string>SQLite3_database_folder</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>clipboardsearch</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>History Search Keyword</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>history_search_keyword</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>clipboardarchive</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>History Archive Keyword</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>history_archive_keyword</string>
+		</dict>
+	</array>
+	<key>version</key>
+	<string>2025.8</string>
+	<key>webaddress</key>
+	<string>https://github.com/April-June-August/alfred-clipboard-history-archive</string>
+</dict>
+</plist>

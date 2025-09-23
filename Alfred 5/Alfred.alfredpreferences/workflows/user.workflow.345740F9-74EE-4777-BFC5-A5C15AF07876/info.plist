@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string></string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>43ECA86C-F026-4F2A-B144-7B36C2B3853D</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C15E3032-8DAA-4E4D-91C3-5746A743F305</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>4F6048A0-6474-485D-93C4-0B2D41B0D138</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>7FADEBDC-50BB-4998-99F8-AB8BC6BDF868</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>BCBEABBE-E5AF-4414-8144-2C82F222B3E0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>4F6048A0-6474-485D-93C4-0B2D41B0D138</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>C15E3032-8DAA-4E4D-91C3-5746A743F305</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BCBEABBE-E5AF-4414-8144-2C82F222B3E0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>vib2140n</string>
+	<key>description</key>
+	<string>Manage applications with Force Quit, Restart, Show in Finder options</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>App Manager</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<true/>
+				<key>escaping</key>
+				<integer>38</integer>
+				<key>script</key>
+				<string>#!/usr/bin/env python3
+import subprocess
+import sys
+import time
+import os
+
+def execute_action(action_data):
+    """Execute the selected action."""
+    try:
+        parts = action_data.split("|")
+        action = parts[0]
+        
+        if action == "quick_restart":
+            app_name = parts[1]
+            app_path = parts[2]
+            
+            # First, try to quit gracefully
+            subprocess.run(['osascript', '-e', f'tell application "{app_name}" to quit'], 
+                          capture_output=True)
+            time.sleep(0.5)
+            
+            # Force kill if still running
+            subprocess.run(['killall', app_name], capture_output=True)
+            time.sleep(0.5)
+            
+            # Launch the app
+            subprocess.run(['open', app_path])
+            return f"Restarted {app_name}"
+            
+        elif action == "force_quit":
+            app_name = parts[1]
+            subprocess.run(['killall', '-9', app_name])
+            return f"Force quit {app_name}"
+            
+        elif action == "quit":
+            app_name = parts[1]
+            subprocess.run(['osascript', '-e', f'tell application "{app_name}" to quit'])
+            return f"Quit {app_name}"
+            
+        elif action == "launch":
+            app_path = parts[2]
+            subprocess.run(['open', app_path])
+            return f"Launched {parts[1]}"
+            
+        elif action == "show_in_finder":
+            app_path = parts[1]
+            subprocess.run(['open', '-R', app_path])
+            return f"Revealed in Finder"
+            
+        elif action == "get_info":
+            app_path = parts[1]
+            subprocess.run(['open', '--reveal', app_path])
+            subprocess.run(['osascript', '-e', f'tell application "Finder" to open information window of (POSIX file "{app_path}" as alias)'])
+            return f"Opened info window"
+            
+        else:
+            return f"Unknown action: {action}"
+            
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+if __name__ == "__main__":
+    query = sys.argv[1] if len(sys.argv) &gt; 1 else ""
+    result = execute_action(query)
+    print(result)</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>9</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>4F6048A0-6474-485D-93C4-0B2D41B0D138</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>#!/usr/bin/env python3
+import json
+import subprocess
+import os
+import sys
+
+def is_app_running(app_name):
+    """Check if an application is currently running."""
+    try:
+        cmd = ['pgrep', '-f', f'{app_name}']
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        return result.returncode == 0
+    except:
+        return False
+
+def create_management_menu(app_name, app_path):
+    """Create management menu for the selected app."""
+    items = []
+    running = is_app_running(app_name)
+    
+    if running:
+        # Quick Restart (top option for running apps)
+        items.append({
+            "title": f"🔄 Quick Restart {app_name}",
+            "subtitle": "Terminate and relaunch the application",
+            "arg": f"quick_restart|{app_name}|{app_path}",
+            "icon": {"type": "fileicon", "path": app_path}
+        })
+        
+        # Force Quit
+        items.append({
+            "title": f"❌ Force Quit {app_name}",
+            "subtitle": "Forcefully terminate the application",
+            "arg": f"force_quit|{app_name}|{app_path}",
+            "icon": {"type": "fileicon", "path": app_path}
+        })
+        
+        # Graceful Quit
+        items.append({
+            "title": f"🛑 Quit {app_name}",
+            "subtitle": "Gracefully quit the application",
+            "arg": f"quit|{app_name}|{app_path}",
+            "icon": {"type": "fileicon", "path": app_path}
+        })
+    else:
+        # Launch (for non-running apps)
+        items.append({
+            "title": f"🚀 Launch {app_name}",
+            "subtitle": "Start the application",
+            "arg": f"launch|{app_name}|{app_path}",
+            "icon": {"type": "fileicon", "path": app_path}
+        })
+    
+    # Always available options
+    items.extend([
+        {
+            "title": f"📁 Show {app_name} in Finder",
+            "subtitle": "Reveal application in Finder",
+            "arg": f"show_in_finder|{app_path}",
+            "icon": {"type": "fileicon", "path": app_path}
+        },
+        {
+            "title": f"ℹ️ Get Info for {app_name}",
+            "subtitle": "Show application information",
+            "arg": f"get_info|{app_path}",
+            "icon": {"type": "fileicon", "path": app_path}
+        }
+    ])
+    
+    return {"items": items}
+
+def main():
+    try:
+        query = sys.argv[1] if len(sys.argv) &gt; 1 else ""
+        
+        if query.startswith("manage|"):
+            # Parse the management command
+            parts = query.split("|", 2)
+            if len(parts) &gt;= 3:
+                _, app_name, app_path = parts
+                result = create_management_menu(app_name, app_path)
+            else:
+                result = {"items": [{"title": "Invalid app selection", "valid": False}]}
+        else:
+            result = {"items": [{"title": "No app selected", "valid": False}]}
+            
+        print(json.dumps(result))
+        
+    except Exception as e:
+        print(json.dumps({
+            "items": [{
+                "title": "Error creating menu",
+                "subtitle": f"Error: {str(e)}",
+                "valid": False
+            }]
+        }))
+
+if __name__ == "__main__":
+    main()</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Loading management options...</string>
+				<key>title</key>
+				<string>App Management Options</string>
+				<key>type</key>
+				<integer>9</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>BCBEABBE-E5AF-4414-8144-2C82F222B3E0</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>a~</string>
+				<key>subtext</key>
+				<string>Browse running applications</string>
+				<key>text</key>
+				<string>App Manager</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>43ECA86C-F026-4F2A-B144-7B36C2B3853D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>App Manager</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>7FADEBDC-50BB-4998-99F8-AB8BC6BDF868</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>#!/usr/bin/env python3
+import json
+import subprocess
+import os
+import sys
+
+def get_running_apps():
+    """Get list of running applications with their info."""
+    try:
+        query = sys.argv[1].lower() if len(sys.argv) &gt; 1 and sys.argv[1] else ""
+        
+        # Use osascript to get running applications - more reliable
+        applescript = '''
+        tell application "System Events"
+            set appList to {}
+            repeat with proc in (every application process whose visible is true)
+                set appName to name of proc
+                set appList to appList &amp; appName
+            end repeat
+        end tell
+        return appList
+        '''
+        
+        result = subprocess.run(['osascript', '-e', applescript], 
+                              capture_output=True, text=True, check=True)
+        
+        running_app_names = []
+        if result.stdout.strip():
+            # Parse the AppleScript list output
+            output = result.stdout.strip()
+            if output:
+                # Remove the outer brackets and split by comma
+                apps_str = output.strip()
+                if apps_str:
+                    running_app_names = [app.strip() for app in apps_str.split(', ')]
+        
+        # Get all installed applications
+        app_dirs = ['/Applications', '/System/Applications', os.path.expanduser('~/Applications')]
+        all_apps = {}
+        
+        for app_dir in app_dirs:
+            if os.path.exists(app_dir):
+                try:
+                    for item in os.listdir(app_dir):
+                        if item.endswith('.app'):
+                            app_name = item[:-4]  # Remove .app extension
+                            app_path = os.path.join(app_dir, item)
+                            if app_name not in all_apps:  # Prefer /Applications over others
+                                all_apps[app_name] = app_path
+                except PermissionError:
+                    continue
+        
+        items = []
+        
+        # First add all running applications
+        for app_name in sorted(set(running_app_names)):
+            if not query or query in app_name.lower():
+                app_path = all_apps.get(app_name, f"/Applications/{app_name}.app")
+                items.append({
+                    "title": f"🟢 {app_name}",
+                    "subtitle": "Running - Click to manage this application",
+                    "arg": f"manage|{app_name}|{app_path}",
+                    "icon": {"type": "fileicon", "path": app_path}
+                })
+        
+        # Then add matching non-running apps if there's a search query
+        if query:
+            for app_name, app_path in all_apps.items():
+                if (query in app_name.lower() and 
+                    app_name not in running_app_names):
+                    items.append({
+                        "title": f"⚪ {app_name}",
+                        "subtitle": "Not running - Click to manage this application", 
+                        "arg": f"manage|{app_name}|{app_path}",
+                        "icon": {"type": "fileicon", "path": app_path}
+                    })
+        
+        # If no query and no running apps, show some common apps
+        if not items and not query:
+            common_apps = ['Safari', 'Chrome', 'Firefox', 'Finder', 'Terminal', 'TextEdit']
+            for app_name in common_apps:
+                app_path = all_apps.get(app_name, f"/Applications/{app_name}.app")
+                if os.path.exists(app_path):
+                    items.append({
+                        "title": f"⚪ {app_name}",
+                        "subtitle": "Not running - Click to manage this application",
+                        "arg": f"manage|{app_name}|{app_path}",
+                        "icon": {"type": "fileicon", "path": app_path}
+                    })
+        
+        if not items:
+            items.append({
+                "title": "No applications found",
+                "subtitle": "Try typing to search for applications",
+                "arg": "none",
+                "valid": False
+            })
+            
+        return {"items": items}
+        
+    except Exception as e:
+        # Debug output
+        return {
+            "items": [{
+                "title": "Debug - Error loading applications",
+                "subtitle": f"Error: {str(e)} | Args: {sys.argv}",
+                "arg": "error",
+                "valid": False
+            }]
+        }
+
+if __name__ == "__main__":
+    result = get_running_apps()
+    print(json.dumps(result))</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Loading running apps...</string>
+				<key>title</key>
+				<string>Applications</string>
+				<key>type</key>
+				<integer>9</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>C15E3032-8DAA-4E4D-91C3-5746A743F305</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>43ECA86C-F026-4F2A-B144-7B36C2B3853D</key>
+		<dict>
+			<key>xpos</key>
+			<real>35</real>
+			<key>ypos</key>
+			<real>160</real>
+		</dict>
+		<key>4F6048A0-6474-485D-93C4-0B2D41B0D138</key>
+		<dict>
+			<key>xpos</key>
+			<real>400</real>
+			<key>ypos</key>
+			<real>15</real>
+		</dict>
+		<key>7FADEBDC-50BB-4998-99F8-AB8BC6BDF868</key>
+		<dict>
+			<key>xpos</key>
+			<real>450</real>
+			<key>ypos</key>
+			<real>290</real>
+		</dict>
+		<key>BCBEABBE-E5AF-4414-8144-2C82F222B3E0</key>
+		<dict>
+			<key>xpos</key>
+			<real>220</real>
+			<key>ypos</key>
+			<real>15</real>
+		</dict>
+		<key>C15E3032-8DAA-4E4D-91C3-5746A743F305</key>
+		<dict>
+			<key>xpos</key>
+			<real>155</real>
+			<key>ypos</key>
+			<real>305</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>

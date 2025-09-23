@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>vib1240n</string>
+	<key>connections</key>
+	<dict>
+		<key>20ECB8D6-AAEA-4842-8BF4-286DA6013C43</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2CAE2EC0-69BD-4FD4-A53F-0FED1E14CA66</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>2CAE2EC0-69BD-4FD4-A53F-0FED1E14CA66</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BE9EB832-F80C-4E7E-A002-AC63FF2C4862</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string></string>
+	<key>description</key>
+	<string></string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>App Manager</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>0</integer>
+				<key>hotmod</key>
+				<integer>524288</integer>
+				<key>hotstring</key>
+				<string>A</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>20ECB8D6-AAEA-4842-8BF4-286DA6013C43</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>38</integer>
+				<key>keyword</key>
+				<string>apps</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>#!/bin/zsh
+
+query="$1"
+
+# If no query, show all apps. If query exists, filter strictly
+if [[ -z "$query" || "$query" == "" ]]; then
+    # Show all apps
+    apps_to_show=$(find /Applications -maxdepth 2 -name "*.app" -type d 2&gt;/dev/null | sort)
+else
+    # Filter apps by query
+    query_lower=$(echo "$query" | tr '[:upper:]' '[:lower:]')
+    apps_to_show=$(find /Applications -maxdepth 2 -name "*.app" -type d 2&gt;/dev/null | while read app; do
+        app_name=$(basename "$app" .app)
+        app_lower=$(echo "$app_name" | tr '[:upper:]' '[:lower:]')
+        [[ "$app_lower" == *"$query_lower"* ]] &amp;&amp; echo "$app"
+    done | sort)
+fi
+
+# Start JSON
+echo '{"items": ['
+
+first=true
+count=0
+
+# Process filtered apps
+echo "$apps_to_show" | while IFS= read -r app_path; do
+    [[ -z "$app_path" ]] &amp;&amp; continue
+    
+    app_name=$(basename "$app_path" .app)
+    
+    # Get bundle ID
+    bundle_id=""
+    if [[ -f "$app_path/Contents/Info.plist" ]]; then
+        bundle_id=$(defaults read "$app_path/Contents/Info.plist" CFBundleIdentifier 2&gt;/dev/null || echo "")
+    fi
+    
+    # Check if running
+    running_status=""
+    pids=$(pgrep -f "$app_name" 2&gt;/dev/null | xargs)
+    is_running=false
+    if [[ -n "$pids" ]]; then
+        is_running=true
+        running_status=" •"
+    fi
+    
+    # JSON comma handling
+    [[ "$first" == "true" ]] &amp;&amp; first=false || echo ","
+    
+    # Escape for JSON
+    app_name_esc=$(printf '%s' "$app_name" | sed 's/["\\]/\\&amp;/g')
+    app_path_esc=$(printf '%s' "$app_path" | sed 's/["\\]/\\&amp;/g')
+    bundle_id_esc=$(printf '%s' "$bundle_id" | sed 's/["\\]/\\&amp;/g')
+    
+    cat &lt;&lt; EOF
+{
+    "title": "$app_name_esc$running_status",
+    "subtitle": "$app_path_esc", 
+    "arg": "open|||$app_name_esc|||$bundle_id_esc|||$app_path_esc|||$pids",
+    "mods": {
+        "cmd": {
+            "arg": "quit|||$app_name_esc|||$bundle_id_esc|||$app_path_esc|||$pids",
+            "subtitle": "Quit $app_name_esc",
+            "valid": $is_running
+        },
+        "cmd+shift": {
+            "arg": "restart|||$app_name_esc|||$bundle_id_esc|||$app_path_esc|||$pids",
+            "subtitle": "Restart $app_name_esc", 
+            "valid": $is_running
+        }
+    },
+    "icon": {"path": "$app_path_esc", "type": "fileicon"}
+}
+EOF
+
+    count=$((count + 1))
+    [[ $count -ge 50 ]] &amp;&amp; break
+
+done
+
+echo ']}'</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>2CAE2EC0-69BD-4FD4-A53F-0FED1E14CA66</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>#!/bin/zsh
+
+# Parse input: action|||app_name|||bundle_id|||app_path|||pids
+IFS='|||' read -r action app_name bundle_id app_path pids &lt;&lt;&lt; "$1"
+
+case "$action" in
+    "open")
+        if [[ -n "$app_path" &amp;&amp; -d "$app_path" ]]; then
+            open -a "$app_path"
+            echo "Opened $app_name"
+        else
+            echo "Error: Could not open $app_name"
+        fi
+        ;;
+        
+    "quit")
+        if [[ -n "$pids" ]]; then
+            if [[ -n "$bundle_id" ]]; then
+                # Try graceful quit via bundle ID
+                osascript -e "tell application \"$app_name\" to quit" 2&gt;/dev/null || pkill "$app_name"
+            else
+                # Fallback to pkill
+                pkill "$app_name"
+            fi
+            echo "Quit $app_name"
+        else
+            echo "$app_name is not running"
+        fi
+        ;;
+        
+    "force_quit")
+        if [[ -n "$pids" ]]; then
+            pkill -9 -f "$app_name"
+            echo "Force quit $app_name"
+        else
+            echo "$app_name is not running"
+        fi
+        ;;
+        
+    "restart")
+        if [[ -n "$pids" ]]; then
+            # Quit first
+            if [[ -n "$bundle_id" ]]; then
+                osascript -e "tell application \"$app_name\" to quit" 2&gt;/dev/null || pkill "$app_name"
+            else
+                pkill "$app_name"
+            fi
+            
+            # Wait a moment
+            sleep 0.5
+            
+            # Reopen
+            open -a "$app_path"
+            echo "Restarted $app_name"
+        else
+            echo "$app_name is not running - opening instead"
+            open -a "$app_path"
+        fi
+        ;;
+        
+    "finder")
+        open -R "$app_path"
+        echo "Showed $app_name in Finder"
+        ;;
+        
+    *)
+        echo "Unknown action: $action"
+        ;;
+esac</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>BE9EB832-F80C-4E7E-A002-AC63FF2C4862</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>20ECB8D6-AAEA-4842-8BF4-286DA6013C43</key>
+		<dict>
+			<key>xpos</key>
+			<real>45</real>
+			<key>ypos</key>
+			<real>275</real>
+		</dict>
+		<key>2CAE2EC0-69BD-4FD4-A53F-0FED1E14CA66</key>
+		<dict>
+			<key>xpos</key>
+			<real>255</real>
+			<key>ypos</key>
+			<real>290</real>
+		</dict>
+		<key>BE9EB832-F80C-4E7E-A002-AC63FF2C4862</key>
+		<dict>
+			<key>xpos</key>
+			<real>575</real>
+			<key>ypos</key>
+			<real>445</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>

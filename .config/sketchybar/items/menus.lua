@@ -37,12 +37,12 @@ for i = 1, max_items, 1 do
 end
 
 sbar.add("bracket", { "/menu\\..*/" }, {
-	background = { color = colors.bar.bg },
+	background = { color = colors.bar },
 })
 
 local menu_padding = sbar.add("item", "menu.padding", {
 	drawing = false,
-	width = 5,
+	width = 0,
 })
 
 local function update_menus(env)
@@ -91,11 +91,11 @@ space_menu_swap:subscribe("swap_menus_and_spaces", function(env)
 	if drawing then
 		menu_watcher:set({ updates = false })
 		sbar.set("/menu\\..*/", { drawing = false })
-		-- sbar.set("/spaces\\..*/", { drawing = true })
+		sbar.set("/spaceID\\..*/", { drawing = true })
 		sbar.set("front_app", { drawing = true })
 	else
 		menu_watcher:set({ updates = true })
-		-- sbar.set("/workspace\\..*/", { drawing = false })
+		sbar.set("/spaceID\\..*/", { drawing = false })
 		sbar.set("front_app", { drawing = false })
 		update_menus()
 	end

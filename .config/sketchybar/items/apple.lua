@@ -20,11 +20,14 @@ local apple = sbar.add("item", {
 
 -- Double border for apple using a single item bracket
 sbar.add("bracket", { apple.name }, {
+	padding_left = settings.paddings,
+	padding_right = settings.paddings,
 	background = {
-		drawing = false,
+		drawing = true,
 		color = colors.transparent,
 		height = 30,
-		border_color = colors.transparent,
+		border_color = colors.border,
+		border_width = 0,
 	},
 })
 

@@ -10,21 +10,21 @@ local colors = require("colors")
 --            --set right_bar background.color=0xffffffff
 -- Equivalent to the --bar domain
 sbar.bar({
-	height = 45,
+	height = 55,
 	margin = 9,
-	y_offset = 10,
+	y_offset = 5,
 	blur_radius = 20,
 	corner_radius = 12,
-	color = colors.with_alpha(colors.white, 0.3),
+	color = colors.bar,
 	padding_right = 5,
 	padding_left = 0,
-	border_color = colors.with_alpha(colors.teal, 0.3),
-	border_width = 0,
-	topmost = "window",
+	border_color = colors.border,
+	border_width = 1,
+	topmost = "off",
 	sticky = "on",
 	position = "top",
 	notch_width = 300,
-	display = "all",
+	display = "1",
 	shadow = true,
 })
 

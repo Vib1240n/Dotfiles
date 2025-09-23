@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>autoExpandRestoreClipboardAfter</key>
+	<real>9</real>
+	<key>autoExpandSimulatedKeyEventPadding</key>
+	<real>1</real>
+	<key>blacklist</key>
+	<array>
+		<string>Keychain Access</string>
+		<string>SecurityAgent</string>
+		<string>1Password</string>
+		<string>Wallet</string>
+		<string>Passwords</string>
+		<string>Bitwarden</string>
+	</array>
+	<key>clearKeywordEnabled</key>
+	<false/>
+	<key>hotkey</key>
+	<dict>
+		<key>key</key>
+		<integer>8</integer>
+		<key>mod</key>
+		<integer>524288</integer>
+		<key>string</key>
+		<string>C</string>
+	</dict>
+	<key>ignoreRemoteClipboardFileLists</key>
+	<false/>
+	<key>limit</key>
+	<integer>4</integer>
+	<key>moveToTopOnUse</key>
+	<false/>
+	<key>persistFor</key>
+	<integer>3</integer>
+	<key>persistForFiles</key>
+	<integer>3</integer>
+	<key>persistForImages</key>
+	<integer>3</integer>
+	<key>snipKeywordRestoreClipboard</key>
+	<true/>
+	<key>viewerKeyword</key>
+	<string>~c</string>
+</dict>
+</plist>

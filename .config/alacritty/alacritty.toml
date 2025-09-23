@@ -6,9 +6,9 @@ decorations = "Transparent"
 blur = true
 # startup_mode = "Buttonless"
 dynamic_title = true
-opacity = 0.7
+opacity = 0.6 
 padding.x = 20
-padding.y = 20
+padding.y = 40
 option_as_alt = "OnlyRight"
 #######################################################################
 [env]
@@ -16,9 +16,9 @@ TERM = "xterm-256color"
 #######################################################################
 [font]
 size = 18
-normal.family = "JetbrainsMono Nerd Font"
-normal.style = "Medium"
-builtin_box_drawing = true
+normal.family = "Ubuntu Mono Nerd Font"
+normal.style = "Regular"
+builtin_box_drawing = false
 #######################################################################
 [scrolling]
 history = 100000
@@ -35,4 +35,5 @@ osc52 = "CopyPaste"
 hide_when_typing = true
 #######################################################################
 [colors]
-selection = { text = "CellForeground", background = "#43cfea" }
+selection = { text = "CellForeground", background = "#171717" }
+# primary = {background = "#001F24"}

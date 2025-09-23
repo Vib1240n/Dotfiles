@@ -12,7 +12,7 @@ local mode_item = sbar.add("item", {
 	position = "left",
 	icon = {
 		font = {
-			size = 20,
+			size = 30,
 		},
 		y_offset = 1,
 	},
@@ -22,21 +22,6 @@ local mode_item = sbar.add("item", {
 	background = {
 		drawing = false,
 	},
-	-- blur_radius = 30,
-	-- drawing = true,
-	-- popup = {
-	--   topmost = true,
-	--   blur_radius = 30,
-	--   height = 50,
-	--   padding_right = 10,
-	--   padding_left = 10,
-	--   align = "right",
-	--   horizontal = true,
-	--   background = {
-	--     color = colors.with_alpha(colors.white, 0.01),
-	--     border_width = 1,
-	--     border_color = colors.with_alpha(colors.teal, 0.2),
-	--     -- padding_right = 10, -- padding_left = 10, }, },
 })
 local function mode_icon(mode)
 	local set_icon = "? ?"
@@ -98,7 +83,7 @@ mode_item:subscribe("mode_changed", function()
 				},
 			})
 			if string.find(modeOutput, "main") then
-				mode_item:set({ icon = { color = colors.with_alpha(colors.bar.icon_dark, alpha_value) } })
+				mode_item:set({ icon = { color = colors.with_alpha(colors.icon, alpha_value) } })
 			elseif string.find(modeOutput, "resize") then
 				mode_item:set({ icon = { color = colors.with_alpha(colors.purple, alpha_value) } })
 			elseif string.find(modeOutput, "service") then

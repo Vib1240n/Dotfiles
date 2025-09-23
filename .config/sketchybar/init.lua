@@ -9,6 +9,7 @@ sbar.begin_config()
 require("bar")
 require("default")
 require("items")
+-- require("temporary-files")
 sbar.hotload(true)
 sbar.end_config()
 

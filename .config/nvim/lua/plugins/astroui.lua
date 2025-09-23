@@ -14,6 +14,8 @@ return {
     highlights = {
       init = { -- this table overrides highlights in all themes
         -- Normal = { bg = "#000000" },
+        Visual = { bg = "#266D71", fg = "#000000" },
+        CursorLine = { bg = "#266D71" },
       },
       astrodark = { -- a table of overrides/changes when applying the astrotheme theme
         -- Normal = { bg = "#000000" },

@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>vbi1240n</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>36ECB15C-4BD2-4BC4-88F9-760E36540165</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>EE1D5C31-1FC9-4C31-B46C-C6CC56D722D4</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>9CBEC35F-241C-41E8-86A5-AF7CB5D4F7EA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>8AEEB7D1-B651-48D0-B56F-C799D0903D79</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>36ECB15C-4BD2-4BC4-88F9-760E36540165</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>C0CCF7FA-C382-4B1D-8168-F99FBAB20A25</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>9CBEC35F-241C-41E8-86A5-AF7CB5D4F7EA</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string></string>
+	<key>description</key>
+	<string>View recent screenshots</string>
+	<key>disabled</key>
+	<true/>
+	<key>name</key>
+	<string>Screenshot Viewer</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>#!/bin/bash
+
+action="${1%%:*}"
+file="${1#*:}"
+filename=$(basename "$file")
+
+case "$action" in
+    "reveal")
+        open -R "$file"
+        osascript -e "display notification \"Revealed in Finder\" with title \"Screenshot: $filename\""
+        ;;
+    "delete")
+        osascript -e "tell application \"System Events\" to delete alias POSIX file \"$file\""
+        osascript -e "display notification \"Screenshot deleted\" with title \"$filename\""
+        ;;
+    "open")
+        open -a Preview "$file"
+        osascript -e "display notification \"Opened in Preview\" with title \"Screenshot: $filename\""
+        ;;
+    *)
+        # Default: copy to clipboard
+        osascript -e "set the clipboard to (read (POSIX file \"$1\") as {«class PNGf»})"
+        osascript -e "display notification \"Copied to clipboard\" with title \"Screenshot: $(basename \"$1\")\""
+        ;;
+esac</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>8AEEB7D1-B651-48D0-B56F-C799D0903D79</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>1</integer>
+				<key>hotmod</key>
+				<integer>524288</integer>
+				<key>hotstring</key>
+				<string>S</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>C0CCF7FA-C382-4B1D-8168-F99FBAB20A25</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>1</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>ss</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Alfred Workflow Script Filter for Screenshot Gallery
+This script generates JSON output for Alfred to display screenshots as a gallery
+"""
+
+import json
+import os
+import sys
+from datetime import datetime
+from pathlib import Path
+
+# Configuration - Change this to your screenshots directory
+SCREENSHOTS_DIR = os.path.expanduser("~/Desktop/.Screenshots")  # Hidden screenshots folder
+# You can change this to any directory, e.g.:
+# SCREENSHOTS_DIR = os.path.expanduser("~/Pictures/Screenshots")
+
+# Supported image formats
+IMAGE_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff', '.webp'}
+
+def get_file_size(file_path):
+    """Get human-readable file size"""
+    size = os.path.getsize(file_path)
+    for unit in ['B', 'KB', 'MB', 'GB']:
+        if size &lt; 1024.0:
+            return f"{size:.1f} {unit}"
+        size /= 1024.0
+    return f"{size:.1f} TB"
+
+def get_screenshots(directory, query=""):
+    """Get all screenshots from the specified directory"""
+    screenshots = []
+    
+    # Debug mode - set to True to see diagnostic info
+    DEBUG = False
+    
+    try:
+        path = Path(directory)
+        if not path.exists():
+            return [{
+                "title": "Directory not found",
+                "subtitle": f"The directory {directory} does not exist",
+                "valid": False,
+                "icon": {
+                    "path": "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertCautionIcon.icns"
+                }
+            }]
+        
+        # Get all image files (including hidden files)
+        files = []
+        for ext in IMAGE_EXTENSIONS:
+            # Standard pattern
+            files.extend(path.glob(f"*{ext}"))
+            files.extend(path.glob(f"*{ext.upper()}"))
+            # Also check for files starting with dot (hidden files)
+            files.extend(path.glob(f".*{ext}"))
+            files.extend(path.glob(f".*{ext.upper()}"))
+        
+        # Remove duplicates
+        files = list(set(files))
+        
+        if DEBUG:
+            # Add debug info as first item
+            screenshots.append({
+                "title": f"Debug: Found {len(files)} files",
+                "subtitle": f"Directory: {directory}",
+                "valid": False,
+                "icon": {
+                    "path": "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertNoteIcon.icns"
+                }
+            })
+        
+        # Sort by modification time (newest first)
+        files.sort(key=lambda x: x.stat().st_mtime, reverse=True)
+        
+        # Filter by query if provided
+        if query:
+            query_lower = query.lower()
+            files = [f for f in files if query_lower in f.name.lower()]
+        
+        # Optional: Limit number of files for performance
+        # Uncomment the line below if you want to limit results (e.g., for better performance)
+        # files = files[:50]
+        
+        # Note: Showing all screenshots may impact performance if you have hundreds of files
+        # Alfred handles large result sets well, but consider enabling the limit if needed
+        
+        for file_path in files:
+            stat = file_path.stat()
+            mod_time = datetime.fromtimestamp(stat.st_mtime)
+            
+            # Create Alfred item
+            item = {
+                "uid": str(file_path),
+                "title": file_path.name,
+                "subtitle": f"{get_file_size(file_path)} • {mod_time.strftime('%Y-%m-%d %H:%M')}",
+                "arg": str(file_path),
+                "valid": True,
+                "icon": {
+                    "path": str(file_path)
+                },
+                "quicklookurl": str(file_path),
+                "mods": {
+                    "cmd": {
+                        "subtitle": "Reveal in Finder",
+                        "arg": f"reveal:{file_path}"
+                    },
+                    "alt": {
+                        "subtitle": "Delete screenshot",
+                        "arg": f"delete:{file_path}"
+                    },
+                    "ctrl": {
+                        "subtitle": "Open in Preview",
+                        "arg": f"open:{file_path}"
+                    }
+                }
+            }
+            screenshots.append(item)
+        
+        if not screenshots:
+            return [{
+                "title": "No screenshots found",
+                "subtitle": f"No images found in {directory}",
+                "valid": False,
+                "icon": {
+                    "path": "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericFolderIcon.icns"
+                }
+            }]
+            
+    except Exception as e:
+        return [{
+            "title": "Error",
+            "subtitle": str(e),
+            "valid": False,
+            "icon": {
+                "path": "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertStopIcon.icns"
+            }
+        }]
+    
+    return screenshots
+
+def main():
+    # Get query from Alfred (if any)
+    query = sys.argv[1] if len(sys.argv) &gt; 1 else ""
+    
+    # Get screenshots
+    items = get_screenshots(SCREENSHOTS_DIR, query)
+    
+    # Output JSON for Alfred
+    output = {"items": items}
+    print(json.dumps(output))
+
+if __name__ == "__main__":
+    main()</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Browse and copy screenshots</string>
+				<key>title</key>
+				<string>Screenshot Gallery</string>
+				<key>type</key>
+				<integer>9</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>9CBEC35F-241C-41E8-86A5-AF7CB5D4F7EA</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<true/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Screenshot Copied!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>EE1D5C31-1FC9-4C31-B46C-C6CC56D722D4</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>36ECB15C-4BD2-4BC4-88F9-760E36540165</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>36ECB15C-4BD2-4BC4-88F9-760E36540165</key>
+		<dict>
+			<key>xpos</key>
+			<real>420</real>
+			<key>ypos</key>
+			<real>540</real>
+		</dict>
+		<key>8AEEB7D1-B651-48D0-B56F-C799D0903D79</key>
+		<dict>
+			<key>xpos</key>
+			<real>445</real>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
+		<key>9CBEC35F-241C-41E8-86A5-AF7CB5D4F7EA</key>
+		<dict>
+			<key>xpos</key>
+			<real>255</real>
+			<key>ypos</key>
+			<real>315</real>
+		</dict>
+		<key>C0CCF7FA-C382-4B1D-8168-F99FBAB20A25</key>
+		<dict>
+			<key>xpos</key>
+			<real>85</real>
+			<key>ypos</key>
+			<real>310</real>
+		</dict>
+		<key>EE1D5C31-1FC9-4C31-B46C-C6CC56D722D4</key>
+		<dict>
+			<key>xpos</key>
+			<real>580</real>
+			<key>ypos</key>
+			<real>400</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
