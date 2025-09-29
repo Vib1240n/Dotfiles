@@ -4,8 +4,9 @@ tap "gitjournal/tap"
 tap "homebrew/services"
 tap "jandedobbeleer/oh-my-posh"
 tap "jesseduffield/lazygit"
-tap "koekeishiya/formulae"
 tap "nikitabobko/tap"
+
+# Core utilities
 brew "libtiff"
 brew "jpeg-xl"
 brew "aom"
@@ -85,24 +86,37 @@ brew "yt-dlp"
 brew "zsh-autosuggestions"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
+
+# Window management & UI
 brew "felixkratz/formulae/borders"
 brew "felixkratz/formulae/sketchybar", args: ["HEAD"]
+
+# Tools
 brew "gitjournal/tap/git-auto-sync"
 brew "jandedobbeleer/oh-my-posh/oh-my-posh"
 brew "jesseduffield/lazygit/lazygit"
-brew "koekeishiya/formulae/skhd"
-brew "koekeishiya/formulae/yabai", args: ["HEAD"]
+
+# Applications
 cask "aerospace"
-cask "bambu-studio"
-cask "discord"
 cask "alacritty"
+cask "arc"
+cask "bambu-studio"
 cask "basictex"
-cask "flutter"
-cask "raycast"
-cask "hyperkey"
 cask "betterdisplay"
+cask "discord"
+cask "firefox"
+cask "flutter"
+cask "google-chrome"
+cask "hyperkey"
+cask "istat-menus"
+cask "iterm2"
 cask "obsidian"
+cask "raycast"
+cask "sf-symbols"
 cask "spotify"
+cask "vlc"
+
+# Fonts
 cask "font-caskaydia-mono-nerd-font"
 cask "font-commit-mono"
 cask "font-commit-mono-nerd-font"
@@ -115,7 +129,3 @@ cask "font-meslo-lg-nerd-font"
 cask "font-sf-mono"
 cask "font-sf-pro"
 cask "font-sketchybar-app-font"
-cask "istat-menus"
-cask "sf-symbols"
-cask "vlc"
-
