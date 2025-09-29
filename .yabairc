@@ -14,7 +14,7 @@ yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
 yabai -m signal --add event=space_created action="if \$(yabai -m query --spaces | jq -r \"map(select(.\"index\")) | last > 8\"); then yabai -m space --destroy \$(yabai -m query --spaces | jq -r .[-1]); fi"
 
-# source /Users/bb8/.config/functions/create_spaces.sh
+source /Users/bb8/.config/functions/create_spaces.sh
 # bsp, stack, float
 yabai -m config layout bsp
 #
@@ -24,18 +24,18 @@ yabai -m config mouse_follows_focus on # focus follows mouse
 yabai -m config focus_follows_mouse autofocus
 yabai -m config mouse_modifier alt   # mouse modifier
 yabai -m config mouse_action1 move   # mouse action 1
-yabai -m config mouse_action2 mouse_follows_focus off # mouse action 2
+# yabai -m config mouse_action2 mouse_follows_focus off # mouse action 2
 # yabai -m config window_opacity off
 # yabai -m config normal_window_opacity 0.95 # normal window opacity
 # yabai -m config active_window_opacity 1 # active window opacity
 #
-yabai -m config top_padding    20
+yabai -m config top_padding    10
 yabai -m config bottom_padding 10
 yabai -m config left_padding   10
 yabai -m config right_padding  10
 yabai -m config window_gap     10
-yabai -m config window_border on
-yabai -m config window_topmost off
+# yabai -m config window_border on
+# yabai -m config window_topmost off
 yabai -m config external_bar all:55:0
 #
 # yabai -m config menubar_opacity 0.1
@@ -94,7 +94,7 @@ yabai -m space 1 --label Browser #Finder, settings
 yabai -m space 2 --label Terminal #Terminal, dev
 yabai -m space 3 --label Spotify #PDFgear, BambuStudio 
 yabai -m space 4 --label Fusion #3d-printing only
-yabai -m space 5 --label Productivity #Obsidian, notes
+yabai -m space 7 --label Productivity #Obsidian, notes
 yabai -m space 6 --label Coms #Discord, teams, slack
 yabai -m space 7 --label Empty7
 yabai -m space 8 --label Empty8

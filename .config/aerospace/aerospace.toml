@@ -23,7 +23,7 @@ on-focus-changed = [
 ]
 
 # start aerospace at login
-start-at-login = true
+start-at-login = false
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
@@ -157,7 +157,7 @@ ctrl-alt-shift-space = 'focus-monitor prev'
 ctrl-alt-shift-cmd-space = 'focus-monitor next'
 f20 = 'exec-and-forget open -a /applications/ticktick.app'
 ctrl-esc = 'exec-and-forget sketchybar --trigger swap_menus_and_spaces'
-alt-shift-ctrl-cmd-esc = ['mode service','exec-and-forget sketchybar --trigger mode_changed' ]
+alt-shift-ctrl-cmd-semicolon = ['mode service','exec-and-forget sketchybar --trigger mode_changed' ]
 alt-shift-ctrl-cmd-rightSquareBracket = ['mode resize','exec-and-forget sketchybar --trigger mode_changed']
 alt-shift-ctrl-cmd-leftSquareBracket = ['mode resize','exec-and-forget sketchybar --trigger mode_changed']
 alt-shift-ctrl-cmd-i = ['mode open','exec-and-forget sketchybar --trigger mode_changed']
@@ -181,8 +181,8 @@ r = ['exec-and-forget aerospace-cleanup']
 
 #mode resize settings
 [mode.resize.binding]
-h = ['resize width +50']
-l = ['resize width -50']
+equal = ['resize width +50']
+minus = ['resize width -50']
 f = ['fullscreen', 'mode main','exec-and-forget sketchybar --trigger mode_changed']
 j = ['resize height -50']
 k = ['resize height +50']
