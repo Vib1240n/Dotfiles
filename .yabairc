@@ -11,9 +11,24 @@
 sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
-yabai -m signal --add event=space_created action="if \$(yabai -m query --spaces | jq -r \"map(select(.\"index\")) | last > 8\"); then yabai -m space --destroy \$(yabai -m query --spaces | jq -r .[-1]); fi"
+source $HOME/.config/functions/create_spaces.sh
+# Space Labels (matching aerospace workspaces)
+yabai -m space 1 --label Arc          # Workspace A
+yabai -m space 2 --label Zen          # Workspace Z  
+yabai -m space 3 --label Discord      # Workspace D
+yabai -m space 4 --label Terminal     # Workspace X
+yabai -m space 5 --label Fusion       # Workspace F
+yabai -m space 6 --label Bambu        # Workspace B
+yabai -m space 7 --label Wootility    # Workspace W
+yabai -m space 8 --label Utility      # Workspace E
+yabai -m space 9 --label Chrome       # Workspace C
+yabai -m space 10 --label Obsidian    # Workspace O
+yabai -m space 11 --label Spotify     # Workspace S
 
-source /Users/bb8/.config/functions/create_spaces.sh
+
+# yabai -m signal --add event=space_created action="if \$(yabai -m query --spaces | jq -r \"map(select(.\"index\")) | last > 8\"); then yabai -m space --destroy \$(yabai -m query --spaces | jq -r .[-1]); fi"
+ yabai -m signal --add event=space_created action="if \$(yabai -m query --spaces | jq -r \"map(select(.index)) | last > 11\"); then yabai -m space --destroy \$(yabai -m query --spaces | jq -r .[-1].index); fi"
+
 # bsp, stack, float
 yabai -m config layout bsp
 yabai -m config window_placement second_child
@@ -23,11 +38,11 @@ yabai -m config focus_follows_mouse autofocus
 yabai -m config mouse_modifier alt
 yabai -m config mouse_action1 move
 
-yabai -m config top_padding    10
-yabai -m config bottom_padding 10
-yabai -m config left_padding   10
-yabai -m config right_padding  10
-yabai -m config window_gap     10
+yabai -m config top_padding    20
+yabai -m config bottom_padding 20
+yabai -m config left_padding   20
+yabai -m config right_padding  20
+yabai -m config window_gap     20
 yabai -m config external_bar all:55:0
 
 # Window Rules
@@ -58,27 +73,34 @@ yabai -m rule --add app="^Ice$" manage=off
 yabai -m rule --add app="^PDFgear$" manage=off
 yabai -m rule --add app="^Fusion$" manage=off
 yabai -m rule --add app="^Autodesk Fusion$" manage=off
-yabai -m rule --add app="^Arc$" subrole="^AXSystemDialog$" layer=3 manage=off
+yabai -m rule --add app="^Arc$" subrole="^AXSystemDialog$" manage=off
+yabai -m rule --add app="^Claude$"  manage=off
+yabai -m rule --add app="^Logitech G HUB$"  manage=off
 
-# Space Labels
-yabai -m space 1 --label Browser
-yabai -m space 2 --label Terminal
-yabai -m space 3 --label Spotify
-yabai -m space 4 --label Fusion
-yabai -m space 5 --label Productivity
-yabai -m space 6 --label Coms
-
-# App-specific space rules
-yabai -m rule --add app="^Finder" space=1
-yabai -m rule --add app="^System Settings$" space=1
 yabai -m rule --add app="^Arc$" space=1
-yabai -m rule --add app="^iTerm$" space=2
-yabai -m rule --add app="^WezTerm$" space=2
-yabai -m rule --add app="^Bambu Studio$" space=5
-yabai -m rule --add app="^Spotify" space=3
-yabai -m rule --add app="^Fusion$" space=4
-yabai -m rule --add app="^Obsidian$" space=5
-yabai -m rule --add app="^Discord$" space=6
+yabai -m rule --add app="^Zen Browser$" space=2
+yabai -m rule --add app="^zen$" space=2
+yabai -m rule --add app="^Legcord$" space=3
+yabai -m rule --add app="^Discord$" space=3
+yabai -m rule --add app="^iTerm2$" space=4
+yabai -m rule --add app="^iTerm$" space=4
+yabai -m rule --add app="^Alacritty$" space=4
+yabai -m rule --add app="^WezTerm$" space=4
+yabai -m rule --add app="^Ghostty$" space=4
+yabai -m rule --add app="^Autodesk Fusion$" space=5
+yabai -m rule --add app="^Fusion 360$" space=5
+yabai -m rule --add app="^Bambu Studio$" space=6
+yabai -m rule --add app="^BambuStudio$" space=6
+yabai -m rule --add app="^Wootility$" space=7
+yabai -m rule --add app="^wootility-lekker$" space=7
+yabai -m rule --add app="^TickTick$" space=8
+yabai -m rule --add app="^PDFgear$" space=8
+yabai -m rule --add app="^Ice$" space=8
+yabai -m rule --add app="^Google Chrome$" space=9
+yabai -m rule --add app="^Chrome$" space=9
+yabai -m rule --add app="^Obsidian$" space=10
+yabai -m rule --add app="^Spotify$" space=11
+yabai -m rule --add app="^Music$" space=11
 
 # Signals
 yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"

@@ -1,146 +1,87 @@
 local icons = require("icons")
 local colors = require("colors")
-
-local whitelist = { ["Spotify"] = true, ["Music"] = true, ["Cider"] = true, ["Arc"] = true, ["spotify_player"] = true }
+local settings = require("settings")
 
 local M = {}
 
-sbar.add("item", {
-	width = 5,
-})
-
-M.media_cover = sbar.add("item", {
+-- Simple media text item
+M.media = sbar.add("item", {
 	position = "center",
-	background = {
-		image = {
-			string = "media.artwork",
-			scale = 0.85,
-			-- corner_radius = 10,
+	icon = {
+		string = icons.media.play_pause,
+		color = colors.orange,
+	},
+	label = {
+		color = colors.orange,
+		font = { 
+			family = settings.font.text,
+			size = 12,
 		},
-		color = colors.transparent,
-		-- corner_radius = 10,
 	},
-	label = { drawing = false },
-	icon = { drawing = false },
+	background = {
+		color = colors.bg2,
+		border_color = colors.item_border,
+		border_width = 1,
+		corner_radius = 9,
+		height = 40,
+	},
+	padding_left = 10,
+	padding_right = 10,
 	drawing = false,
-	updates = true,
-	popup = {
-		align = "center",
-		horizontal = true,
-	},
-	padding_right = -2,
-	padding_left = -0.5,
+	update_freq = 3,  -- Poll every 3 seconds
 })
 
-M.media_artist = sbar.add("item", {
-	position = "left",
-	drawing = false,
-	padding_left = 3,
-	padding_right = 0,
-	width = 0,
-	icon = { drawing = false },
-	label = {
-		width = 0,
-		font = { size = 9 },
-		-- color = colors.with_alpha(colors.white, 0.6),
-		color = colors.orange,
-		max_chars = 18,
-		y_offset = 6,
-	},
-})
+-- Update function
+local function update_media()
+	-- Direct script that checks and formats media info
+	local script = [[
+#!/bin/bash
+NOWPLAYING="/opt/homebrew/bin/nowplaying-cli"
+[ ! -f "$NOWPLAYING" ] && NOWPLAYING="/usr/local/bin/nowplaying-cli"
+[ ! -f "$NOWPLAYING" ] && NOWPLAYING="$(which nowplaying-cli 2>/dev/null)"
 
-M.media_title = sbar.add("item", {
-	position = "left",
-	drawing = false,
-	padding_left = 3,
-	padding_right = 0,
-	icon = { drawing = false },
-	label = {
-		-- color = colors.with_alpha(colors.white, 0.6),
-		color = colors.orange,
-		font = { size = 11 },
-		width = 0,
-		max_chars = 16,
-		y_offset = -5,
-	},
-})
+if [ -z "$NOWPLAYING" ] || [ ! -f "$NOWPLAYING" ]; then
+    echo "OFF"
+    exit 0
+fi
 
-sbar.add("item", {
-	position = "popup." .. M.media_cover.name,
-	icon = { string = icons.media.back },
-	label = { drawing = false },
-	click_script = "nowplaying-cli previous",
-})
-sbar.add("item", {
-	position = "popup." .. M.media_cover.name,
-	icon = { string = icons.media.play_pause },
-	label = { drawing = false },
-	click_script = "nowplaying-cli togglePlayPause",
-})
-sbar.add("item", {
-	position = "popup." .. M.media_cover.name,
-	icon = { string = icons.media.forward },
-	label = { drawing = false },
-	click_script = "nowplaying-cli next",
-})
-
-local interrupt = 0
-local function animate_detail(detail)
-	if not detail then
-		interrupt = interrupt - 1
-	end
-	if interrupt > 0 and not detail then
-		return
-	end
-
-	sbar.animate("tanh", 30, function()
-		M.media_artist:set({ label = { width = detail and "dynamic" or 0 } })
-		M.media_title:set({ label = { width = detail and "dynamic" or 0 } })
-		return
+RATE=$($NOWPLAYING get playbackRate 2>/dev/null)
+if [ "$RATE" = "1" ]; then
+    ARTIST=$($NOWPLAYING get artist 2>/dev/null)
+    TITLE=$($NOWPLAYING get title 2>/dev/null)
+    if [ -n "$ARTIST" ] && [ -n "$TITLE" ]; then
+        echo "ON|$ARTIST - $TITLE"
+    else
+        echo "OFF"
+    fi
+else
+    echo "OFF"
+fi
+]]
+	
+	sbar.exec(script, function(result)
+		if result and result ~= "" then
+			result = result:gsub("^%s+", ""):gsub("%s+$", "")  -- Trim
+			
+			if result:match("^ON") then
+				local label = result:gsub("^ON|", "")
+				M.media:set({ 
+					drawing = true,
+					label = label
+				})
+			else
+				M.media:set({ drawing = false })
+			end
+		else
+			M.media:set({ drawing = false })
+		end
 	end)
 end
 
-M.media_bracket = sbar.add("bracket", { M.media_cover.name, M.media_artist.name, M.media_title.name }, {
-	background = {
-		-- padding_right = -20,
-		padding_left = 0,
-		color = colors.bg3,
-		border_width = 0,
-	},
-})
+-- Subscribe to routine for polling
+M.media:subscribe("routine", update_media)
 
-M.media_cover:subscribe("media_change", function(env)
-	if whitelist[env.INFO.app] then
-		local drawing = (env.INFO.state == "playing")
-		M.media_title:set({ drawing = drawing, label = env.INFO.title })
-		M.media_artist:set({ drawing = drawing, label = env.INFO.artist })
-		M.media_cover:set({ drawing = drawing })
-
-		if drawing then
-			animate_detail(true)
-			interrupt = interrupt + 1
-			sbar.delay(5, animate_detail)
-		else
-			M.media_cover:set({ popup = { drawing = false } })
-		end
-	end
-end)
-
-M.media_cover:subscribe("mouse.entered", function(env)
-	interrupt = interrupt + 1
-	animate_detail(true)
-end)
-
-M.media_cover:subscribe("mouse.exited", function(env)
-	animate_detail(false)
-end)
-
-M.media_cover:subscribe("mouse.clicked", function(env)
-	M.media_cover:set({ popup = { drawing = "toggle" } })
-end)
-
-M.media_title:subscribe("mouse.exited.global", function(env)
-	M.media_cover:set({ popup = { drawing = false } })
-end)
+-- Initial update
+update_media()
 
 return M

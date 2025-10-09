@@ -1,0 +1,210 @@
+local colors = require("colors")
+local icons = require("icons")
+local settings = require("settings")
+local app_icons = require("helpers.app_icons")
+
+local spaces = {}
+local space_has_apps = {}
+local TOTAL_SPACES = 10
+
+-- Initialize: assume all spaces might have apps
+for i = 1, TOTAL_SPACES do
+	space_has_apps[i] = true -- Start by showing all
+end
+
+for i = 1, TOTAL_SPACES, 1 do
+	local space = sbar.add("space", "space." .. i, {
+		space = i,
+		icon = {
+			font = { family = settings.font.numbers },
+			string = i,
+			padding_left = settings.paddings,
+			padding_right = settings.paddings,
+			y_offset = -1,
+		},
+		label = {
+			font = "sketchybar-app-font:Regular:16.0",
+			y_offset = -1,
+			width = 0, -- Collapsed by default
+			padding_left = 0,
+			padding_right = 0,
+		},
+		padding_right = settings.group_paddings,
+		padding_left = settings.group_paddings,
+		background = {
+			color = colors.item,
+			border_width = 1,
+			border_color = colors.item_border,
+			corner_radius = 9,
+			height = 40,
+		},
+	})
+
+	spaces[i] = space
+
+	-- Padding space - with transparent background to avoid black bars
+	sbar.add("space", "space.padding." .. i, {
+		space = i,
+		script = "",
+		width = settings.group_paddings,
+		background = {
+			color = colors.transparent,
+			border_width = 0,
+		},
+	})
+
+	space:subscribe("space_change", function(env)
+		local selected = env.SELECTED == "true"
+		space:set({
+			icon = { highlight = selected },
+			label = { highlight = selected },
+		})
+	end)
+
+	-- Hover to expand and show apps - smoother animation
+	space:subscribe("mouse.entered", function(env)
+		sbar.animate("sin", 20, function()
+			space:set({
+				label = { 
+					width = "dynamic",
+					padding_left = 8,
+					padding_right = 8,
+				}
+			})
+		end)
+	end)
+
+	-- Collapse on mouse exit - smoother animation
+	space:subscribe("mouse.exited", function(env)
+		sbar.animate("sin", 20, function()
+			space:set({
+				label = { 
+					width = 0,
+					padding_left = 0,
+					padding_right = 0,
+				}
+			})
+		end)
+	end)
+
+	space:subscribe("mouse.clicked", function(env)
+		local op = (env.BUTTON == "right") and "--destroy" or "--focus"
+		sbar.exec("yabai -m space " .. op .. " " .. env.SID)
+	end)
+end
+
+local space_window_observer = sbar.add("item", {
+	drawing = false,
+	updates = true,
+})
+
+-- Update app icons in spaces
+space_window_observer:subscribe("space_windows_change", function(env)
+	local space_index = env.INFO.space
+	local icon_line = ""
+	local has_apps = false
+	
+	for app, count in pairs(env.INFO.apps) do
+		has_apps = true
+		local lookup = app_icons[app]
+		local icon = ((lookup == nil) and app_icons["Default"] or lookup)
+		icon_line = icon_line .. icon
+	end
+	
+	space_has_apps[space_index] = has_apps
+	
+	-- Update the space to show/hide based on apps
+	spaces[space_index]:set({ 
+		drawing = has_apps,
+		label = { string = icon_line }
+	})
+	
+	-- Also update padding visibility
+	sbar.exec("sketchybar --set space.padding." .. space_index .. " drawing=" .. (has_apps and "on" or "off"))
+end)
+
+-- Check which spaces have apps on startup
+sbar.exec("yabai -m query --spaces | jq -r '.[] | select(.windows | length > 0) | .index'", function(result)
+	-- First hide all spaces
+	for i = 1, TOTAL_SPACES do
+		space_has_apps[i] = false
+		spaces[i]:set({ drawing = false })
+		sbar.exec("sketchybar --set space.padding." .. i .. " drawing=off")
+	end
+	
+	-- Then show only spaces with windows
+	if result and result ~= "" then
+		for index in result:gmatch("%d+") do
+			local idx = tonumber(index)
+			if idx then
+				space_has_apps[idx] = true
+				spaces[idx]:set({ drawing = true })
+				sbar.exec("sketchybar --set space.padding." .. idx .. " drawing=on")
+			end
+		end
+	end
+	
+	-- Always show the focused space even if empty
+	sbar.exec("yabai -m query --spaces --space | jq -r '.index'", function(focused)
+		local focused_idx = tonumber(focused)
+		if focused_idx then
+			spaces[focused_idx]:set({ drawing = true })
+			sbar.exec("sketchybar --set space.padding." .. focused_idx .. " drawing=on")
+		end
+	end)
+end)
+
+-- Also update on space change
+local space_change_observer = sbar.add("item", {
+	drawing = false,
+	updates = true,
+})
+
+space_change_observer:subscribe("space_change", function(env)
+	local focused = tonumber(env.SELECTED_SPACE)
+	if focused then
+		-- Always show focused space
+		spaces[focused]:set({ drawing = true })
+		sbar.exec("sketchybar --set space.padding." .. focused .. " drawing=on")
+	end
+end)
+
+local spaces_indicator = sbar.add("item", {
+	icon = {
+		string = icons.switch.on,
+	},
+	label = {
+		width = 0,
+		string = "Spaces",
+	},
+	background = {
+		color = colors.transparent,
+	},
+})
+
+spaces_indicator:subscribe("swap_menus_and_spaces", function(env)
+	local currently_on = spaces_indicator:query().icon.value == icons.switch.on
+	spaces_indicator:set({
+		icon = currently_on and icons.switch.off or icons.switch.on,
+	})
+end)
+
+spaces_indicator:subscribe("mouse.entered", function(env)
+	sbar.animate("sin", 20, function()
+		spaces_indicator:set({
+			label = { width = "dynamic" },
+		})
+	end)
+end)
+
+spaces_indicator:subscribe("mouse.exited", function(env)
+	sbar.animate("sin", 20, function()
+		spaces_indicator:set({
+			label = { width = 0 },
+		})
+	end)
+end)
+
+spaces_indicator:subscribe("mouse.clicked", function(env)
+	sbar.trigger("swap_menus_and_spaces")
+end)

@@ -1,0 +1,56 @@
+local icons = require("icons")
+local colors = require("colors")
+local settings = require("settings")
+
+-- Register custom events
+sbar.add("event", "cal_hover_start")
+sbar.add("event", "cal_hover_end")
+
+-- Create a single Stats alias
+-- Note: This will show the combined Stats display from iStats Menus
+local combined = sbar.add("alias", "Control Center,eu.exelban.Stats", {
+	position = "right",
+	background = {
+		drawing = true,
+		color = colors.transparent,
+		corner_radius = 9,
+	},
+})
+
+-- Track hover state
+local is_hovered = false
+
+-- Expand on hover - adds visual feedback
+combined:subscribe("mouse.entered", function(env)
+	is_hovered = true
+	sbar.animate("tanh", 15, function()
+		combined:set({
+			background = {
+				color = colors.with_alpha(colors.bg2, 0.5),
+				border_width = 1,
+				border_color = colors.item_border,
+				corner_radius = 9,
+			},
+		})
+	end)
+end)
+
+-- Collapse when mouse leaves
+combined:subscribe("mouse.exited", function(env)
+	is_hovered = false
+	sbar.animate("tanh", 15, function()
+		combined:set({
+			background = {
+				color = colors.transparent,
+				border_width = 0,
+			},
+		})
+	end)
+end)
+
+-- Click to open iStats Menus popup
+combined:subscribe("mouse.clicked", function(env)
+	sbar.exec("$CONFIG_DIR/helpers/menus/bin/menus -s 'Control Center,eu.exelban.Stats'")
+end)
+
+return combined

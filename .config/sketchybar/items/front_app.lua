@@ -13,7 +13,7 @@ local front_app = sbar.add("item", "front_app", {
 	icon = {
 		drawing = true,
 		font = "sketchybar-app-font:Regular:18.0",
-		y_offset = -1,
+		y_offset = 1,
 	},
 	label = {
 		font = {
@@ -22,6 +22,10 @@ local front_app = sbar.add("item", "front_app", {
 		},
 		color = colors.label_secondary,
 		padding_left = settings.paddings - 15,
+	},
+	background = {
+		padding_left = settings.paddings - 2,
+		padding_right = settings.paddings - 2,
 	},
 	updates = true,
 })

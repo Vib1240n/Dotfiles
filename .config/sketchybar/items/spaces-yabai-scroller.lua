@@ -1,0 +1,236 @@
+local colors = require("colors")
+local icons = require("icons")
+local settings = require("settings")
+local app_icons = require("helpers.app_icons")
+
+local spaces = {}
+local space_has_apps = {}
+local TOTAL_SPACES = 11     -- Updated to include Spotify (space 11)
+local spaces_visible = true -- Track if spaces should be visible
+
+-- Space name mapping based on yabai config
+local space_names = {
+	[1] = "A", -- Arc
+	[2] = "Z", -- Zen
+	[3] = "D", -- Discord
+	[4] = "X", -- Terminal
+	[5] = "F", -- Fusion
+	[6] = "B", -- Bambu
+	[7] = "W", -- Wootility
+	[8] = "E", -- Utility
+	[9] = "C", -- Chrome
+	[10] = "O", -- Obsidian
+	[11] = "S", -- Spotify
+}
+
+-- Initialize: assume all spaces might have apps
+for i = 1, TOTAL_SPACES do
+	space_has_apps[i] = true -- Start by showing all
+end
+
+for i = 1, TOTAL_SPACES, 1 do
+	local space = sbar.add("space", "space." .. i, {
+		space = i,
+		icon = {
+			font = { family = settings.font.numbers },
+			string = space_names[i], -- Changed from i to space_names[i]
+			padding_left = settings.paddings,
+			padding_right = settings.paddings,
+			y_offset = -1,
+		},
+		label = {
+			font = "sketchybar-app-font:Regular:16.0",
+			y_offset = -1,
+			width = 0, -- Collapsed by default
+			padding_left = 8,
+			padding_right = 8,
+		},
+		padding_right = 0, -- Reduced from settings.group_paddings
+		padding_left = 0, -- Reduced from settings.group_paddings
+		background = {
+			-- color = colors.item,
+			-- border_width = 1,
+			border_color = colors.with_alpha(colors.icon, 0.3),
+			-- corner_radius = 9,
+			-- height = 40,
+			padding_left = settings.paddings - 5,
+			padding_right = settings.paddings - 5,
+		},
+	})
+
+	spaces[i] = space
+
+	space:subscribe("space_change", function(env)
+		local selected = env.SELECTED == "true"
+		space:set({
+			icon = { highlight = selected },
+			label = { highlight = selected },
+		})
+	end)
+
+	-- Hover to expand and show apps - smoother animation
+	space:subscribe("mouse.entered", function(env)
+		sbar.animate("tanh", 25, function()
+			space:set({
+				label = {
+					width = "dynamic",
+					-- padding_left = 8,
+					-- padding_right = 8,
+				},
+			})
+		end)
+	end)
+
+	-- Collapse on mouse exit - smoother animation
+	space:subscribe("mouse.exited", function(env)
+		sbar.animate("tanh", 25, function()
+			space:set({
+				label = {
+					width = 0,
+					-- padding_left = 0,
+					-- padding_right = 0,
+				},
+			})
+		end)
+	end)
+
+	space:subscribe("mouse.clicked", function(env)
+		local op = (env.BUTTON == "right") and "--destroy" or "--focus"
+		sbar.exec("yabai -m space " .. op .. " " .. env.SID)
+	end)
+end
+
+local space_window_observer = sbar.add("item", {
+	drawing = false,
+	updates = true,
+})
+
+-- Update app icons in spaces
+space_window_observer:subscribe("space_windows_change", function(env)
+	local space_index = env.INFO.space
+	local icon_line = ""
+	local has_apps = false
+
+	for app, count in pairs(env.INFO.apps) do
+		has_apps = true
+		local lookup = app_icons[app]
+		local icon = ((lookup == nil) and app_icons["Default"] or lookup)
+		icon_line = icon_line .. icon
+	end
+
+	space_has_apps[space_index] = has_apps
+
+	-- Update the space to show/hide based on apps AND if spaces are visible
+	spaces[space_index]:set({
+		drawing = has_apps and spaces_visible,
+		label = { string = icon_line },
+	})
+end)
+
+-- Check which spaces have apps on startup
+sbar.exec("yabai -m query --spaces | jq -r '.[] | select(.windows | length > 0) | .index'", function(result)
+	-- First hide all spaces
+	for i = 1, TOTAL_SPACES do
+		space_has_apps[i] = false
+		spaces[i]:set({ drawing = false })
+	end
+
+	-- Then show only spaces with windows (if spaces_visible is true)
+	if result and result ~= "" then
+		for index in result:gmatch("%d+") do
+			local idx = tonumber(index)
+			if idx then
+				space_has_apps[idx] = true
+				spaces[idx]:set({ drawing = spaces_visible })
+			end
+		end
+	end
+
+	-- Always show the focused space even if empty (if spaces_visible is true)
+	sbar.exec("yabai -m query --spaces --space | jq -r '.index'", function(focused)
+		local focused_idx = tonumber(focused)
+		if focused_idx then
+			spaces[focused_idx]:set({ drawing = spaces_visible })
+		end
+	end)
+end)
+
+-- Also update on space change
+local space_change_observer = sbar.add("item", {
+	drawing = false,
+	updates = true,
+})
+
+space_change_observer:subscribe("space_change", function(env)
+	local focused = tonumber(env.SELECTED_SPACE)
+	if focused and spaces_visible then
+		-- Always show focused space (only if spaces are visible)
+		spaces[focused]:set({ drawing = true })
+	end
+end)
+
+-- Spaces indicator - switch icon without gray line
+local spaces_indicator = sbar.add("item", {
+	icon = {
+		string = icons.switch.on,
+		color = colors.white,
+	},
+	label = {
+		width = 0,
+		string = "Spaces",
+		color = colors.white,
+	},
+	background = {
+		color = colors.transparent,
+		border_width = 0,
+	},
+	padding_left = 5,
+	padding_right = 5,
+})
+
+spaces_indicator:subscribe("swap_menus_and_spaces", function(env)
+	local currently_on = spaces_indicator:query().icon.value == icons.switch.on
+
+	-- Toggle spaces visibility
+	spaces_visible = not currently_on
+
+	spaces_indicator:set({
+		icon = spaces_visible and icons.switch.on or icons.switch.off,
+		drawing = true, -- Always show switch
+	})
+
+	-- Hide all spaces when showing menus, show spaces with apps when showing spaces
+	if spaces_visible then
+		-- Show spaces that have apps
+		for i = 1, TOTAL_SPACES do
+			if space_has_apps[i] then
+				spaces[i]:set({ drawing = true })
+			end
+		end
+	else
+		-- Hide all spaces when showing menus
+		for i = 1, TOTAL_SPACES do
+			spaces[i]:set({ drawing = false })
+		end
+	end
+end)
+
+spaces_indicator:subscribe("mouse.entered", function(env)
+	sbar.animate("tanh", 25, function()
+		spaces_indicator:set({
+			label = { width = "dynamic" },
+		})
+	end)
+end)
+
+spaces_indicator:subscribe("mouse.exited", function(env)
+	sbar.animate("tanh", 25, function()
+		spaces_indicator:set({
+			label = { width = 0 },
+		})
+	end)
+end)
+
+spaces_indicator:subscribe("mouse.clicked", function(env)
+	sbar.trigger("swap_menus_and_spaces")
+end)

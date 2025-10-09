@@ -26,10 +26,10 @@ source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 source $ZSH/oh-my-zsh.sh
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /Users/bb8/.config/functions/functions.sh
+source $HOME/.config/functions/functions.sh
 # c;fastfetch
-# source /Users/bb8/Development/git-sync/git-sync
-# source /Users/bb8/Development/git-sync/contrib/git-sync-on-inotify
+# source /Users/vib1240n/Development/git-sync/git-sync
+# source /Users/vib1240n/Development/git-sync/contrib/git-sync-on-inotify
  # for f in ~/Development/git-sync/*; do source $f; done
 # # homebrew exports for formulas
 export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
@@ -67,12 +67,12 @@ if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 fi
 
-export CONFIG=/Users/bb8/.config
-export DEV=/Users/bb8/Development
+export CONFIG=/Users/vib1240n/.config
+export DEV=/Users/vib1240n/Development
 # zprof
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_BAT=1
-export DEV="/Users/bb8/Development/"
+# export DEV="/Users/vib1240n/Development/"
 export PATH="$HOME/.jenv/bin:$PATH"
 jenv() {
   unset -f jenv
@@ -83,3 +83,16 @@ jenv() {
 # if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 # zprof | head -40  # Commented out - only enable for debugging
 clear
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+
+# pnpm
+export PNPM_HOME="/Users/vib1240n/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

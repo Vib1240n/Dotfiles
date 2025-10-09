@@ -1,17 +1,8 @@
 require("items.calendar")
 require("items.apple")
 require("items.front_app")
-require("items.spaces-aerospace")
+require("items.spaces-yabai-scroller")
 require("items.menus")
-require("items.widgets.combined") -- Load before calendar so it appears to the left
--- require("items.widgets.battery")
--- require("items.widgets.temp_widget")
-require("items.media")
--- require("items.widgets.cpu")
--- require("items.widgets.memory")
--- require("items.widgets.sensors")
--- require("items.widgets.wifi")
-
+require("items.widgets.combined")
+require("items.media")  -- Only load once
 require("items.mode")
--- require("items.aerospace-another")
-require("items.media")

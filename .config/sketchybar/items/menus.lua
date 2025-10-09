@@ -14,6 +14,7 @@ sbar.add("event", "swap_menus_and_spaces")
 
 local max_items = 15
 local menu_items = {}
+
 for i = 1, max_items, 1 do
 	local menu = sbar.add("item", "menu." .. i, {
 		padding_left = settings.paddings,
@@ -36,9 +37,14 @@ for i = 1, max_items, 1 do
 	menu_items[i] = menu
 end
 
-sbar.add("bracket", { "/menu\\..*/" }, {
+local menu_bracket = sbar.add("bracket", { "/menu\\..*/" }, {
 	background = { color = colors.bar },
 })
+
+-- Add global mouse.exited to close menus when mouse leaves any menu item
+menu_bracket:subscribe("mouse.exited.global", function(env)
+	sbar.trigger("swap_menus_and_spaces")
+end)
 
 local menu_padding = sbar.add("item", "menu.padding", {
 	drawing = false,

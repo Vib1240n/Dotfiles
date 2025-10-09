@@ -1,0 +1,45 @@
+local icons = require("icons")
+local colors = require("colors")
+local settings = require("settings")
+
+-- Register custom events for calendar hover
+sbar.add("event", "cal_hover_start")
+sbar.add("event", "cal_hover_end")
+
+-- iStats Menus alias - now clickable!
+local combined = sbar.add("alias", "Control Center,eu.exelban.Stats", {
+	position = "right",
+	background = {
+		drawing = true,
+		color = colors.transparent,
+	},
+	-- Make it clickable - this will open the iStats Menus popup
+	click_script = "$CONFIG_DIR/helpers/menus/bin/menus -s 'Control Center,eu.exelban.Stats'",
+})
+
+-- Optional: Add hover effects
+combined:subscribe("mouse.entered", function(env)
+	sbar.animate("tanh", 10, function()
+		combined:set({
+			background = {
+				color = colors.with_alpha(colors.bg2, 0.5),
+				border_width = 1,
+				border_color = colors.item_border,
+				corner_radius = 9,
+			},
+		})
+	end)
+end)
+
+combined:subscribe("mouse.exited", function(env)
+	sbar.animate("tanh", 10, function()
+		combined:set({
+			background = {
+				color = colors.transparent,
+				border_width = 0,
+			},
+		})
+	end)
+end)
+
+return combined
