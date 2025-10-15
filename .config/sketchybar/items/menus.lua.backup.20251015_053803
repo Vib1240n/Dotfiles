@@ -41,10 +41,10 @@ local menu_bracket = sbar.add("bracket", { "/menu\\..*/" }, {
 	background = { color = colors.bar },
 })
 
--- -- Add global mouse.exited to close menus when mouse leaves any menu item
--- menu_bracket:subscribe("mouse.exited.global", function(env)
--- 	sbar.trigger("swap_menus_and_spaces")
--- end)
+-- Add global mouse.exited to close menus when mouse leaves any menu item
+menu_bracket:subscribe("mouse.exited.global", function(env)
+	sbar.trigger("swap_menus_and_spaces")
+end)
 
 local menu_padding = sbar.add("item", "menu.padding", {
 	drawing = false,

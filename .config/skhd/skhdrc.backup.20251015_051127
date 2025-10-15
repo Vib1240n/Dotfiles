@@ -52,24 +52,30 @@ default < alt + ctrl + shift - l : yabai -m window --swap east
 
 # Letter workspaces mapped to numbered spaces (matching aerospace but using hyper)
 # hyper = ctrl + alt + shift + cmd
-default < ctrl + alt + shift + cmd - a : yabai -m space --focus 1   # Browsers (Arc, Zen, Chrome)
-default < ctrl + alt + shift + cmd - f : yabai -m space --focus 2   # Fusion 360
-default < ctrl + alt + shift + cmd - b : yabai -m space --focus 3   # 3D Printing (Bambu, etc)
-default < ctrl + alt + shift + cmd - w : yabai -m space --focus 4   # Utilities (Wootility, etc)
-default < ctrl + alt + shift + cmd - d : yabai -m space --focus 5   # Discord
-default < ctrl + alt + shift + cmd - x : yabai -m space --focus 6   # Terminal
-default < ctrl + alt + shift + cmd - o : yabai -m space --focus 7   # Obsidian
-default < ctrl + alt + shift + cmd - s : yabai -m space --focus 8   # Spotify/Music
+default < ctrl + alt + shift + cmd - a : yabai -m space --focus 1   # Arc Browser
+default < ctrl + alt + shift + cmd - z : yabai -m space --focus 2   # Zen browser
+default < ctrl + alt + shift + cmd - d : yabai -m space --focus 3   # Discord
+default < ctrl + alt + shift + cmd - x : yabai -m space --focus 4   # Terminal/Xterm
+default < ctrl + alt + shift + cmd - f : yabai -m space --focus 5   # Fusion 360
+default < ctrl + alt + shift + cmd - b : yabai -m space --focus 6   # Bambu Studio
+default < ctrl + alt + shift + cmd - w : yabai -m space --focus 7   # Wootility
+default < ctrl + alt + shift + cmd - e : yabai -m space --focus 8   # Utility workspace
+default < ctrl + alt + shift + cmd - c : yabai -m space --focus 9   # Chrome
+default < ctrl + alt + shift + cmd - o : yabai -m space --focus 10  # Obsidian
+default < ctrl + alt + shift + cmd - s : yabai -m space --focus 11  # Spotify/Music
 
 # Move window to workspace and follow (alt-shift-ctrl)
 default < alt + shift + ctrl - a : yabai -m window --space 1; yabai -m space --focus 1
-default < alt + shift + ctrl - f : yabai -m window --space 2; yabai -m space --focus 2
-default < alt + shift + ctrl - b : yabai -m window --space 3; yabai -m space --focus 3
-default < alt + shift + ctrl - w : yabai -m window --space 4; yabai -m space --focus 4
-default < alt + shift + ctrl - d : yabai -m window --space 5; yabai -m space --focus 5
-default < alt + shift + ctrl - x : yabai -m window --space 6; yabai -m space --focus 6
-default < alt + shift + ctrl - o : yabai -m window --space 7; yabai -m space --focus 7
-default < alt + shift + ctrl - s : yabai -m window --space 8; yabai -m space --focus 8
+default < alt + shift + ctrl - z : yabai -m window --space 2; yabai -m space --focus 2
+default < alt + shift + ctrl - d : yabai -m window --space 3; yabai -m space --focus 3
+default < alt + shift + ctrl - x : yabai -m window --space 4; yabai -m space --focus 4
+default < alt + shift + ctrl - f : yabai -m window --space 5; yabai -m space --focus 5
+default < alt + shift + ctrl - b : yabai -m window --space 6; yabai -m space --focus 6
+default < alt + shift + ctrl - w : yabai -m window --space 7; yabai -m space --focus 7
+default < alt + shift + ctrl - e : yabai -m window --space 8; yabai -m space --focus 8
+default < alt + shift + ctrl - c : yabai -m window --space 9; yabai -m space --focus 9
+default < alt + shift + ctrl - o : yabai -m window --space 10; yabai -m space --focus 10
+default < alt + shift + ctrl - s : yabai -m window --space 11; yabai -m space --focus 11
 
 # Workspace back and forth (matching aerospace alt-tab)
 # default < alt - tab : yabai -m space --focus recent
@@ -201,19 +207,20 @@ pass < escape ; default
 pass < return ; default
 
 #######################################################################################################################
-# WORKSPACE MAPPING REFERENCE - 8 SPACES
+# WORKSPACE MAPPING REFERENCE
 #######################################################################################################################
-# Display 1 (Horizontal):
-# A (Browsers)     → Space 1  (Arc, Zen, Chrome)
-# F (Fusion 360)   → Space 2
-# B (3D Printing)  → Space 3  (Bambu, Orca, Prusa, Cura)
-# W (Utilities)    → Space 4  (Wootility, Ice, Stats, etc)
-#
-# Display 2 (Vertical):
-# D (Discord)      → Space 5
-# X (Terminal)     → Space 6  (iTerm, Alacritty, WezTerm)
-# O (Obsidian)     → Space 7
-# S (Music)        → Space 8  (Spotify, Music, eqMac)
+# Letter → Number mappings:
+# A (Arc)         → Space 1
+# Z (Zen)         → Space 2
+# D (Discord)     → Space 3
+# X (Terminal)    → Space 4
+# F (Fusion 360)  → Space 5
+# B (Bambu)       → Space 6
+# W (Wootility)   → Space 7
+# E (Utility)     → Space 8
+# C (Chrome)      → Space 9
+# O (Obsidian)    → Space 10
+# S (Spotify)     → Space 11
 #######################################################################################################################
 # End of configuration
 #######################################################################################################################
