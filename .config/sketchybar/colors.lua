@@ -48,12 +48,16 @@ if is_dark_mode then
 	colors.label_inactive = with_alpha(theme.light, 0.5)
 	colors.label_highlight = theme.green
 	colors.label_secondary = theme.green
-	colors.bar = with_alpha(theme.black, 0.3)
+	colors.bar = with_alpha(theme.white, 0.01)
+	colors.bar_light = with_alpha(theme.light, 0.01)
+	colors.bar_solid = theme.dark
 	colors.item = with_alpha(theme.grey, 0.5)
 	colors.item_border = with_alpha(theme.dark, 0.5)
 	colors.bracket = with_alpha(theme.light, 0.1)
 	colors.border = theme.dark
 	colors.active = theme.white
+	colors.highlight = 0x40ffffff
+	colors.highlight_text = 0xffffffff
 else
 	colors.icon = theme.black
 	colors.icon_highlight = theme.blue
@@ -63,6 +67,7 @@ else
 	colors.label_highlight = theme.green
 	colors.label_secondary = theme.black
 	colors.bar = with_alpha(theme.light, 0.3)
+	colors.bar_solid = theme.light
 	colors.border = theme.silver
 	colors.bracket = with_alpha(theme.dark, 0.1)
 	colors.border = with_alpha(theme.light, 0.5)

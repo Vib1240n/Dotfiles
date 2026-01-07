@@ -1,0 +1,576 @@
+-- local colors = require("colors")
+-- local settings = require("settings")
+--
+-- -- Bar mode toggle
+-- local bar_toggle = sbar.add("item", "bar_toggle", {
+-- 	position = "right",
+-- 	icon = {
+-- 		string = "􀨤",
+-- 		font = { family = settings.font.text, style = settings.font.style_map["Regular"], size = 14.0 },
+-- 		color = colors.icon,
+-- 		padding_left = 6,
+-- 	},
+-- 	label = { drawing = false },
+-- 	background = { drawing = false },
+-- })
+--
+-- bar_toggle:subscribe("mouse.entered", function()
+-- 	bar_toggle:set({ icon = { color = colors.white } })
+-- end)
+-- bar_toggle:subscribe("mouse.exited", function()
+-- 	bar_toggle:set({ icon = { color = colors.icon } })
+-- end)
+-- bar_toggle:subscribe("mouse.clicked", function()
+-- 	sbar.trigger("bar_toggle_clicked")
+-- end)
+--
+-- -- Helper: get battery icon based on percentage and charging state
+-- local function get_battery_icon(percent, charging)
+-- 	if charging then
+-- 		if percent >= 75 then
+-- 			return "􀢋"
+-- 		elseif percent >= 50 then
+-- 			return "􀢌"
+-- 		elseif percent >= 25 then
+-- 			return "􀢍"
+-- 		else
+-- 			return "􀢎"
+-- 		end
+-- 	else
+-- 		if percent >= 75 then
+-- 			return "􀛨"
+-- 		elseif percent >= 50 then
+-- 			return "􀺶"
+-- 		elseif percent >= 25 then
+-- 			return "􀺸"
+-- 		else
+-- 			return "􀛪"
+-- 		end
+-- 	end
+-- end
+--
+-- -- BATTERY
+-- local battery = sbar.add("item", "battery", {
+-- 	position = "right",
+-- 	update_freq = 60,
+-- 	icon = { string = "􀛨", font = { size = 18.0 }, color = colors.icon, padding_right = 4 },
+-- 	label = { string = "100%", font = { size = 12.0 }, color = colors.white },
+-- 	popup = {
+-- 		align = "right",
+-- 		height = 30,
+-- 		y_offset = 5,
+-- 		background = { color = colors.bar_solid, corner_radius = 8, border_width = 1, border_color = colors.border },
+-- 	},
+-- })
+--
+-- local battery_popup = sbar.add("item", "battery.popup", {
+-- 	position = "popup." .. battery.name,
+-- 	icon = { drawing = false },
+-- 	label = { font = { size = 12.0 }, color = colors.white, padding_left = 12, padding_right = 12 },
+-- })
+--
+-- battery:subscribe({ "routine", "forced", "system_woke" }, function()
+-- 	sbar.exec("pmset -g batt", function(output)
+-- 		local percent = tonumber(output:match("(%d+)%%")) or 0
+-- 		local charging = output:match("AC Power") ~= nil or output:match("; charging;") ~= nil
+-- 		local time_str = output:match("(%d+:%d+) remaining") or ""
+-- 		local watts = output:match("%(.*?(%d+%.?%d*) watts%)") or ""
+-- 		battery:set({
+-- 			icon = { string = get_battery_icon(percent, charging), color = percent <= 20 and colors.red or colors.icon },
+-- 			label = { string = percent .. "%" },
+-- 		})
+-- 		local popup_text = charging and ("Charging: " .. time_str .. (watts ~= "" and " @ " .. watts .. "W" or ""))
+-- 			or ("Time remaining: " .. (time_str ~= "" and time_str or "Calculating..."))
+-- 		battery_popup:set({ label = popup_text })
+-- 	end)
+-- end)
+--
+-- battery:subscribe("mouse.entered", function()
+-- 	sbar.animate("tanh", 15, function()
+-- 		battery:set({ popup = { drawing = true } })
+-- 	end)
+-- end)
+-- battery:subscribe("mouse.exited.global", function()
+-- 	sbar.animate("tanh", 15, function()
+-- 		battery:set({ popup = { drawing = false } })
+-- 	end)
+-- end)
+--
+-- -- TOGGLE ARROW
+-- local stats_toggle = sbar.add("item", "stats.toggle", {
+-- 	position = "right",
+-- 	icon = { string = "􀆉", font = { size = 10.0 }, color = colors.icon, padding_left = 4, padding_right = 4 },
+-- 	label = { drawing = false },
+-- 	background = { drawing = false },
+-- })
+--
+-- local is_expanded = false
+--
+-- -- CPU
+-- local cpu = sbar.add("item", "cpu", {
+-- 	position = "right",
+-- 	width = 0,
+-- 	drawing = false,
+-- 	update_freq = 5,
+-- 	icon = { string = "􀫥", font = { size = 14.0 }, color = colors.icon, padding_right = 4 },
+-- 	label = { string = "0%", font = { size = 11.0 }, color = colors.white, padding_right = 6 },
+-- })
+--
+-- -- GPU
+-- local gpu = sbar.add("item", "gpu", {
+-- 	position = "right",
+-- 	width = 0,
+-- 	drawing = false,
+-- 	update_freq = 5,
+-- 	icon = { string = "􀫥", font = { size = 14.0 }, color = colors.blue, padding_right = 4 },
+-- 	label = { string = "0%", font = { size = 11.0 }, color = colors.white, padding_right = 6 },
+-- })
+--
+-- -- RAM
+-- local ram = sbar.add("item", "ram", {
+-- 	position = "right",
+-- 	width = 0,
+-- 	drawing = false,
+-- 	update_freq = 10,
+-- 	icon = { string = "􀫦", font = { size = 14.0 }, color = colors.icon, padding_right = 4 },
+-- 	label = { string = "0 GB", font = { size = 11.0 }, color = colors.white, padding_right = 6 },
+-- })
+--
+-- -- NETWORK
+-- local network = sbar.add("item", "network", {
+-- 	position = "right",
+-- 	width = 0,
+-- 	drawing = false,
+-- 	update_freq = 10,
+-- 	icon = { string = "􀙇", font = { size = 14.0 }, color = colors.icon, padding_right = 4 },
+-- 	label = { string = "WiFi", font = { size = 11.0 }, color = colors.white, padding_right = 6 },
+-- 	popup = {
+-- 		align = "right",
+-- 		height = 30,
+-- 		y_offset = 5,
+-- 		background = { color = colors.bar_solid, corner_radius = 8, border_width = 1, border_color = colors.border },
+-- 	},
+-- })
+--
+-- local network_popup = sbar.add("item", "network.popup", {
+-- 	position = "popup." .. network.name,
+-- 	icon = { drawing = false },
+-- 	label = { font = { size = 12.0 }, color = colors.white, padding_left = 12, padding_right = 12 },
+-- })
+--
+-- -- DISK
+-- local disk = sbar.add("item", "disk", {
+-- 	position = "right",
+-- 	width = 0,
+-- 	drawing = false,
+-- 	update_freq = 120,
+-- 	icon = { string = "􀨪", font = { size = 14.0 }, color = colors.icon, padding_right = 4 },
+-- 	label = { string = "0 GB", font = { size = 11.0 }, color = colors.white, padding_right = 6 },
+-- })
+--
+-- -- CPU/GPU update
+-- cpu:subscribe({ "routine", "forced" }, function()
+-- 	sbar.exec("top -l 1 -n 0 | grep 'CPU usage'", function(output)
+-- 		local user = tonumber(output:match("(%d+%.?%d*)%% user")) or 0
+-- 		local sys = tonumber(output:match("(%d+%.?%d*)%% sys")) or 0
+-- 		local total = math.floor(user + sys)
+-- 		cpu:set({ label = total .. "%" })
+-- 	end)
+-- end)
+--
+-- gpu:subscribe({ "routine", "forced" }, function()
+-- 	sbar.exec("sudo powermetrics -n 1 -i 100 --samplers gpu_power | grep 'GPU HW active residency'", function(output)
+-- 		local pct = output:match("residency:%s+(%d+%.?%d*)%%") or ""
+-- 		print(pct)
+-- 		local label = pct ~= "" and math.floor(tonumber(pct)) .. "%" or "N/A"
+-- 		gpu:set({ label = pct })
+-- 	end)
+-- end)
+--
+-- -- RAM update
+-- ram:subscribe({ "routine", "forced" }, function()
+-- 	sbar.exec(
+-- 		"vm_stat | awk '/Pages active|Pages wired/ {sum += $NF} END {printf \"%.1f\", sum * 16384 / 1073741824}'",
+-- 		function(output)
+-- 			local gb = output:gsub("%s+", "")
+-- 			ram:set({ label = gb .. " GB" })
+-- 		end
+-- 	)
+-- end)
+--
+-- -- Network update
+-- network:subscribe({ "routine", "forced", "wifi_change" }, function()
+-- 	sbar.exec("ipconfig getsummary en0 2>/dev/null | awk -F': ' '/^  SSID/ {print $2}'", function(output)
+-- 		local ssid = output:gsub("%s+$", "")
+-- 		if ssid ~= "" and ssid ~= "<redacted>" then
+-- 			network:set({ icon = { string = "􀙇" }, label = ssid })
+-- 		elseif ssid == "<redacted>" then
+-- 			network:set({ icon = { string = "􀙇" }, label = "WiFi" })
+-- 		else
+-- 			sbar.exec("ifconfig en0 2>/dev/null | grep 'inet '", function(inet)
+-- 				if inet:match("inet") then
+-- 					network:set({ icon = { string = "􀤆" }, label = "Ethernet" })
+-- 				else
+-- 					network:set({ icon = { string = "􀙈" }, label = "No Network" })
+-- 				end
+-- 			end)
+-- 		end
+-- 	end)
+-- end)
+--
+-- network:subscribe("mouse.entered", function()
+-- 	sbar.exec(
+-- 		"networksetup -getairportnetwork en0 && system_profiler SPAirPortDataType 2>/dev/null | grep -A2 'PHY Mode'",
+-- 		function(output)
+-- 			local rate = output:match("Transmit Rate: (%d+)") or output:match("maxRate: (%d+)")
+-- 			network_popup:set({ label = rate and ("Speed: " .. rate .. " Mbps") or "Speed: N/A" })
+-- 		end
+-- 	)
+-- 	sbar.animate("tanh", 15, function()
+-- 		network:set({ popup = { drawing = true } })
+-- 	end)
+-- end)
+-- network:subscribe("mouse.exited.global", function()
+-- 	sbar.animate("tanh", 15, function()
+-- 		network:set({ popup = { drawing = false } })
+-- 	end)
+-- end)
+-- network:subscribe("mouse.clicked", function()
+-- 	sbar.exec("open 'x-apple.systempreferences:com.apple.preference.network?Wi-Fi'")
+-- end)
+--
+-- -- Disk update
+-- disk:subscribe({ "routine", "forced" }, function()
+-- 	sbar.exec("df -H / | tail -1 | awk '{print $3}'", function(output)
+-- 		disk:set({ label = output:gsub("%s+", "") .. " used" })
+-- 	end)
+-- end)
+-- disk:subscribe("mouse.clicked", function()
+-- 	sbar.exec("open 'x-apple.systempreferences:com.apple.settings.Storage'")
+-- end)
+--
+-- -- Click handlers for btop
+-- cpu:subscribe("mouse.clicked", function()
+-- 	sbar.exec("open -na kitty --args btop")
+-- end)
+-- gpu:subscribe("mouse.clicked", function()
+-- 	sbar.exec("open -na kitty --args btop")
+-- end)
+-- ram:subscribe("mouse.clicked", function()
+-- 	sbar.exec("open -na kitty --args btop")
+-- end)
+--
+-- -- Toggle function
+-- local function toggle_stats()
+-- 	is_expanded = not is_expanded
+-- 	if is_expanded then
+-- 		stats_toggle:set({ icon = { string = "􀆊" } })
+-- 		sbar.animate("tanh", 20, function()
+-- 			cpu:set({ width = "dynamic", drawing = true })
+-- 			gpu:set({ width = "dynamic", drawing = true })
+-- 			ram:set({ width = "dynamic", drawing = true })
+-- 			network:set({ width = "dynamic", drawing = true })
+-- 			disk:set({ width = "dynamic", drawing = true })
+-- 		end)
+-- 	else
+-- 		stats_toggle:set({ icon = { string = "􀆉" } })
+-- 		sbar.animate("tanh", 20, function()
+-- 			cpu:set({ width = 0, drawing = false })
+-- 			gpu:set({ width = 0, drawing = false })
+-- 			ram:set({ width = 0, drawing = false })
+-- 			network:set({ width = 0, drawing = false })
+-- 			disk:set({ width = 0, drawing = false })
+-- 		end)
+-- 	end
+-- end
+--
+-- stats_toggle:subscribe("mouse.clicked", toggle_stats)
+-- stats_toggle:subscribe("mouse.entered", function()
+-- 	stats_toggle:set({ icon = { color = colors.white } })
+-- end)
+-- stats_toggle:subscribe("mouse.exited", function()
+-- 	stats_toggle:set({ icon = { color = colors.icon } })
+-- end)
+--
+-- return { bar_toggle = bar_toggle, battery = battery }
+local colors = require("colors")
+local settings = require("settings")
+
+-- Start stats_provider in background
+sbar.exec(
+	"killall stats_provider >/dev/null; $CONFIG_DIR/sketchybar-system-stats/target/release/stats_provider --cpu usage --disk usage --memory ram_usage"
+)
+
+-- Subscribe and use the `DISK_USAGE` var
+local disk = sbar.add("item", "disk", {
+	position = "right",
+})
+disk:subscribe("system_stats", function(env)
+	disk:set({ label = env.DISK_USAGE })
+end)
+
+-- Bar mode toggle
+local bar_toggle = sbar.add("item", "bar_toggle", {
+	position = "right",
+	icon = {
+		string = "􀨤",
+		font = { family = settings.font.text, style = settings.font.style_map["Regular"], size = 14.0 },
+		color = colors.icon,
+		padding_left = 6,
+	},
+	label = { drawing = false },
+	background = { drawing = false },
+})
+
+bar_toggle:subscribe("mouse.entered", function()
+	bar_toggle:set({ icon = { color = colors.white } })
+end)
+bar_toggle:subscribe("mouse.exited", function()
+	bar_toggle:set({ icon = { color = colors.icon } })
+end)
+bar_toggle:subscribe("mouse.clicked", function()
+	sbar.trigger("bar_toggle_clicked")
+end)
+
+-- Helper: get battery icon based on percentage and charging state
+local function get_battery_icon(percent, charging)
+	if charging then
+		if percent >= 75 then
+			return "􀢋"
+		elseif percent >= 50 then
+			return "􀢌"
+		elseif percent >= 25 then
+			return "􀢍"
+		else
+			return "􀢎"
+		end
+	else
+		if percent >= 75 then
+			return "􀛨"
+		elseif percent >= 50 then
+			return "􀺶"
+		elseif percent >= 25 then
+			return "􀺸"
+		else
+			return "􀛪"
+		end
+	end
+end
+
+-- BATTERY
+local battery = sbar.add("item", "battery", {
+	position = "right",
+	update_freq = 60,
+	icon = { string = "􀛨", font = { size = 18.0 }, color = colors.icon, padding_right = 4 },
+	label = { string = "100%", font = { size = 12.0 }, color = colors.white },
+	popup = {
+		align = "right",
+		height = 30,
+		y_offset = 5,
+		background = { color = colors.bar_solid, corner_radius = 8, border_width = 1, border_color = colors.border },
+	},
+})
+
+local battery_popup = sbar.add("item", "battery.popup", {
+	position = "popup." .. battery.name,
+	icon = { drawing = false },
+	label = { font = { size = 12.0 }, color = colors.white, padding_left = 12, padding_right = 12 },
+})
+
+battery:subscribe({ "routine", "forced", "system_woke" }, function()
+	sbar.exec("pmset -g batt", function(output)
+		local percent = tonumber(output:match("(%d+)%%")) or 0
+		local charging = output:match("AC Power") ~= nil or output:match("; charging;") ~= nil
+		local time_str = output:match("(%d+:%d+) remaining") or ""
+		local watts = output:match("%(.*?(%d+%.?%d*) watts%)") or ""
+		battery:set({
+			icon = { string = get_battery_icon(percent, charging), color = percent <= 20 and colors.red or colors.icon },
+			label = { string = percent .. "%" },
+		})
+		local popup_text = charging and ("Charging: " .. time_str .. (watts ~= "" and " @ " .. watts .. "W" or ""))
+			or ("Time remaining: " .. (time_str ~= "" and time_str or "Calculating..."))
+		battery_popup:set({ label = popup_text })
+	end)
+end)
+
+battery:subscribe("mouse.entered", function()
+	sbar.animate("tanh", 15, function()
+		battery:set({ popup = { drawing = true } })
+	end)
+end)
+battery:subscribe("mouse.exited.global", function()
+	sbar.animate("tanh", 15, function()
+		battery:set({ popup = { drawing = false } })
+	end)
+end)
+
+-- TOGGLE ARROW
+local stats_toggle = sbar.add("item", "stats.toggle", {
+	position = "right",
+	icon = { string = "􀆉", font = { size = 10.0 }, color = colors.icon, padding_left = 4, padding_right = 4 },
+	label = { drawing = false },
+	background = { drawing = false },
+})
+
+local is_expanded = false
+
+-- CPU
+local cpu = sbar.add("item", "cpu", {
+	position = "right",
+	width = 0,
+	drawing = false,
+	icon = { string = "􀫥", font = { size = 14.0 }, color = colors.icon, padding_right = 4 },
+	label = { string = "0%", font = { size = 11.0 }, color = colors.white, padding_right = 6 },
+})
+
+-- GPU (placeholder - stats_provider doesn't provide GPU stats yet)
+local gpu = sbar.add("item", "gpu", {
+	position = "right",
+	width = 0,
+	drawing = false,
+	icon = { string = "􀫥", font = { size = 14.0 }, color = colors.blue, padding_right = 4 },
+	label = { string = "N/A", font = { size = 11.0 }, color = colors.white, padding_right = 6 },
+})
+
+-- RAM
+local ram = sbar.add("item", "ram", {
+	position = "right",
+	width = 0,
+	drawing = false,
+	icon = { string = "􀫦", font = { size = 14.0 }, color = colors.icon, padding_right = 4 },
+	label = { string = "0 GB", font = { size = 11.0 }, color = colors.white, padding_right = 6 },
+})
+
+-- NETWORK
+local network = sbar.add("item", "network", {
+	position = "right",
+	width = 0,
+	drawing = false,
+	update_freq = 10,
+	icon = { string = "􀙇", font = { size = 14.0 }, color = colors.icon, padding_right = 4 },
+	label = { string = "WiFi", font = { size = 11.0 }, color = colors.white, padding_right = 6 },
+	popup = {
+		align = "right",
+		height = 30,
+		y_offset = 5,
+		background = { color = colors.bar_solid, corner_radius = 8, border_width = 1, border_color = colors.border },
+	},
+})
+
+local network_popup = sbar.add("item", "network.popup", {
+	position = "popup." .. network.name,
+	icon = { drawing = false },
+	label = { font = { size = 12.0 }, color = colors.white, padding_left = 12, padding_right = 12 },
+})
+
+-- DISK
+local disk = sbar.add("item", "disk", {
+	position = "right",
+	width = 0,
+	drawing = false,
+	icon = { string = "􀨪", font = { size = 14.0 }, color = colors.icon, padding_right = 4 },
+	label = { string = "0 GB", font = { size = 11.0 }, color = colors.white, padding_right = 6 },
+})
+
+-- Subscribe to system_stats event from stats_provider
+cpu:subscribe("system_stats", function(env)
+	cpu:set({ label = env.CPU_USAGE or "N/A" })
+end)
+
+ram:subscribe("system_stats", function(env)
+	ram:set({ label = env.RAM_USAGE and (env.RAM_USED .. " GB") or "N/A" })
+end)
+
+disk:subscribe("system_stats", function(env)
+	disk:set({ label = env.DISK_USAGE and (env.DISK_USED .. " used") or "N/A" })
+end)
+
+-- Network update (keeping the original implementation since stats_provider doesn't handle this)
+network:subscribe({ "routine", "forced", "wifi_change" }, function()
+	sbar.exec("ipconfig getsummary en0 2>/dev/null | awk -F': ' '/^  SSID/ {print $2}'", function(output)
+		local ssid = output:gsub("%s+$", "")
+		if ssid ~= "" and ssid ~= "<redacted>" then
+			network:set({ icon = { string = "􀙇" }, label = ssid })
+		elseif ssid == "<redacted>" then
+			network:set({ icon = { string = "􀙇" }, label = "WiFi" })
+		else
+			sbar.exec("ifconfig en0 2>/dev/null | grep 'inet '", function(inet)
+				if inet:match("inet") then
+					network:set({ icon = { string = "􀤆" }, label = "Ethernet" })
+				else
+					network:set({ icon = { string = "􀙈" }, label = "No Network" })
+				end
+			end)
+		end
+	end)
+end)
+
+network:subscribe("mouse.entered", function()
+	sbar.exec(
+		"networksetup -getairportnetwork en0 && system_profiler SPAirPortDataType 2>/dev/null | grep -A2 'PHY Mode'",
+		function(output)
+			local rate = output:match("Transmit Rate: (%d+)") or output:match("maxRate: (%d+)")
+			network_popup:set({ label = rate and ("Speed: " .. rate .. " Mbps") or "Speed: N/A" })
+		end
+	)
+	sbar.animate("tanh", 15, function()
+		network:set({ popup = { drawing = true } })
+	end)
+end)
+network:subscribe("mouse.exited.global", function()
+	sbar.animate("tanh", 15, function()
+		network:set({ popup = { drawing = false } })
+	end)
+end)
+network:subscribe("mouse.clicked", function()
+	sbar.exec("open 'x-apple.systempreferences:com.apple.preference.network?Wi-Fi'")
+end)
+
+disk:subscribe("mouse.clicked", function()
+	sbar.exec("open 'x-apple.systempreferences:com.apple.settings.Storage'")
+end)
+
+-- Click handlers for btop
+cpu:subscribe("mouse.clicked", function()
+	sbar.exec("open -na kitty --args btop")
+end)
+gpu:subscribe("mouse.clicked", function()
+	sbar.exec("open -na kitty --args btop")
+end)
+ram:subscribe("mouse.clicked", function()
+	sbar.exec("open -na kitty --args btop")
+end)
+
+-- Toggle function
+local function toggle_stats()
+	is_expanded = not is_expanded
+	if is_expanded then
+		stats_toggle:set({ icon = { string = "􀆊" } })
+		sbar.animate("tanh", 20, function()
+			cpu:set({ width = "dynamic", drawing = true })
+			gpu:set({ width = "dynamic", drawing = true })
+			ram:set({ width = "dynamic", drawing = true })
+			network:set({ width = "dynamic", drawing = true })
+			disk:set({ width = "dynamic", drawing = true })
+		end)
+	else
+		stats_toggle:set({ icon = { string = "􀆉" } })
+		sbar.animate("tanh", 20, function()
+			cpu:set({ width = 0, drawing = false })
+			gpu:set({ width = 0, drawing = false })
+			ram:set({ width = 0, drawing = false })
+			network:set({ width = 0, drawing = false })
+			disk:set({ width = 0, drawing = false })
+		end)
+	end
+end
+
+stats_toggle:subscribe("mouse.clicked", toggle_stats)
+stats_toggle:subscribe("mouse.entered", function()
+	stats_toggle:set({ icon = { color = colors.white } })
+end)
+stats_toggle:subscribe("mouse.exited", function()
+	stats_toggle:set({ icon = { color = colors.icon } })
+end)
+
+return { bar_toggle = bar_toggle, battery = battery }

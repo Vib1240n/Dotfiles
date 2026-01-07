@@ -1,0 +1,114 @@
+-- Example: Menu Bar Extras Integration for SketchyBar
+-- Uses PID-based approach for reliable menu bar extra clicking
+
+local colors = require("colors")
+local settings = require("settings")
+
+-- Helper function to get PID of a process
+local function get_pid(process_name)
+    local handle = io.popen("pidof '" .. process_name .. "' 2>/dev/null")
+    if not handle then return nil end
+    
+    local result = handle:read("*a")
+    handle:close()
+    
+    if result and result ~= "" then
+        return result:gsub("%s+", "")
+    end
+    return nil
+end
+
+-- Helper to create clickable menu bar extra items
+local function create_menu_extra(name, process_name, index, icon, label)
+    local pid = get_pid(process_name)
+    
+    if not pid then
+        print("Warning: Process '" .. process_name .. "' not found, skipping " .. name)
+        return nil
+    end
+    
+    return sbar.add("item", "menu_extra." .. name, {
+        position = "right",
+        padding_left = settings.paddings,
+        padding_right = settings.paddings,
+        icon = {
+            string = icon,
+            color = colors.white,
+            font = {
+                style = settings.font.style_map["Bold"],
+                size = 14.0,
+            },
+        },
+        label = label and {
+            string = label,
+            color = colors.white,
+            font = {
+                style = settings.font.style_map["Semibold"],
+                size = 12.0,
+            },
+        } or { drawing = false },
+        background = {
+            color = colors.bg1,
+            corner_radius = 5,
+            height = 24,
+        },
+        click_script = "$CONFIG_DIR/helpers/submenu/bin/submenu -c " .. pid .. " " .. (index or 0),
+    })
+end
+
+-- Example: iStat Menus items
+-- First, find the PID: pidof "iStat Menus Status"
+-- Then list items: submenu -p <PID>
+-- Uncomment and adjust indices based on your setup
+
+-- local istats_cpu = create_menu_extra("istats_cpu", "iStat Menus Status", 0, "󰍛", "CPU")
+-- local istats_mem = create_menu_extra("istats_mem", "iStat Menus Status", 1, "󰘚", "RAM")
+-- local istats_net = create_menu_extra("istats_net", "iStat Menus Status", 2, "󰖩", "NET")
+-- local istats_bat = create_menu_extra("istats_bat", "iStat Menus Status", 5, "󰁹", "BAT")
+
+-- Example: Raycast
+-- local raycast = create_menu_extra("raycast", "Raycast", 0, "󰈸")
+
+-- Example: Control Center items
+-- Find PID: pidof "Control Center"
+-- List items: submenu -p <PID>
+-- local control = create_menu_extra("control", "Control Center", 0, "󰒓")
+
+-- Example: Bitwarden
+-- local bitwarden = create_menu_extra("bitwarden", "Bitwarden", 0, "󰟵")
+
+--[[ 
+SETUP INSTRUCTIONS:
+
+1. Compile submenu:
+   cd ~/.config/sketchybar/helpers/submenu
+   clang -std=c99 -O3 -F/System/Library/PrivateFrameworks/ -framework Carbon -framework ApplicationServices submenu.c -o bin/submenu
+
+2. Find processes with menu bar extras:
+   ~/.config/sketchybar/helpers/submenu/bin/submenu -l
+
+3. List items for a specific process:
+   ~/.config/sketchybar/helpers/submenu/bin/submenu -p <PID>
+
+4. Test clicking:
+   ~/.config/sketchybar/helpers/submenu/bin/submenu -c <PID> <index>
+
+5. Uncomment examples above and adjust process names and indices
+
+6. Include this file in your config:
+   require("items.submenu_extras")
+
+NOTES:
+- Process names must match exactly (case-sensitive)
+- Index starts at 0
+- If process not found, item won't be created
+- Use submenu -l to discover available processes
+- Use submenu -p <PID> to see item indices
+
+COMMON PROCESS NAMES:
+- "iStat Menus Status" - iStat Menus
+- "Control Center" - macOS Control Center
+- "Raycast" - Raycast
+- "Bitwarden" - Bitwarden
+- "Bartender 5" - Bartender
+--]]

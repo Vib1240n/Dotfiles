@@ -1,0 +1,530 @@
+local icons = require("icons")
+local colors = require("colors")
+local settings = require("settings")
+
+-- Stats PID-based configuration using SF Symbols
+-- Index mapping:
+-- [0] = Battery, [1] = Network, [2] = Disk, [3] = RAM, [4] = CPU
+
+-- Get the correct Stats PID using pgrep
+local stats_pid = "$(pgrep -x Stats)"
+
+-- Battery (visible by default) - Dynamic icon based on battery state
+local statsBattery = sbar.add("item", "stats.battery", {
+	position = "right",
+	icon = {
+		string = icons.battery._100,  -- Default 100%
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["Regular"],
+			size = 22.0,
+		},
+		color = colors.icon,
+	},
+	label = {
+		drawing = false,
+	},
+	background = {
+-- 		color = colors.transparent,
+		padding_left = settings.paddings - settings.paddings,
+		padding_right = settings.paddings - 5,
+	},
+})
+
+-- Update battery icon based on percentage
+statsBattery:subscribe({ "routine", "power_source_change", "system_woke" }, function()
+	sbar.exec("pmset -g batt", function(batt_info)
+		local icon = "􀛨"  -- Default 100%
+		local found, _, charge = batt_info:find("(%d+)%%")
+
+		if found then
+			charge = tonumber(charge)
+			icon = (charge > 75 and "􀛨")
+				or (charge > 50 and "􀺸")
+				or (charge > 25 and "􀺶")
+				or (charge > 10 and "􀛩")
+				or "􀛪"
+
+			-- Check if charging
+			if batt_info:find("AC Power") then
+				icon = "􀢋"  -- Charging icon
+			end
+		end
+
+		statsBattery:set({ icon = { string = icon } })
+	end)
+end)
+
+-- Toggle arrow (starts closed)
+local statsToggle = sbar.add("item", "stats.toggle", {
+	position = "right",
+	padding_right = 0,
+	padding_left = 0,
+	icon = {
+		string = "􀄪",  -- Chevron left (closed state)
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["Regular"],
+			size = 14.0,
+		},
+		color = colors.icon,
+	},
+	label = {
+		drawing = false,
+	},
+	background = {
+-- 		color = colors.transparent,
+		padding_left = 0,
+		padding_right = settings.paddings - settings.paddings,
+	},
+})
+
+-- CPU (hidden) - SF Symbol
+local statsCPU = sbar.add("item", "stats.cpu", {
+	position = "right",
+	width = 0,
+	drawing = false,
+	icon = {
+		string = "􀫥",  -- cpu SF Symbol
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["Regular"],
+			size = 22.0,
+		},
+		color = colors.icon,
+	},
+	label = {
+		drawing = false,
+	},
+	background = {
+		color = colors.transparent,
+		padding_left = settings.paddings - 5,
+		padding_right = settings.paddings - 3,
+	},
+})
+
+-- Memory/RAM (hidden) - SF Symbol
+local statsMemory = sbar.add("item", "stats.memory", {
+	position = "right",
+	width = 0,
+	drawing = false,
+	icon = {
+		string = "􀫦",  -- memorychip SF Symbol
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["Regular"],
+			size = 22.0,
+		},
+		color = colors.icon,
+	},
+	label = {
+		drawing = false,
+	},
+	background = {
+		color = colors.transparent,
+		padding_left = settings.paddings - 5,
+		padding_right = settings.paddings - 5,
+	},
+})
+
+-- Network (hidden) - SF Symbol
+local statsNetwork = sbar.add("item", "stats.network", {
+	position = "right",
+	width = 0,
+	drawing = false,
+	icon = {
+		string = "􀙇",  -- wifi.router SF Symbol
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["Regular"],
+			size = 22.0,
+		},
+		color = colors.icon,
+	},
+	label = {
+		drawing = false,
+	},
+	background = {
+		color = colors.transparent,
+		padding_left = settings.paddings - 5,
+		padding_right = settings.paddings - 5,
+	},
+})
+
+-- Disk/SSD (hidden) - SF Symbol
+local statsDisks = sbar.add("item", "stats.disk", {
+	position = "right",
+	width = 0,
+	drawing = false,
+	icon = {
+		string = "􀥾",  -- internaldrive SF Symbol
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["Regular"],
+			size = 22.0,
+		},
+		color = colors.icon,
+	},
+	label = {
+		drawing = false,
+	},
+	background = {
+		color = colors.transparent,
+		padding_left = settings.paddings - 5,
+		padding_right = settings.paddings - 5,
+	},
+})
+local statsSensor = sbar.add("item", "stats.sensor", {
+	position = "right",
+	width = 0,
+	drawing = false,
+	icon = {
+		string = "􁁌",  -- fan.fall SF Symbol
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["Regular"],
+			size = 22.0,
+		},
+		color = colors.icon,
+	},
+	label = {
+		drawing = false,
+	},
+	background = {
+		color = colors.transparent,
+		padding_left = settings.paddings - 5,
+		padding_right = settings.paddings - 5,
+	},
+})
+
+-- Create bracket (includes toggle arrow)
+local stats_bracket = sbar.add("bracket", {
+	statsToggle.name,
+	statsBattery.name,
+	statsCPU.name,
+	statsMemory.name,
+	statsNetwork.name,
+	statsDisks.name,
+	statsSensor.name
+}, {
+	background = {
+		color = colors.transparent,
+		border_width = 0,
+	},
+})
+
+-- Track expansion state
+local is_expanded = false
+
+-- Toggle function
+-- local function toggle_stats()
+-- 	is_expanded = not is_expanded
+--
+-- 	if is_expanded then
+-- 		-- Expand and change arrow to "close" icon
+-- 		statsToggle:set({ icon = { string = "􀄫" } })  -- Chevron right (open state)
+--
+-- 		sbar.animate("tanh", 25, function()
+-- 			statsCPU:set({ width = "dynamic", drawing = true })
+-- 			statsMemory:set({ width = "dynamic", drawing = true })
+-- 			statsNetwork:set({ width = "dynamic", drawing = true })
+-- 			statsDisks:set({ width = "dynamic", drawing = true })
+--
+-- 			stats_bracket:set({
+-- 				background = {
+-- 					color = colors.item,
+-- 					border_width = 1,
+-- 					border_color = colors.item_border,
+-- 				},
+-- 			})
+-- 		end)
+-- 	else
+-- 		-- Collapse and change arrow back to "open" icon
+-- 		statsToggle:set({ icon = { string = "􀄪" } })  -- Chevron left (closed state)
+--
+-- 		sbar.animate("tanh", 25, function()
+-- 			statsCPU:set({ width = 0, drawing = false })
+-- 			statsMemory:set({ width = 0, drawing = false })
+-- 			statsNetwork:set({ width = 0, drawing = false })
+-- 			statsDisks:set({ width = 0, drawing = false })
+--
+-- 			stats_bracket:set({
+-- 				background = {
+-- 					color = colors.transparent,
+-- 					border_width = 0,
+-- 				},
+-- 			})
+-- 		end)
+-- 	end
+-- end
+local function toggle_stats_with_rotation()
+	is_expanded = not is_expanded
+
+	-- First, fade out the current icon
+	sbar.animate("tanh", 15, function()
+		statsToggle:set({ icon = { drawing = false } })
+	end)
+
+	-- Then change the icon and fade it back in
+	sbar.exec("sleep 0.15 && sketchybar --set stats.toggle icon.drawing=on icon=" .. (is_expanded and "􀆊" or "􀆉"))
+
+	if is_expanded then
+		sbar.animate("tanh", 25, function()
+			statsCPU:set({ width = "dynamic", drawing = true })
+			statsMemory:set({ width = "dynamic", drawing = true })
+			statsNetwork:set({ width = "dynamic", drawing = true })
+			statsDisks:set({ width = "dynamic", drawing = true })
+			statsSensor:set({ width = "dynamic", drawing = true })
+			stats_bracket:set({
+				background = {
+					color = colors.item,
+					border_width = 1,
+					border_color = colors.item_border,
+				},
+			})
+		end)
+	else
+		sbar.animate("tanh", 25, function()
+			statsCPU:set({ width = 0, drawing = false })
+			statsMemory:set({ width = 0, drawing = false })
+			statsNetwork:set({ width = 0, drawing = false })
+			statsSensor:set({ width = 0, drawing = false })
+			statsDisks:set({ width = 0, drawing = false })
+			stats_bracket:set({
+				background = {
+					color = colors.transparent,
+					border_width = 0,
+				},
+			})
+		end)
+	end
+end
+-- Subscribe toggle arrow to click
+-- statsToggle:subscribe("mouse.clicked", toggle_stats)
+statsToggle:subscribe("mouse.clicked", toggle_stats_with_rotation)
+
+-- Hover effects for each stats item
+-- Battery hover
+statsBattery:subscribe("mouse.entered", function()
+	sbar.animate("tanh", 15, function()
+		statsBattery:set({
+			background = {
+				color = 0x40ffffff,  -- Semi-transparent white highlight
+				border_color = colors.icon,
+				border_width = 1,
+			},
+			icon = { color = 0xffffffff },  -- Bright white icon
+		})
+	end)
+end)
+statsBattery:subscribe("mouse.clicked", function()
+	sbar.animate("tanh", 15, function()
+		sbar.exec("$CONFIG_DIR/helpers/submenu/bin/submenu -c " .. stats_pid .. " 5")
+		sbar.exec("osascript -e 'tell application \"System Events\" to tell process \"Stats\" to set position of window 1 to {item 1 of (get position of window 1), (item 2 of (get position of window 1)) + 60}'")
+	end)
+end)
+
+statsBattery:subscribe("mouse.exited", function()
+	sbar.animate("tanh", 15, function()
+		statsBattery:set({
+			background = {
+				color = colors.transparent,
+				border_color = colors.transparent,
+				border_width = 0,
+			},
+			icon = { color = colors.icon },
+		})
+	end)
+end)
+
+-- CPU hover
+statsCPU:subscribe("mouse.entered", function()
+	sbar.animate("tanh", 15, function()
+		statsCPU:set({
+			background = {
+				color = 0x40ffffff,
+				border_color = colors.icon,
+				border_width = 1,
+			},
+			icon = { color = 0xffffffff },
+		})
+	end)
+
+end)
+statsCPU:subscribe("mouse.clicked", function()
+	sbar.animate("tanh", 15, function()
+		sbar.exec("$CONFIG_DIR/helpers/submenu/bin/submenu -c " .. stats_pid .. " 0")
+		sbar.exec("osascript -e 'tell application \"System Events\" to tell process \"Stats\" to set position of window 1 to {item 1 of (get position of window 1), (item 2 of (get position of window 1)) + 60}'")
+	end)
+end)
+
+statsCPU:subscribe("mouse.exited", function()
+	sbar.animate("tanh", 15, function()
+		statsCPU:set({
+			background = {
+				color = colors.transparent,
+				border_color = colors.transparent,
+				border_width = 0,
+			},
+			icon = { color = colors.icon },
+		})
+	end)
+end)
+
+-- Memory hover
+statsMemory:subscribe("mouse.entered", function()
+	sbar.animate("tanh", 15, function()
+		statsMemory:set({
+			background = {
+				color = 0x40ffffff,
+				border_color = colors.icon,
+				border_width = 1,
+			},
+			icon = { color = 0xffffffff },
+		})
+	end)
+
+end)
+statsMemory:subscribe("mouse.clicked", function()
+	sbar.animate("tanh", 15, function()
+		sbar.exec("$CONFIG_DIR/helpers/submenu/bin/submenu -c " .. stats_pid .. " 1")
+		sbar.exec("osascript -e 'tell application \"System Events\" to tell process \"Stats\" to set position of window 1 to {item 1 of (get position of window 1), (item 2 of (get position of window 1)) + 60}'")
+	end)
+end)
+
+statsMemory:subscribe("mouse.exited", function()
+	sbar.animate("tanh", 15, function()
+		statsMemory:set({
+			background = {
+				color = colors.transparent,
+				border_color = colors.transparent,
+				border_width = 0,
+			},
+			icon = { color = colors.icon },
+		})
+	end)
+end)
+
+-- Network hover
+statsNetwork:subscribe("mouse.entered", function()
+	sbar.animate("tanh", 15, function()
+		statsNetwork:set({
+			background = {
+				color = 0x40ffffff,
+				border_color = colors.icon,
+				border_width = 1,
+			},
+			icon = { color = 0xffffffff },
+		})
+	end)
+
+end)
+statsNetwork:subscribe("mouse.clicked", function()
+	sbar.animate("tanh", 15, function()
+		sbar.exec("$CONFIG_DIR/helpers/submenu/bin/submenu -c " .. stats_pid .. " 4")
+		sbar.exec("osascript -e 'tell application \"System Events\" to tell process \"Stats\" to set position of window 1 to {item 1 of (get position of window 1), (item 2 of (get position of window 1)) + 60}'")
+	end)
+end)
+
+statsNetwork:subscribe("mouse.exited", function()
+	sbar.animate("tanh", 15, function()
+		statsNetwork:set({
+			background = {
+				color = colors.transparent,
+				border_color = colors.transparent,
+				border_width = 0,
+			},
+			icon = { color = colors.icon },
+		})
+	end)
+end)
+
+-- Disks hover
+statsDisks:subscribe("mouse.entered", function()
+	sbar.animate("tanh", 15, function()
+		statsDisks:set({
+			background = {
+				color = 0x40ffffff,
+				border_color = colors.icon,
+				border_width = 1,
+			},
+			icon = { color = 0xffffffff },
+		})
+	end)
+end)
+statsDisks:subscribe("mouse.clicked", function()
+	sbar.animate("tanh", 15, function()
+		sbar.exec("$CONFIG_DIR/helpers/submenu/bin/submenu -c " .. stats_pid .. " 2")
+		sbar.exec("osascript -e 'tell application \"System Events\" to tell process \"Stats\" to set position of window 1 to {item 1 of (get position of window 1), (item 2 of (get position of window 1)) + 60}'")
+	end)
+end)
+statsDisks:subscribe("mouse.exited", function()
+	sbar.animate("tanh", 15, function()
+		statsDisks:set({
+			background = {
+				color = colors.transparent,
+				border_color = colors.transparent,
+				border_width = 0,
+			},
+			icon = { color = colors.icon },
+		})
+	end)
+end)
+statsSensor:subscribe("mouse.entered", function()
+	sbar.animate("tanh", 15, function()
+		statsSensor:set({
+			background = {
+				color = 0x40ffffff,
+				border_color = colors.icon,
+				border_width = 1,
+			},
+			icon = { color = 0xffffffff },
+		})
+	end)
+end)
+statsSensor:subscribe("mouse.clicked", function()
+	sbar.animate("tanh", 15, function()
+		sbar.exec("$CONFIG_DIR/helpers/submenu/bin/submenu -c " .. stats_pid .. " 3")
+		sbar.exec("osascript -e 'tell application \"System Events\" to tell process \"Stats\" to set position of window 1 to {item 1 of (get position of window 1), (item 2 of (get position of window 1)) + 60}'")
+	end)
+end)
+statsSensor:subscribe("mouse.exited", function()
+	sbar.animate("tanh", 15, function()
+		statsSensor:set({
+			background = {
+				color = colors.transparent,
+				border_color = colors.transparent,
+				border_width = 0,
+			},
+			icon = { color = colors.icon },
+		})
+	end)
+end)
+-- Toggle arrow hover
+statsToggle:subscribe("mouse.entered", function()
+	sbar.animate("tanh", 15, function()
+		statsToggle:set({
+			icon = { color = 0xffffffff },
+			background = {
+				color = 0x40ffffff,
+				border_color = colors.icon,
+				border_width = 1,
+			},
+		})
+	end)
+end)
+
+statsToggle:subscribe("mouse.exited", function()
+	sbar.animate("tanh", 15, function()
+		statsToggle:set({
+			icon = { color = colors.icon },
+			background = {
+				color = colors.transparent,
+				border_color = colors.transparent,
+				border_width = 0,
+			},
+		})
+	end)
+end)
+
+return statsBattery

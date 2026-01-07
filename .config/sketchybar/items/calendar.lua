@@ -2,74 +2,62 @@ local settings = require("settings")
 local colors = require("colors")
 
 local cal = sbar.add("item", "cal", {
-	icon = {
-		font = {
-			style = settings.font.style_map["Regular"],
-			size = 16.0,
-		},
-	},
 	position = "right",
+	icon = { drawing = false },
 	label = {
-		font = {
-			size = 16.0,
-		},
+		font = { size = 16.0 },
 		color = colors.white,
+		padding_left = 8,
+		padding_right = 8,
 	},
-	padding_left = settings.paddings - 5,
+	background = { drawing = false },
 	update_freq = 30,
 	popup = {
 		align = "right",
-		horizontal = false,
+		height = 30,
+		y_offset = 5,
 		background = {
-			color = colors.with_alpha(colors.black, settings.alpha - 0.5),
-			border_color = colors.with_alpha(colors.teal, 0.2),
+			color = colors.bar_solid,
+			corner_radius = 8,
+			border_width = 1,
+			border_color = colors.border,
 		},
 	},
 })
 
--- local widget_sensor = sbar.add("alias", "Control Center,com.bjango.istatmenus.sensors", {
--- 	position = cal.popup,
--- })
---
--- widget_sensor:set({ position = cal.popup })
--- -- Double border for calendar using a single item bracket
--- sbar.add("bracket", { cal.name }, {
--- 	background = {
--- 		color = colors.transparent,
--- 		height = 30,
--- 	},
--- })
+local cal_popup = sbar.add("item", "cal.popup", {
+	position = "popup." .. cal.name,
+	icon = { drawing = true },
+	label = {
+		font = { size = 16.0 },
+		color = colors.white,
+		padding_left = 12,
+		padding_right = 12,
+	},
+})
 
--- Padding item required because of bracket
--- sbar.add("item", { position = "right", width = settings.group_paddings })
+sbar.add("item", "right_padding", { position = "right", width = 5 })
 
-cal:subscribe({ "forced", "routine", "system_woke" }, function(env)
-	cal:set({ icon = os.date("%a, %d %b %Y,"), label = os.date("%I:%M %p") })
+cal:subscribe({ "forced", "routine", "system_woke" }, function()
+	cal:set({ label = os.date("%I:%M %p") })
+	cal_popup:set({ label = os.date("%A, %B %d, %Y  -  %I:%M:%S %p") })
 end)
 
-local function show_popup()
-	cal:set({ popup = { drawing = true } })
-end
-
-local function hide_popup()
-	cal:set({ popup = { drawing = false } })
-end
-local function toggle_popup()
-	cal:set({ popup = { drawing = "toggle" } })
-end
--- cal:subscribe("mouse.exited", function(env)
--- 	sbar.animate("tanh", 10, function()
--- 		hide_popup()
--- 	end)
--- end)
---
--- cal:subscribe("mouse.entered", function(env)
--- 	sbar.animate("sin", 30, function()
--- 		cal:set({ popup = { drawing = true } })
--- 	end)
--- end)
-cal:subscribe("mouse.clicked", function(env)
-	sbar.animate("tanh", 30, function(env)
-		cal:set({ popup = { drawing = "toggle" } })
+cal:subscribe("mouse.entered", function()
+	cal_popup:set({ label = os.date("%A, %B %d, %Y  -  %I:%M:%S %p") })
+	sbar.animate("tanh", 25, function()
+		cal:set({ popup = { drawing = true } })
 	end)
 end)
+
+cal:subscribe("mouse.exited", function()
+	sbar.animate("tanh", 25, function()
+		cal:set({ popup = { drawing = false } })
+	end)
+end)
+
+cal:subscribe("mouse.clicked", function()
+	sbar.exec("open -a Calendar")
+end)
+
+return cal

@@ -91,4 +91,36 @@ return {
     opts = { -- set to setup table
     },
   },
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      transparent = true,
+    },
+  },
+  {
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    cmd = { "ConformInfo" },
+    opts = {
+      formatters_by_ft = {
+        python = { "black" },
+      },
+      format_on_save = {
+        timeout_ms = 3000,
+        lsp_format = "fallback",
+      },
+    },
+  },
+  {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+
+    -- For blink.cmp's completion
+    -- source
+    -- dependencies = {
+    --     "saghen/blink.cmp"
+    -- },
+  },
 }

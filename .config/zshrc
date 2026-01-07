@@ -1,6 +1,10 @@
 # ZSH export and plugins for oh my zsh;
 # zmodload zsh/zprof  # Only enable for profiling
 
+# Fix backspace key for SSH sessions
+bindkey '^?' backward-delete-char
+bindkey '^H' backward-delete-char
+
 # Optimized completion loading - only once per day
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qNmh+24) ]]; then
@@ -22,6 +26,7 @@ plugins=(git macos nvm)
 # Commented out for faster startup
 # clear;fastfetch -c ~/.config/fastfetch/left.jsonc -l none; print -n "\e[H"; fastfetch -c ~/.config/fastfetch/right.jsonc -l none
 source $HOME/.config/functions/alias
+# source $HOME/.config/functions/stl-step-convert.py
 source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 source $ZSH/oh-my-zsh.sh
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -40,7 +45,7 @@ export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-eval "$(oh-my-posh init zsh --config '~/.config/oh-my-posh/chips-fast.omp.json')"
+eval "$(oh-my-posh init zsh --config '/opt/homebrew/opt/oh-my-posh/themes/peru.omp.json')"
 # EXPORTS
 export ANDROID_SDK_ROOT="/opt/homebrew/share/android-commandlinetools"
 export PATH="/opt/homebrew/bin/pandoc:$PATH"
@@ -67,19 +72,23 @@ if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 fi
 
-export CONFIG=/Users/vib1240n/.config
-export DEV=/Users/vib1240n/Development
+export CONFIG=$HOME/.config
+export DEV=$HOME/Development
 # zprof
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_BAT=1
 # export DEV="/Users/vib1240n/Development/"
 export PATH="$HOME/.jenv/bin:$PATH"
-jenv() {
-  unset -f jenv
-  export PATH="$HOME/.jenv/bin:$PATH"
+export PATH="$HOME/.jenv/bin:$PATH"
+if which jenv > /dev/null; then 
   eval "$(jenv init -)"
-  jenv "$@"
-}
+fi
+# jenv() {
+#   unset -f jenv
+#   export PATH="$HOME/.jenv/bin:$PATH"
+#   eval "$(jenv init -)"
+#   jenv "$@"
+# }
 # if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 # zprof | head -40  # Commented out - only enable for debugging
 clear
@@ -96,3 +105,10 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# Created by `pipx` on 2025-11-14 00:18:25
+export PATH="$PATH:/Users/vib1240n/.local/bin"
+bindkey '	' autosuggest-accept
+
+# Added by Antigravity
+export PATH="/Users/vib1240n/.antigravity/antigravity/bin:$PATH"

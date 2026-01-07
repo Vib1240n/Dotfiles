@@ -5,22 +5,22 @@ local app_icons = require("helpers.app_icons")
 
 local spaces = {}
 local space_has_apps = {}
-local TOTAL_SPACES = 8     -- Updated to 8 spaces
+local TOTAL_SPACES = 8      -- Updated to 8 spaces
 local spaces_visible = true -- Track if spaces should be visible
 
 -- Space name mapping based on yabai config
 -- Display 1 (Horizontal): A, F, B, W (spaces 1-4)
 -- Display 2 (Vertical): D, X, O, S (spaces 5-8)
-local space_names = {
-	[1] = "A", -- Browsers (Arc, Zen, Chrome)
-	[2] = "F", -- Fusion 360
-	[3] = "B", -- 3D Printing (Bambu, Orca, etc)
-	[4] = "W", -- Utilities (Wootility, Ice, Stats, etc)
-	[5] = "D", -- Discord
-	[6] = "X", -- Terminal
-	[7] = "O", -- Obsidian
-	[8] = "S", -- Music (Spotify, Music, eqMac)
-}
+-- local space_names = {
+-- 	[1] = "A", -- Browsers (Arc, Zen, Chrome)
+-- 	[2] = "F", -- Fusion 360
+-- 	[3] = "B", -- 3D Printing (Bambu, Orca, etc)
+-- 	[4] = "W", -- Utilities (Wootility, Ice, Stats, etc)
+-- 	[5] = "D", -- Discord
+-- 	[6] = "X", -- Terminal
+-- 	[7] = "O", -- Obsidian
+-- 	[8] = "S", -- Music (Spotify, Music, eqMac)
+-- }
 
 -- Initialize: assume all spaces might have apps
 for i = 1, TOTAL_SPACES do
@@ -31,29 +31,22 @@ for i = 1, TOTAL_SPACES, 1 do
 	local space = sbar.add("space", "space." .. i, {
 		space = i,
 		icon = {
-			font = { family = settings.font.numbers },
-			string = space_names[i], -- Changed from i to space_names[i]
-			padding_left = settings.paddings,
-			padding_right = settings.paddings,
-			y_offset = -1,
+			font = { family = settings.font.numbers, size = settings.fontXL },
+			string = i,
+			padding_left = 6,
+			padding_right = 6,
+			color = colors.icon,
 		},
 		label = {
-			font = "sketchybar-app-font:Regular:16.0",
-			y_offset = -1,
-			width = 0, -- Collapsed by default
-			padding_left = 8,
-			padding_right = 8,
+			font = "sketchybar-app-font:Regular:12.0",
+			width = 0,
+			padding_left = 4,
+			padding_right = 4,
 		},
-		padding_right = 0, -- Reduced from settings.group_paddings
-		padding_left = 0, -- Reduced from settings.group_paddings
+		padding_right = 1,
+		padding_left = 1,
 		background = {
-			-- color = colors.item,
-			-- border_width = 1,
-			border_color = colors.with_alpha(colors.icon, 0.3),
-			-- corner_radius = 9,
-			-- height = 40,
-			padding_left = settings.paddings - 5,
-			padding_right = settings.paddings - 5,
+			drawing = false,
 		},
 	})
 
@@ -169,53 +162,53 @@ space_change_observer:subscribe("space_change", function(env)
 end)
 
 -- Spaces indicator - switch icon (click-only trigger, no hover)
-local spaces_indicator = sbar.add("item", {
+local spaces_indicator = sbar.add("item", "spaces_indicator", {
 	icon = {
-		string = icons.switch.on,
-		color = colors.white,
+		-- string = icons.switch.on,
+		color = colors.icon,
+		font = { size = settings.fontXL },
+		padding_left = 4,
+		padding_right = 4,
 	},
 	label = {
-		width = 0,
-		string = "Spaces",
-		color = colors.white,
+		drawing = false,
 	},
 	background = {
-		color = colors.transparent,
-		border_width = 0,
+		drawing = false,
 	},
-	padding_left = 5,
-	padding_right = 5,
+	padding_left = 2,
+	padding_right = 2,
 })
 
-spaces_indicator:subscribe("swap_menus_and_spaces", function(env)
-	local currently_on = spaces_indicator:query().icon.value == icons.switch.on
-
-	-- Toggle spaces visibility
-	spaces_visible = not currently_on
-
-	spaces_indicator:set({
-		icon = spaces_visible and icons.switch.on or icons.switch.off,
-		drawing = true, -- Always show switch
-	})
-
-	-- Hide all spaces when showing menus, show spaces with apps when showing spaces
-	if spaces_visible then
-		-- Show spaces that have apps
-		for i = 1, TOTAL_SPACES do
-			if space_has_apps[i] then
-				spaces[i]:set({ drawing = true })
-			end
-		end
-	else
-		-- Hide all spaces when showing menus
-		for i = 1, TOTAL_SPACES do
-			spaces[i]:set({ drawing = false })
-		end
-	end
-end)
-
--- Mouse hover events for spaces indicator are commented out
--- Only click trigger remains active
-spaces_indicator:subscribe("mouse.clicked", function(env)
-	sbar.trigger("swap_menus_and_spaces")
-end)
+-- spaces_indicator:subscribe("swap_menus_and_spaces", function(env)
+-- 	local currently_on = spaces_indicator:query().icon.value == icons.switch.on
+--
+-- 	-- Toggle spaces visibility
+-- 	spaces_visible = not currently_on
+--
+-- 	spaces_indicator:set({
+-- 		icon = spaces_visible and icons.switch.on or icons.switch.off,
+-- 		drawing = true, -- Always show switch
+-- 	})
+--
+-- 	-- Hide all spaces when showing menus, show spaces with apps when showing spaces
+-- 	if spaces_visible then
+-- 		-- Show spaces that have apps
+-- 		for i = 1, TOTAL_SPACES do
+-- 			if space_has_apps[i] then
+-- 				spaces[i]:set({ drawing = true })
+-- 			end
+-- 		end
+-- 	else
+-- 		-- Hide all spaces when showing menus
+-- 		for i = 1, TOTAL_SPACES do
+-- 			spaces[i]:set({ drawing = false })
+-- 		end
+-- 	end
+-- end)
+--
+-- -- Mouse hover events for spaces indicator are commented out
+-- -- Only click trigger remains active
+-- spaces_indicator:subscribe("mouse.clicked", function(env)
+-- 	sbar.trigger("swap_menus_and_spaces")
+-- end)

@@ -1,8 +1,25 @@
-require("items.calendar")
+-- Load items in order (left to right on bar)
 require("items.apple")
 require("items.front_app")
 require("items.spaces-yabai-scroller")
-require("items.menus")
-require("items.widgets.combined")
-require("items.media")  -- Only load once
+-- require("items.rift-workspaces")
+-- require("items.menus")
+
+-- Right side items (loaded right to left visually)
+require("items.calendar")
+require("items.widgets.bitwarden")
+require("items.widgets.bar_toggle")
+require("items.widgets.battery")
+require("items.widgets.fan")
+require("items.widgets.cpu")
+require("items.widgets.gpu")
+require("items.widgets.ram")
+require("items.widgets.network")
+require("items.widgets.disk")
+
+-- Other items
+require("items.media")
 require("items.mode")
+
+-- Bar mode toggle and brackets (must be loaded LAST)
+require("items.bar_mode")

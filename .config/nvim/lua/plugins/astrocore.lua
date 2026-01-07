@@ -70,6 +70,10 @@ return {
       n = {
         -- second key is the lefthand side of the map
 
+        -- Cmd+C/V for copy/paste (works in GUI Neovim like Neovide)
+        ["<D-c>"] = { '"+y', desc = "Copy to clipboard" },
+        ["<D-v>"] = { '"+p', desc = "Paste from clipboard" },
+
         -- navigate buffer tabs
         ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
@@ -111,6 +115,10 @@ return {
         --
       },
       v = {
+        -- Cmd+C/V for copy/paste (works in GUI Neovim like Neovide)
+        ["<D-c>"] = { '"+y', desc = "Copy to clipboard" },
+        ["<D-v>"] = { '"+p', desc = "Paste from clipboard" },
+
         ["d"] = {
           noremap = true,
           desc = "visual mode blackhole",
@@ -122,6 +130,14 @@ return {
         ["<Leader>cr"] = { "<Cmd>CBd<CR>", noremap = true, silent = true, desc = "Remove Comment box" },
         ["<Leader>ct"] = { "<Cmd>CBllline<CR>", noremap = true, silent = true, desc = "Line Comment box" },
         ["<Leader>sr"] = { ".:%s/", noremap = true, silent = true, desc = "search and replace" },
+      },
+      i = {
+        -- Cmd+V to paste in insert mode
+        ["<D-v>"] = { '<C-r>+', desc = "Paste from clipboard" },
+      },
+      c = {
+        -- Cmd+V to paste in command mode
+        ["<D-v>"] = { '<C-r>+', desc = "Paste from clipboard" },
       },
     },
   },

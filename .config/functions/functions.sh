@@ -24,15 +24,18 @@ sleep_mac() {
 
 update_yabai (){
   brew unpin yabai
-  export YABAI_CERT=
+
   echo "Stopping yabai launchd service"
   yabai --stop-service
+  echo "Unlinking Yabai"
+  brew unlink yabai
   echo "unstinstalling yabai launchd service"
-  yabai --uninstall-service
+  brew uninstall koekeishiya/formulae/yabai
   echo "Reinstalling yabai from ~HEAD"
-  brew reinstall koekeishiya/formulae/yabai
+  brew install koekeishiya/formulae/yabai --HEAD
   echo "Signing yabai certificate"
-  codesign -fs "${YABAI_CERT:-yabai-cert}" "$(brew --prefix yabai)/bin/yabai"
+  codesign -fs 'yabai-cert' $(brew --prefix yabai)/bin/yabai
+  echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 $(which yabai) | cut -d " " -f 1) $(which yabai) --load-sa" | sudo tee /private/etc/sudoers.d/yabai
   echo "Updating hash"
   suyabai
   echo "Starting updated yabai"
@@ -40,6 +43,8 @@ update_yabai (){
   echo "configuring scripting addition"
   sudo yabai --load-sa
   brew pin yabai
+  sudo /opt/homebrew/bin/tccutil -e $(realpath $(which yabai))
+ launchctl stop com.apple.tccd && sudo launchctl kickstart -k system/com.apple.tccd.system
 }
 
 brewd (){
@@ -65,7 +70,7 @@ awsfind() { local pattern=$1; local type=$2; local bucket=$3; local depth=${4:-3
 awslist() {
     local bucket_path=""
     local depth=4
-    
+
     # Parse arguments
     while [[ $# -gt 0 ]]; do
         case $1 in
@@ -81,40 +86,40 @@ awslist() {
                 ;;
         esac
     done
-    
+
     [ -z "$bucket_path" ] && echo "Usage: awslist <bucket/path> --depth <number>" && echo "Example: awslist my-bucket/documents/ --depth 5" && return 1
-    
+
     # Split bucket and path
     local bucket=$(echo "$bucket_path" | cut -d'/' -f1)
     local path=$(echo "$bucket_path" | sed 's|^[^/]*/||')
-    
+
     echo "Listing s3://$bucket/$path (depth: $depth)"
     echo "----------------------------------------"
-    
+
     /opt/homebrew/bin/aws s3 ls s3://$bucket/$path --recursive | /usr/bin/awk -v max_depth=$depth '
     {
         if($4=="") next
         split($4, parts, "/")
         file_depth = length(parts)
         if(parts[length(parts)]=="") file_depth--
-        
+
         if(file_depth <= max_depth) {
             indent = ""
             for(i=1; i<file_depth; i++) indent = indent "|   "
-            
+
             filename = parts[length(parts)]
             if(filename=="") filename = parts[length(parts)-1] "/"
-            
+
             size = $3
-            if(size < 1024) 
+            if(size < 1024)
                 size_str = size "B"
-            else if(size < 1048576) 
+            else if(size < 1048576)
                 size_str = int(size/1024) "K"
-            else if(size < 1073741824) 
+            else if(size < 1073741824)
                 size_str = int(size/1048576) "M"
-            else 
+            else
                 size_str = int(size/1073741824) "G"
-                
+
             printf "%s|-- %s", indent, filename
             if($4 !~ /\/$/) printf " (%s)", size_str
             printf "\n"
@@ -139,22 +144,22 @@ awslist() {
 
 function aerospace-cleanup() {
   echo "Finding ghost windows..."
-  
+
   # Store ghost window IDs in a zsh array
   ghost_window_ids=($(aerospace list-windows --all | awk -F' \\| ' 'NF >= 3 && $3 ~ /^[[:space:]]*$/ {print $1}'))
-  
+
   if [[ ${#ghost_window_ids[@]} -eq 0 ]]; then
     echo "No ghost windows found."
     return
   fi
-  
+
   echo "Found ${#ghost_window_ids[@]} ghost windows"
-  
+
   # Close each ghost window
   for id in "${ghost_window_ids[@]}"; do
     echo "Closing ghost window ID: $id"
     aerospace close --window-id "$id"
   done
-  
+
   echo "Cleanup complete!"
 }

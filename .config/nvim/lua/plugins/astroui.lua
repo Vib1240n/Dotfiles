@@ -8,14 +8,21 @@ return {
   ---@type AstroUIOpts
   opts = {
     -- change colorscheme
-    colorscheme = "cyberdream",
+    colorscheme = "monokai-pro",
     -- AstroUI allows you to easily modify highlight groups easily for any and all colorschemes
     highlights = {
       init = { -- this table overrides highlights in all themes
         -- Normal = { bg = "#000000" },
         Visual = { bg = "#266D71", fg = "#000000" },
         CursorLine = { bg = "#266D71" },
-
+        ["NeoTreeDirectoryIcon"] = { fg = "#7a7a7a" },
+        ["NeoTreeDirectoryName"] = { fg = "#cccccc" },
+        ["NeoTreeFileName"] = { fg = "#cccccc" },
+        ["NeoTreeFileIcon"] = { fg = "#7a7a7a" },
+        ["NeoTreeIndentMarker"] = { fg = "#3a3a3a" },
+        ["NeoTreeExpander"] = { fg = "#5a5a5a" },
+        ["NeoTreeNormal"] = { bg = "#1e1e1e", fg = "#cccccc" },
+        ["NeoTreeNormalNC"] = { bg = "#1e1e1e", fg = "#cccccc" },
         -- ========== PYTHON HIGHLIGHTS ==========
         ["@variable.python"] = { fg = "#9896FF", italic = true },
         ["@variable.builtin.python"] = { fg = "#9896FF" },

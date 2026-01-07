@@ -16,5 +16,6 @@ return {
   { import = "astrocommunity.code-runner.compiler-nvim" },
   { import = "astrocommunity.syntax.hlargs-nvim" },
   { import = "astrocommunity.editing-support.comment-box-nvim" },
+  { import = "astrocommunity.colorscheme.tokyonight-nvim" },
   -- import/override with your plugins folder
 }

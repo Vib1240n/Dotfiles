@@ -1,0 +1,10 @@
+bin/submenu: submenu.c | bin
+	clang -std=c99 -O3 -F/System/Library/PrivateFrameworks/ -framework Carbon -framework ApplicationServices $< -o $@
+
+bin:
+	mkdir -p bin
+
+clean:
+	rm -rf bin
+
+.PHONY: clean

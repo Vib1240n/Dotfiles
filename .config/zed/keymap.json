@@ -1,0 +1,162 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "j k": "vim::NormalBefore",
+      "j j": "vim::NormalBefore"
+    }
+  },
+  // Delete to black hole register - prevents copying to clipboard/registers
+  {
+    "context": "vim_mode == normal",
+    "bindings": {
+      "d": ["workspace::SendKeystrokes", "\" _ d"],
+      "dd": ["workspace::SendKeystrokes", "\" _ d d"],
+      "dG": ["workspace::SendKeystrokes", "\" _ d shift-g"],
+      "dgg": ["workspace::SendKeystrokes", "\" _ d g g"],
+      "dw": ["workspace::SendKeystrokes", "\" _ d w"],
+      "db": ["workspace::SendKeystrokes", "\" _ d b"],
+      "d$": ["workspace::SendKeystrokes", "\" _ d $"],
+      "d0": ["workspace::SendKeystrokes", "\" _ d 0"]
+    }
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "d": ["workspace::SendKeystrokes", "\" _ d"]
+    }
+  },
+  // Space as LEADER in normal mode
+  {
+    "context": "VimControl && vim_mode == normal && !menu",
+    "bindings": {
+      "space": null,
+      "space e": "workspace::ToggleRightDock",
+      "space o": "project_panel::ToggleFocus",
+      "space w": "workspace::Save",
+      "space c": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "space C": ["pane::CloseAllItems", { "close_pinned": false }],
+      "space cc": "pane::CloseActiveItem",
+      "space f f": "file_finder::Toggle",
+      "space f w": "pane::DeploySearch",
+      "space f s": "outline::Toggle",
+      "space f k": "zed::OpenKeymap",
+      "space s s h": "projects::OpenRemote",
+      "space |": "pane::SplitRight",
+      "space \\": "pane::SplitDown",
+      "space u w": "editor::ToggleSoftWrap",
+      "space cq": "workspace::CloseInactivePanes"
+    }
+  },
+  // Space as LEADER in visual mode
+  {
+    "context": "VimControl && vim_mode == visual && !menu",
+    "bindings": {
+      "space": null,
+      "space e": "workspace::ToggleRightDock",
+      "space e e": "workspace::ToggleRightDock",
+      "space o": "project_panel::ToggleFocus",
+      "space w": "workspace::Save",
+      "space c": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "space shift-c": ["pane::CloseAllItems", { "close_pinned": false }],
+      "space c c": "pane::CloseActiveItem",
+      "space f f": "file_finder::Toggle",
+      "space f w": "pane::DeploySearch",
+      "space f s": "outline::Toggle",
+      "space f k": "zed::OpenKeymap",
+      "space s s h": "projects::OpenRemote"
+    }
+  },
+  // Leader bindings when no editor is open (EmptyPane or SharedScreen)
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      "space e": "workspace::ToggleRightDock",
+      "space e e": "workspace::ToggleRightDock",
+      "space o": "project_panel::ToggleFocus",
+      "space f f": "file_finder::Toggle",
+      "space f w": "pane::DeploySearch",
+      "space f s": "outline::Toggle",
+      "space f k": "zed::OpenKeymap",
+      "space s s h": "projects::OpenRemote"
+    }
+  },
+  {
+    "context": "Workspace && vim_mode == normal && !menu",
+    "bindings": {
+      "ctrl-p": "file_finder::Toggle",
+      "space s s h": "projects::OpenRemote"
+    }
+  },
+  // Close search with Ctrl-C or double-escape
+  {
+    "context": "ProjectSearchBar",
+    "bindings": {
+      "ctrl-c": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "escape escape": ["pane::CloseActiveItem", { "close_pinned": false }]
+    }
+  },
+  {
+    "context": "BufferSearchBar",
+    "bindings": {
+      "ctrl-c": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "escape escape": ["pane::CloseActiveItem", { "close_pinned": false }]
+    }
+  },
+  {
+    "context": "ProjectSearchBar && vim_mode == normal",
+    "bindings": {
+      "space": null,
+      "space c": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "space c c": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "escape": ["pane::CloseActiveItem", { "close_pinned": false }]
+    }
+  },
+  // Bindings for search results view
+  {
+    "context": "ProjectSearchView",
+    "bindings": {
+      "ctrl-c": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "escape": ["pane::CloseActiveItem", { "close_pinned": false }]
+    }
+  },
+  {
+    "context": "ProjectSearchView && vim_mode == normal",
+    "bindings": {
+      "space": null,
+      "space c": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "space cc": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "escape": ["pane::CloseActiveItem", { "close_pinned": false }]
+    }
+  },
+  // Project Panel - File Management (vim-like)
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "space o": "workspace::ActivatePreviousPane",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "escape": "workspace::ActivatePreviousPane",
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Delete",
+      "x": "project_panel::Cut",
+      "c": "project_panel::Copy",
+      "p": "project_panel::Paste",
+      "y": "project_panel::Copy"
+    }
+  }
+]

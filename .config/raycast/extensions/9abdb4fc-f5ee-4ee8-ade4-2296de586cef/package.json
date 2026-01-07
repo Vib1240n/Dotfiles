@@ -237,6 +237,22 @@
       "confirmation": false
     },
     {
+      "name": "list-account-emails",
+      "title": "List Account Emails",
+      "description": "List all available email addresses from the user's mail accounts.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Optional filter query to search for specific email addresses."
+          }
+        },
+        "required": []
+      },
+      "confirmation": false
+    },
+    {
       "name": "send-email",
       "title": "Send Email",
       "description": "Send an email with Apple Mail.",
@@ -263,6 +279,10 @@
               "type": "string"
             },
             "description": "The recipient email addresses to BCC.\n\nThis must be a valid email address from the account's address book\nwhich you must get using the `list-addresses` tool."
+          },
+          "from": {
+            "type": "string",
+            "description": "The email address to send from.\n\nThis must be one of the user's email addresses from their accounts.\nYou can get available email addresses using the `list-account-emails` tool.\nIf not provided, the default account's first email address will be used."
           },
           "subject": {
             "type": "string",

@@ -1,0 +1,348 @@
+#include <Carbon/Carbon.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <ApplicationServices/ApplicationServices.h>
+
+// Accessibility initialization
+void ax_init() {
+  const void *keys[] = { kAXTrustedCheckOptionPrompt };
+  const void *values[] = { kCFBooleanTrue };
+
+  CFDictionaryRef options;
+  options = CFDictionaryCreate(kCFAllocatorDefault,
+                               keys,
+                               values,
+                               sizeof(keys) / sizeof(*keys),
+                               &kCFCopyStringDictionaryKeyCallBacks,
+                               &kCFTypeDictionaryValueCallBacks);
+
+  bool trusted = AXIsProcessTrustedWithOptions(options);
+  CFRelease(options);
+  
+  if (!trusted) {
+    fprintf(stderr, "Error: Accessibility permissions not granted.\n");
+    fprintf(stderr, "Enable accessibility in System Settings > Privacy & Security > Accessibility\n");
+    exit(1);
+  }
+}
+
+// Perform click action
+void ax_perform_click(AXUIElementRef element) {
+  if (!element) return;
+  AXUIElementPerformAction(element, kAXPressAction);
+}
+
+// Get menu bar extra item(s) for a process
+AXUIElementRef ax_get_extra_menu_item(pid_t pid, int index, int verbose) {
+  AXUIElementRef app = AXUIElementCreateApplication(pid);
+  if (!app) {
+    fprintf(stderr, "Error: Could not create AX element for PID %d\n", pid);
+    return NULL;
+  }
+
+  AXUIElementRef extra_menus_ref = NULL;
+  CFArrayRef children_ref = NULL;
+  AXUIElementRef result = NULL;
+
+  AXError error = AXUIElementCopyAttributeValue(app,
+                                                kAXExtrasMenuBarAttribute,
+                                                (CFTypeRef*)&extra_menus_ref);
+  
+  if (error != kAXErrorSuccess) {
+    if (verbose) {
+      fprintf(stderr, "[DEBUG] Process %d has no menu bar extras (error=%d)\n", pid, error);
+    }
+    CFRelease(app);
+    return NULL;
+  }
+
+  error = AXUIElementCopyAttributeValue(extra_menus_ref,
+                                        kAXVisibleChildrenAttribute,
+                                        (CFTypeRef*)&children_ref);
+
+  if (error == kAXErrorSuccess) {
+    uint32_t count = CFArrayGetCount(children_ref);
+    
+    if (verbose) {
+      fprintf(stderr, "[DEBUG] Found %d menu bar extra(s) for PID %d\n", count, pid);
+    }
+
+    if (count > 0) {
+      if (index < 0 || index >= count) {
+        index = 0; // Default to first item
+      }
+      
+      result = (AXUIElementRef)CFRetain(CFArrayGetValueAtIndex(children_ref, index));
+      
+      if (verbose) {
+        fprintf(stderr, "[DEBUG] Selected item at index %d\n", index);
+      }
+    }
+    
+    CFRelease(children_ref);
+  }
+
+  CFRelease(extra_menus_ref);
+  CFRelease(app);
+  
+  return result;
+}
+
+// List all menu bar extra items for a specific PID
+void list_items_for_pid(pid_t pid) {
+  AXUIElementRef app = AXUIElementCreateApplication(pid);
+  if (!app) {
+    fprintf(stderr, "Error: Could not create AX element for PID %d\n", pid);
+    return;
+  }
+
+  AXUIElementRef extra_menus_ref = NULL;
+  CFArrayRef children_ref = NULL;
+
+  AXError error = AXUIElementCopyAttributeValue(app,
+                                                kAXExtrasMenuBarAttribute,
+                                                (CFTypeRef*)&extra_menus_ref);
+  
+  if (error != kAXErrorSuccess) {
+    printf("Process %d has no menu bar extras\n", pid);
+    CFRelease(app);
+    return;
+  }
+
+  error = AXUIElementCopyAttributeValue(extra_menus_ref,
+                                        kAXVisibleChildrenAttribute,
+                                        (CFTypeRef*)&children_ref);
+
+  if (error == kAXErrorSuccess) {
+    uint32_t count = CFArrayGetCount(children_ref);
+    printf("Process %d has %d menu bar extra(s):\n", pid, count);
+    
+    for (uint32_t i = 0; i < count; i++) {
+      AXUIElementRef item = CFArrayGetValueAtIndex(children_ref, i);
+      
+      // Try to get description or title
+      CFTypeRef desc = NULL;
+      AXUIElementCopyAttributeValue(item, kAXDescriptionAttribute, &desc);
+      
+      CFTypeRef title = NULL;
+      AXUIElementCopyAttributeValue(item, kAXTitleAttribute, &title);
+      
+      printf("  [%d] ", i);
+      
+      if (desc) {
+        char buffer[256];
+        CFStringGetCString(desc, buffer, sizeof(buffer), kCFStringEncodingUTF8);
+        printf("Description: %s", buffer);
+        CFRelease(desc);
+      }
+      
+      if (title) {
+        char buffer[256];
+        CFStringGetCString(title, buffer, sizeof(buffer), kCFStringEncodingUTF8);
+        printf("%sTitle: %s", desc ? ", " : "", buffer);
+        CFRelease(title);
+      }
+      
+      if (!desc && !title) {
+        printf("(no description)");
+      }
+      
+      printf("\n");
+    }
+    
+    CFRelease(children_ref);
+  }
+
+  CFRelease(extra_menus_ref);
+  CFRelease(app);
+}
+
+// Get process name from PID
+char* get_process_name(pid_t pid) {
+  static char name[256];
+  ProcessSerialNumber psn;
+  OSStatus err = GetProcessForPID(pid, &psn);
+  
+  if (err == noErr) {
+    CFStringRef nameRef = NULL;
+    CopyProcessName(&psn, &nameRef);
+    
+    if (nameRef) {
+      CFStringGetCString(nameRef, name, sizeof(name), kCFStringEncodingUTF8);
+      CFRelease(nameRef);
+      return name;
+    }
+  }
+  
+  snprintf(name, sizeof(name), "Unknown");
+  return name;
+}
+
+// List all processes with menu bar extras
+void list_all_menu_extras() {
+  printf("Scanning for processes with menu bar extras...\n");
+  printf("==============================================\n\n");
+  
+  // Get all running applications
+  CFArrayRef apps = CGWindowListCopyWindowInfo(kCGWindowListOptionAll, kCGNullWindowID);
+  
+  // Track unique PIDs we've already checked
+  pid_t checked_pids[1000];
+  int checked_count = 0;
+  
+  int found_count = 0;
+  
+  for (int i = 0; i < CFArrayGetCount(apps); i++) {
+    CFDictionaryRef window = CFArrayGetValueAtIndex(apps, i);
+    
+    CFNumberRef pid_ref = CFDictionaryGetValue(window, kCGWindowOwnerPID);
+    if (!pid_ref) continue;
+    
+    pid_t pid;
+    CFNumberGetValue(pid_ref, kCFNumberIntType, &pid);
+    
+    // Skip if already checked
+    int already_checked = 0;
+    for (int j = 0; j < checked_count; j++) {
+      if (checked_pids[j] == pid) {
+        already_checked = 1;
+        break;
+      }
+    }
+    
+    if (already_checked || checked_count >= 1000) continue;
+    
+    checked_pids[checked_count++] = pid;
+    
+    // Check if this process has menu bar extras
+    AXUIElementRef app = AXUIElementCreateApplication(pid);
+    if (!app) continue;
+    
+    AXUIElementRef extras = NULL;
+    AXError error = AXUIElementCopyAttributeValue(app, 
+                                                  kAXExtrasMenuBarAttribute,
+                                                  (CFTypeRef*)&extras);
+    
+    if (error == kAXErrorSuccess && extras) {
+      CFArrayRef children = NULL;
+      error = AXUIElementCopyAttributeValue(extras,
+                                            kAXVisibleChildrenAttribute,
+                                            (CFTypeRef*)&children);
+      
+      if (error == kAXErrorSuccess && children) {
+        uint32_t count = CFArrayGetCount(children);
+        if (count > 0) {
+          char* proc_name = get_process_name(pid);
+          printf("PID: %-6d  Name: %-30s  Items: %d\n", pid, proc_name, count);
+          found_count++;
+        }
+        CFRelease(children);
+      }
+      
+      CFRelease(extras);
+    }
+    
+    CFRelease(app);
+  }
+  
+  CFRelease(apps);
+  
+  printf("\nFound %d process(es) with menu bar extras\n", found_count);
+  printf("\nUsage:\n");
+  printf("  List items:  %s -p <PID>\n", getprogname());
+  printf("  Click item:  %s -c <PID> [index]\n", getprogname());
+}
+
+// Click menu bar extra
+void click_menu_extra(pid_t pid, int index, int verbose) {
+  if (verbose) {
+    fprintf(stderr, "[DEBUG] Attempting to click menu bar extra for PID %d, index %d\n", pid, index);
+  }
+  
+  AXUIElementRef item = ax_get_extra_menu_item(pid, index, verbose);
+  
+  if (!item) {
+    fprintf(stderr, "Error: Could not find menu bar extra for PID %d\n", pid);
+    return;
+  }
+  
+  if (verbose) {
+    fprintf(stderr, "[DEBUG] Clicking element...\n");
+  }
+  
+  ax_perform_click(item);
+  
+  if (verbose) {
+    fprintf(stderr, "[DEBUG] Click completed\n");
+  }
+  
+  CFRelease(item);
+}
+
+int main(int argc, char **argv) {
+  if (argc < 2) {
+    printf("submenu - Menu Bar Extras Control\n");
+    printf("===================================\n\n");
+    printf("Usage:\n");
+    printf("  %s -l              List all processes with menu bar extras\n", argv[0]);
+    printf("  %s -p <PID>        List menu bar items for a specific process\n", argv[0]);
+    printf("  %s -c <PID> [idx]  Click menu bar extra (index defaults to 0)\n", argv[0]);
+    printf("  %s -v -c <PID> [idx]  Click with verbose debug output\n", argv[0]);
+    printf("\n");
+    printf("Examples:\n");
+    printf("  %s -l                    # List all processes\n", argv[0]);
+    printf("  %s -p 1234               # List items for PID 1234\n", argv[0]);
+    printf("  %s -c 1234               # Click first item of PID 1234\n", argv[0]);
+    printf("  %s -c 1234 2             # Click third item (index 2)\n", argv[0]);
+    printf("  %s -v -c 1234            # Click with debug output\n", argv[0]);
+    printf("\n");
+    printf("Finding PIDs:\n");
+    printf("  pidof \"iStat Menus Status\"\n");
+    printf("  pgrep -f \"iStat\"\n");
+    exit(0);
+  }
+
+  ax_init();
+
+  if (strcmp(argv[1], "-l") == 0) {
+    list_all_menu_extras();
+  }
+  else if (strcmp(argv[1], "-p") == 0 && argc >= 3) {
+    pid_t pid = atoi(argv[2]);
+    if (pid <= 0) {
+      fprintf(stderr, "Error: Invalid PID\n");
+      exit(1);
+    }
+    list_items_for_pid(pid);
+  }
+  else if (strcmp(argv[1], "-c") == 0 && argc >= 3) {
+    pid_t pid = atoi(argv[2]);
+    int index = (argc >= 4) ? atoi(argv[3]) : 0;
+    
+    if (pid <= 0) {
+      fprintf(stderr, "Error: Invalid PID\n");
+      exit(1);
+    }
+    
+    click_menu_extra(pid, index, 0);
+  }
+  else if (strcmp(argv[1], "-v") == 0 && strcmp(argv[2], "-c") == 0 && argc >= 4) {
+    pid_t pid = atoi(argv[3]);
+    int index = (argc >= 5) ? atoi(argv[4]) : 0;
+    
+    if (pid <= 0) {
+      fprintf(stderr, "Error: Invalid PID\n");
+      exit(1);
+    }
+    
+    click_menu_extra(pid, index, 1);
+  }
+  else {
+    fprintf(stderr, "Error: Invalid arguments. Use -h for help.\n");
+    exit(1);
+  }
+
+  return 0;
+}

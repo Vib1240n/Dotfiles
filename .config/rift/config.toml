@@ -17,9 +17,9 @@
 #   ease_in_expo, ease_out_expo, ease_in_out_expo,
 #   ease_in_circ, ease_out_circ, ease_in_out_circ
 animate = true
-animation_duration = 0.3
-animation_fps = 100.0
-animation_easing = "ease_in_out_cubic"
+animation_duration = 0.4
+animation_fps = 165.0
+animation_easing = "ease_in_out_circ"
 
 # Space activation behavior
 # - If true, spaces start inactive (rift does not manage windows there)
@@ -33,7 +33,7 @@ animation_easing = "ease_in_out_cubic"
 # - mouse_follows_focus: when focus changes, move the mouse to the focused window
 # - mouse_hides_on_focus: hide the mouse cursor after focusing a window
 focus_follows_mouse = true
-mouse_follows_focus = false
+mouse_follows_focus = true
 mouse_hides_on_focus = true
 # focus_follows_mouse_disable_hotkey temporarily suspends focus-follows-mouse while held
 # e.g. "Fn"; omit or set to null to keep focus-follows-mouse always active
@@ -58,12 +58,12 @@ auto_focus_blacklist = []
 #   RIFT_EVENT_JSON            # full JSON payload of the event
 #
 # Example (sketchybar integration):
-# run_on_start = [
-#   "rift-cli subscribe cli --event workspace_changed --command sh --args -c --args 'sketchybar --trigger rift_workspace_changed RIFT_WORKSPACE_NAME=\"$RIFT_WORKSPACE_NAME\" RIFT_WORKSPACE_ID=\"$RIFT_WORKSPACE_ID\"'",
-#   "rift-cli subscribe cli --event windows_changed --command sh --args -c --args 'sketchybar --trigger rift_windows_changed RIFT_WORKSPACE_NAME=\"$RIFT_WORKSPACE_NAME\" RIFT_WINDOW_COUNT=\"$RIFT_WINDOW_COUNT\"'"
-# ]
+run_on_start = [
+  "rift-cli subscribe cli --event workspace_changed --command sh --args -c --args 'sketchybar --trigger rift_workspace_changed RIFT_WORKSPACE_NAME=\"$RIFT_WORKSPACE_NAME\" RIFT_WORKSPACE_ID=\"$RIFT_WORKSPACE_ID\"'",
+  "rift-cli subscribe cli --event windows_changed --command sh --args -c --args 'sketchybar --trigger rift_windows_changed RIFT_WORKSPACE_NAME=\"$RIFT_WORKSPACE_NAME\" RIFT_WINDOW_COUNT=\"$RIFT_WINDOW_COUNT\"'"
+]
 
-run_on_start = []
+# run_on_start = []
 
 # Hot Reloading
 # - If true, rift will watch the config file for changes and reload automatically.
@@ -88,24 +88,24 @@ stack_offset = 30.0
 # - inner: space between tiled windows
 
 [settings.layout.gaps.outer]
-top = 6
-left = 0
-bottom = 0
-right = 0
+top = 60
+left = 10
+bottom = 10
+right = 10
 
 [settings.layout.gaps.inner]
-horizontal = 0
-vertical = 0
+horizontal = 5
+vertical = 5
 
 [settings.ui.menu_bar]
 # enable menu bar workspace indicators
 enabled = true
 # if enabled, it will show all workspaces including empty ones. disabled because this
 # tends to take up too much room in the menubar and then is auto hidden by macos
-show_empty = false
+show_empty = true
 [settings.ui.stack_line]
 # experimental stack line indicator (defaults to off)
-enabled = false
+enabled = true
 # in a horizontal stack where the line will be (top/bottom)
 horiz_placement = "top"
 # in a vertical stack where the line will be (left/right)
@@ -115,7 +115,7 @@ thickness = 3.0
 
 # experimental mission control
 [settings.ui.mission_control]
-enabled = false
+enabled = true
 # enable fade animation when entering/exiting mission control
 fade_enabled = false
 # native macos mission control fade is about 180ms
@@ -124,7 +124,7 @@ fade_duration_ms = 180.0
 # Trackpad gestures
 [settings.gestures]
 # Enable horizontal swipes to switch virtual workspaces
-enabled = false
+enabled = true
 # Invert horizontal direction (swap next/prev)
 invert_horizontal_swipe = false
 # Maximum vertical travel allowed for the horizontal swipe to register.
@@ -156,7 +156,7 @@ drag_swap_fraction = 0.3
 # - auto_assign_windows: when true, new windows can be auto-assigned using app_rules
 # - preserve_focus_per_workspace: remember last focused window per workspace
 enabled = true
-default_workspace_count = 4
+default_workspace_count = 8
 auto_assign_windows = true
 preserve_focus_per_workspace = true
 
@@ -169,7 +169,14 @@ preserve_focus_per_workspace = true
 # remaining workspaces are named "Workspace X".
 # Do not provide more names than default_workspace_count.
 workspace_names = [
-	"first"
+	"browser",
+	"terminal",
+	"discord",
+	"music",
+	"obsidian",
+	"utilities",
+	"fusion",
+	"3d-printing"
 ]
 
 # App rules (automatic assignment)
@@ -234,7 +241,15 @@ workspace_names = [
 #       ]
 #
 # By default there are no app rules; add or uncomment rules below as needed.
-app_rules = []
+app_rules = [
+	{ title_substring = "Preferences", floating = true },
+	{ app_id = "net.kovidgoyal.kitty", workspace = 1, floating = false },
+	{ app_id = "app.zen-browser.zen", workspace = 2, floating = false },
+	
+	{ app_id = "com.apple.finder", floating = true },
+	
+
+]
 
 # Modifier combinations that can be reused in key bindings
 # Define common modifier combinations to avoid repetition.
@@ -243,7 +258,7 @@ app_rules = []
 [modifier_combinations]
 comb1 = "Alt + Shift"
 hyper = "Alt + Shift + Ctrl + Meta"
-meh = "Alt + Ctrl + Meta"
+meh = "Alt + Ctrl + shift"
 
 [keys]
 # Key binding syntax
@@ -269,45 +284,53 @@ meh = "Alt + Ctrl + Meta"
 # - debug / serialize / save_and_exit
 # - show_timing
 
-"Alt + Z" = "toggle_space_activated"
+"Alt + z" = "toggle_space_activated"
 
-"hyper + H" = { move_focus = "left" }
-"hyper + J" = { move_focus = "down" }
-"hyper + K" = { move_focus = "up" }
-"hyper + L" = { move_focus = "right" }
+"hyper + h" = { move_focus = "left" }
+"hyper + j" = { move_focus = "down" }
+"hyper + k" = { move_focus = "up" }
+"hyper + l" = { move_focus = "right" }
 
 "meh + H" = { move_node = "left" }
 "meh + J" = { move_node = "down" }
 "meh + K" = { move_node = "up" }
 "meh + L" = { move_node = "right" }
 
-"hyper + 0" = { switch_to_workspace = 0 }
 "hyper + 1" = { switch_to_workspace = 1 }
 "hyper + 2" = { switch_to_workspace = 2 }
 "hyper + 3" = { switch_to_workspace = 3 }
+"hyper + 4" = { switch_to_workspace = 4 }
+"hyper + 5" = { switch_to_workspace = 5 }
+"hyper + 6" = { switch_to_workspace = 6 }
+"hyper + 7" = { switch_to_workspace = 7 }
+"hyper + 8" = { switch_to_workspace = 8 }
 
-"comb1 + 0" = { move_window_to_workspace = 0 }
-"comb1 + 1" = { move_window_to_workspace = 1 }
-"comb1 + 2" = { move_window_to_workspace = 2 }
-"comb1 + 3" = { move_window_to_workspace = 3 }
+"meh + 1" = { switch_to_workspace = 1 }
+"meh + 2" = { switch_to_workspace = 2 }
+"meh + 3" = { switch_to_workspace = 3 }
+"meh + 4" = { switch_to_workspace = 4 }
+"meh + 5" = { switch_to_workspace = 5 }
+"meh + 6" = { switch_to_workspace = 6 }
+"meh + 7" = { switch_to_workspace = 7 }
+"meh + 8" = { switch_to_workspace = 8 }
 
 "Alt + Tab" = "switch_to_last_workspace"
 
-"Alt + Shift + Left" = { join_window = "left" }
-"Alt + Shift + Right" = { join_window = "right" }
-"Alt + Shift + Up" = { join_window = "up" }
-"Alt + Shift + Down" = { join_window = "down" }
-"Alt + Comma" = "stack_windows"
-"Alt + Slash" = "unstack_windows"
-"Alt + Ctrl + E" = "unjoin_windows" # FIXME: doesnt work
-
-"Alt + Shift + Space" = "toggle_window_floating"
-"Alt + F" = "toggle_fullscreen"
-"comb1 + Ctrl + Space" = "toggle_focus_floating" # briefly bring focus to floating window
+"Alt + Shift + h" = { join_window = "left" }
+"Alt + Shift + l" = { join_window = "right" }
+"Alt + Shift + k" = { join_window = "up" }
+"Alt + Shift + j" = { join_window = "down" }
+"hyper + Comma" = "toggle_stack"
+# "hyper + Slash" = "unstack_windows"
+"hyper +  E" = "unjoin_windows" # FIXME: doesnt work
+#
+"meh + F" = "toggle_window_floating"
+"hyper + F" = "toggle_fullscreen"
+"meh + Space" = "toggle_focus_floating" # briefly bring focus to floating window
 
 # smartly resize windows
-"Alt + Shift + Equal" = "resize_window_grow"
-"Alt + Shift + Minus" = "resize_window_shrink"
+"hyper + Equal" = "resize_window_grow"
+"hyper + Minus" = "resize_window_shrink"
 
 # if mission control is enabled
 # this will show an exploded view of the windows in the active workspace
